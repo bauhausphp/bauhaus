@@ -2,30 +2,35 @@ ifndef package
 $(error package was not provided)
 endif
 
-defaultBranch = main
-
 #
 # Setup
 setup: clone install
 
 clone: dir = $(shell pwd)/packages/${package}
-clone: branch ?= ${defaultBranch}
-clone: url = $(if ${CI},${urlHttps},${urlGit})
-clone: urlGit = git@github.com:bauhausphp/${package}.git
-clone: urlHttps = https://github.com/bauhausphp/${package}.git
+clone: branch ?= main
+clone: url = $(if ${CI},https://github.com/bauhausphp,git@github.com:bauhausphp)/${package}.git
 clone:
 	@git clone -b ${branch} ${url} ${dir}
 
 #
+# Dev
+sh:
+sh:
+	@make run-docker cmd=sh
+
+fix-cs:
+	@make run-docker cmd=phpcbf
+
+#
 # Composer
-update: cmd = composer update
-update: run-docker
+update:
+	@make run-docker cmd='composer update'
 
-install: cmd = composer install -n
-install: run-docker
+install:
+	@make run-docker cmd='composer install -n'
 
-require: cmd = composer require ${dep}
-require: run-docker
+require:
+	@make run-docker cmd='composer require ${dep}'
 
 #
 # Test
@@ -34,28 +39,22 @@ tests:
 	@make test-unit
 	@make test-infection
 
-test-cs: cmd = phpcs -ps
-test-cs: run-docker
+test-cs:
+	@make run-docker cmd='phpcs -ps'
 
-test-stan: cmd = phpstan analyze -c phpstan.neon
-test-stan: run-docker
+test-stan:
+	@make run-docker cmd='phpstan analyze -c phpstan.neon'
 
-test-unit: cmd = phpunit $(if ${filter}, --filter=${filter}) --coverage-clover reports/clover.xml --coverage-html reports/html
-test-unit: run-docker
+test-unit:
+	@make run-docker cmd='phpunit $(if ${filter}, --filter=${filter}) --coverage-clover reports/clover.xml --coverage-html reports/html'
 
-test-infection: cmd = infection -j2 -s
-test-infection: run-docker
+test-infection:
+	@make run-docker cmd='infection -j2 -s'
 
-coverage: cmd = php-coveralls -vvv $(if ${dryrun},--dry-run) -x reports/clover.xml -o reports/coveralls.json
-coverage: run-docker
+coverage:
+	@make run-docker cmd='php-coveralls -vvv $(if ${dryrun},--dry-run) -x reports/clover.xml -o reports/coveralls.json'
 
 #
-# General
+# Docker
 run-docker:
 	@make -C docker run $(if ${tag}, tag=${tag}) package=${package} cmd='${cmd}'
-
-sh: cmd = sh
-sh: run-docker
-
-fix-cs: cmd = phpcbf
-fix-cs: run-docker
