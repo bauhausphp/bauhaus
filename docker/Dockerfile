@@ -1,30 +1,24 @@
-FROM php:8.0.5-cli-alpine
-
-RUN apk add --no-cache \
-    $PHPIZE_DEPS \
-        git \
-        openssh \
-        vim && \
-    # pcov
-    mkdir -p /opt/php-libs && \
-    git clone https://github.com/krakjoe/pcov.git /opt/php-libs/pcov && \
-    cd /opt/php-libs/pcov && \
-    phpize && \
-    ./configure --enable-pcov && \
-    make && \
-    make install && \
-    docker-php-ext-enable pcov && \
-    # composer
-    curl -sS https://getcomposer.org/installer | php -- \
-        --version=2.0.12 \
-        --install-dir=/usr/local/bin \
-        --filename=composer
+FROM php:8.0.9-cli-alpine
 
 ENV WORKDIR /usr/local/bauhaus
 ENV COMPOSER_HOME /usr/local/composer
 ENV PATH $PATH:$COMPOSER_HOME/vendor/bin:$WORKDIR/vendor/bin
 
-COPY composer.* $COMPOSER_HOME/
-RUN composer global install --prefer-dist --no-cache
-
 WORKDIR $WORKDIR
+
+COPY composer.* $COMPOSER_HOME/
+
+RUN apk add --no-cache \
+        $PHPIZE_DEPS \
+        git \
+        openssh \
+        vim && \
+    sh -c "$(curl -s https://raw.githubusercontent.com/fefas/docker-php8-ext-installer/main/installer.sh)" \
+        pcov && \
+    curl -sS https://getcomposer.org/installer | php -- \
+        --version=2.1.5 \
+        --install-dir=/usr/local/bin \
+        --filename=composer && \
+    composer global install \
+        --prefer-dist \
+        --no-cache
