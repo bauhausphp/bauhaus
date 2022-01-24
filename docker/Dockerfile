@@ -1,4 +1,4 @@
-FROM php:8.0.11-cli-alpine
+FROM php:8.1.2-cli-alpine
 
 ENV WORKDIR /usr/local/bauhaus
 ENV COMPOSER_HOME /usr/local/composer
