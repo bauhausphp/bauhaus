@@ -1,32 +1,31 @@
 name: CI
 on: push
 
-defaults:
-  run:
-    working-directory: ./docker
-
 jobs:
   tests:
-    name: Test published packages
+    name: Test packages
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+        #- cli
+        #- message-handler
+        - service-resolver
     steps:
     - uses: actions/checkout@v2
-    - run: make build
+    - run: make -C docker build
     - run: |
-        for p in $(cat ./published-packages.txt); do
-          make setup package=$p
-          make tests package=$p
-          make coverage package=$p dryrun=y
-        done
-      working-directory: ./
+        make setup package=${{ matrix.package }}
+        make tests package=${{ matrix.package }}
+        make coverage package=${{ matrix.package }} dryrun=y
 
   publish:
     name: Publish
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
     needs: tests
+    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
     - uses: actions/checkout@v2
-    - run: make build
-    - run: make login username=fefas password=${{ secrets.GHRC_TOKEN }}
-    - run: make push
+    - run: make -C docker login username=fefas password=${{ secrets.GHRC_TOKEN }}
+    - run: make -C docker build
+    - run: make -C docker push

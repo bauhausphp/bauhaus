@@ -1,4 +1,4 @@
-FROM php:8.0.11-cli-alpine
+FROM php:8.1.2-alpine3.15
 
 ENV WORKDIR /usr/local/bauhaus
 ENV COMPOSER_HOME /usr/local/composer
@@ -16,7 +16,7 @@ RUN apk add --no-cache \
     sh -c "$(curl -s https://raw.githubusercontent.com/fefas/docker-php8-ext-installer/main/installer.sh)" \
         pcov && \
     curl -sS https://getcomposer.org/installer | php -- \
-        --version=2.1.5 \
+        --version=2.1.9 \
         --install-dir=/usr/local/bin \
         --filename=composer && \
     composer global install \
