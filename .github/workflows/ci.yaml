@@ -2,15 +2,14 @@ name: CI
 on: push
 
 jobs:
-
   tests:
     name: Test packages
     runs-on: ubuntu-latest
     strategy:
       matrix:
         package:
-        - cli
-        - message-bus
+        #- cli
+        #- message-handler
         - service-resolver
     steps:
     - uses: actions/checkout@v2

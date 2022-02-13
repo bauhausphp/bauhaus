@@ -8,9 +8,9 @@ setup: clone install
 
 clone: dir = $(shell pwd)/packages/${package}
 clone: branch ?= main
-clone: url = $(if ${CI},https://github.com/bauhausphp,git@github.com:bauhausphp)/${package}.git
+clone: url = $(if ${CI},https://github.com/bauhausphp,git@github.com:bauhausphp)
 clone:
-	@git clone -b ${branch} ${url} ${dir}
+	@git clone -b ${branch} ${url}/${package}.git ${dir}
 
 #
 # Dev
@@ -42,11 +42,8 @@ tests:
 test-cs:
 	@make run-docker cmd='phpcs -ps'
 
-test-stan:
-	@make run-docker cmd='phpstan analyze -c phpstan.neon'
-
 test-unit:
-	@make run-docker cmd='phpunit $(if ${filter}, --filter=${filter}) --coverage-clover reports/clover.xml --coverage-html reports/html'
+	@make run-docker cmd='phpunit $(if ${filter}, --filter='${filter}') --coverage-clover reports/clover.xml --coverage-html reports/html'
 
 test-infection:
 	@make run-docker cmd='infection -j2 -s'
