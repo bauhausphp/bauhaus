@@ -1,4 +1,4 @@
-FROM php:8.1.2-alpine3.15
+FROM php:8.1.3-alpine3.15
 
 ENV WORKDIR /usr/local/bauhaus
 ENV COMPOSER_HOME /usr/local/composer
