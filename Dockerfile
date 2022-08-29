@@ -4,7 +4,6 @@ FROM php:${PHP}-alpine3.16
 
 ARG WORKDIR
 ENV COMPOSER_VENDOR_DIR /usr/local/composer
-ENV PATH $PATH:$COMPOSER_VENDOR_DIR/bin
 
 RUN apk add --no-cache \
         $PHPIZE_DEPS \

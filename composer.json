@@ -5,8 +5,10 @@
     "license": "MIT",
 
     "scripts": {
-        "test:unit": "phpunit -c tests/phpunit.xml",
+        "test:cs": "phpcs -ps --standard=config/phpcs.xml",
+        "test:unit": "phpunit -c config/phpunit.xml",
         "test:all": [
+            "@test:cs",
             "@test:unit"
         ]
     },
