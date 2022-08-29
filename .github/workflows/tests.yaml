@@ -1,0 +1,28 @@
+name: Tests
+on: push
+
+env:
+  version: ${{ github.sha }}
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [ 8.1.9, 8.1.8 ]
+    steps:
+    - uses: actions/checkout@v3
+    - run: make publish version=${{ env.version }} username=${{ github.actor }} password=${{ secrets.GITHUB_TOKEN }}
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [ 8.1.9, 8.1.8 ]
+        level: [ cs, unit, mutation ]
+    needs: build
+    steps:
+    - uses: actions/checkout@v3
+    - run: make test version=${{ env.version }} level=${{ matrix.level }}

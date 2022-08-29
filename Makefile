@@ -1,57 +1,36 @@
-ifndef package
-$(error package was not provided)
-endif
-
-#
-# Setup
-setup: clone install
-
-clone: dir = $(shell pwd)/packages/${package}
-clone: branch ?= main
-clone: url = $(if ${CI},https://github.com/bauhausphp,git@github.com:bauhausphp)
-clone:
-	@git clone -b ${branch} ${url}/${package}.git ${dir}
-
-#
-# Dev
 sh:
-sh:
-	@make run-docker cmd=sh
+	@make run cmd=sh
 
 fix-cs:
-	@make run-docker cmd=phpcbf
+	@make run cmd=phpcbf
 
-#
-# Composer
-update:
-	@make run-docker cmd='composer update'
-
-install:
-	@make run-docker cmd='composer install -n'
-
-require:
-	@make run-docker cmd='composer require ${dep}'
-
-#
-# Test
-tests:
-	@make test-cs
-	@make test-unit
-	@make test-infection
-
-test-cs:
-	@make run-docker cmd='phpcs -ps'
-
-test-unit:
-	@make run-docker cmd='phpunit $(if ${filter}, --filter='${filter}') --coverage-clover reports/clover.xml --coverage-html reports/html'
-
-test-infection:
-	@make run-docker cmd='infection -j2 -s'
-
-coverage:
-	@make run-docker cmd='php-coveralls -vvv $(if ${dryrun},--dry-run) -x reports/clover.xml -o reports/coveralls.json'
+test: level ?= all
+test:
+	@make run cmd='composer run test:${level}'
 
 #
 # Docker
-run-docker:
-	@make -C docker run $(if ${tag}, tag=${tag}) package=${package} cmd='${cmd}'
+version ?= local
+phpVersion ?= 8.1.9
+
+registry = ghcr.io
+image = ${registry}/bauhausphp/bauhaus:${tag}
+tag = dev-${version}-php${phpVersion}
+workdir = /usr/local/bauhaus
+
+build: args = --build-arg PHP_VERSION=${phpVersion} --build-arg WORKDIR=${workdir}
+build:
+	@docker build ${args} -t ${image} .
+
+run: binds = composer.json composer.lock config packages reports tests
+run: volumes = $(addprefix -v ,$(join $(addprefix "$$PWD"/,${binds}),$(addprefix :${workdir}/,${binds})))
+run: options = --rm $(if ${CI},,-it ${volumes})
+run:
+	@docker run ${options} ${image} ${cmd}
+
+#
+# Pipeline
+publish:
+	@make build
+	@echo ${password} | docker login ${registry} -u ${username} --password-stdin
+	@docker push ${image}
