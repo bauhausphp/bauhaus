@@ -1,3 +1,13 @@
-reports/*
-!reports/.gitkeep
-vendor/
+*
+!.gitignore
+!.dockerignore
+!composer.json
+!composer.lock
+!Dockerfile
+!LICENSE
+!Makefile
+!README.md
+!.github/
+!config/
+!packages/
+!tests/
