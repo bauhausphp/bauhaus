@@ -2,7 +2,7 @@ ARG PHP
 
 FROM php:${PHP}-alpine3.16
 
-ENV WORKDIR /usr/local/bauhaus
+ARG WORKDIR
 ENV COMPOSER_VENDOR_DIR /usr/local/composer
 ENV PATH $PATH:$COMPOSER_VENDOR_DIR/bin
 
