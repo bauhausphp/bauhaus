@@ -6,30 +6,15 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: make build tag=dev-${{ github.sha }}
-      - run: make push  tag=dev-${{ github.sha }} username=${{ github.actor }} password=${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v3
+    - run: make build tag=dev-${{ github.sha }}
+    - run: make push  tag=dev-${{ github.sha }} username=${{ github.actor }} password=${{ secrets.GITHUB_TOKEN }}
 
-  test-cs:
+  tests:
     name: CS Test
     runs-on: ubuntu-latest
+    strategy: { matrix: { level: [ cs, unit, mutation ] } }
+    needs: build
     steps:
     - uses: actions/checkout@v3
-    - run: make test level=cs tag=dev-${{ github.sha }}
-    needs: build
-
-  test-unit:
-    name: Unit Test
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - run: make test level=unit tag=dev-${{ github.sha }}
-    needs: build
-
-  test-mutation:
-    name: Mutation Test
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - run: make test level=mutation tag=dev-${{ github.sha }}
-    needs: build
+    - run: make test level=${{ matrix.level }} tag=dev-${{ github.sha }}
