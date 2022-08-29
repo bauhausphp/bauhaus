@@ -2,23 +2,19 @@
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
-    bootstrap="./vendor/autoload.php"
+    bootstrap="./autoload.php"
     cacheResult="false"
-    colors="true"
-    failOnRisky="true"
-    failOnWarning="true"
-    testdox="true"
-    verbose="true">
+    colors="true">
 
     <testsuites>
-        <testsuite name="default">
-            <directory suffix="Test.php">./tests</directory>
+        <testsuite name="Packages">
+            <directory suffix="Test.php">./</directory>
         </testsuite>
     </testsuites>
 
     <coverage includeUncoveredFiles="true" processUncoveredFiles="true">
         <include>
-            <directory suffix=".php">./src</directory>
+            <directory suffix=".php">../packages</directory>
         </include>
     </coverage>
 </phpunit>
