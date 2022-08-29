@@ -15,15 +15,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - run: make test level=cs tag=dev-${{ github.sha }}
+    needs: build
 
   test-unit:
     name: Unit Test
     runs-on: ubuntu-latest
     steps:
       - run: make test level=unit tag=dev-${{ github.sha }}
+    needs: build
 
   test-mutation:
     name: Mutation Test
     runs-on: ubuntu-latest
     steps:
       - run: make test level=mutation tag=dev-${{ github.sha }}
+    needs: build
