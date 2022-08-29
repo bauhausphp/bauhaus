@@ -202,10 +202,10 @@ class GetTest extends TestCase
         return [
             'dependency without type' => [
                 ServiceWithDependenciesWithoutType::class, <<<MSG
-                    Definition evaluation error
-                        requested id -> Bauhaus\Tests\ServiceResolver\Doubles\DiscoverB\ServiceWithDependenciesWithoutType
-                         > Cannot load dependency without type: \$x
-                    MSG,
+                  Definition evaluation error
+                      requested id -> Bauhaus\Tests\ServiceResolver\Doubles\DiscoverB\ServiceWithDependenciesWithoutType
+                       > Cannot load dependency without type: \$x
+                  MSG,
             ],
             'dependency on array' => [
                 ServiceWithScalarArrayDependency::class, <<<MSG
@@ -237,10 +237,10 @@ class GetTest extends TestCase
             ],
             'dependency on string' => [
                 ServiceWithScalarStringDependency::class, <<<MSG
-                    Definition evaluation error
-                        requested id -> Bauhaus\Tests\ServiceResolver\Doubles\DiscoverB\ServiceWithScalarStringDependency
-                         > Cannot load primitive type dependency: string \$string
-                    MSG,
+                   Definition evaluation error
+                       requested id -> Bauhaus\Tests\ServiceResolver\Doubles\DiscoverB\ServiceWithScalarStringDependency
+                        > Cannot load primitive type dependency: string \$string
+                   MSG,
             ],
             'dependency on variadic' => [
                 ServiceWithVariadicDependency::class, <<<MSG
