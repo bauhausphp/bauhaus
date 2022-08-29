@@ -1,0 +1,29 @@
+name: Tests
+on: push
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: make build tag=dev-${{ github.sha }}
+      - run: make push  tag=dev-${{ github.sha }} username=${{ github.actor }} password=${{ secrets.GITHUB_TOKEN }}
+
+  test-cs:
+    name: CS Test
+    runs-on: ubuntu-latest
+    steps:
+    - run: make test level=cs tag=dev-${{ github.sha }}
+
+  test-unit:
+    name: Unit Test
+    runs-on: ubuntu-latest
+    steps:
+      - run: make test level=unit tag=dev-${{ github.sha }}
+
+  test-mutation:
+    name: Mutation Test
+    runs-on: ubuntu-latest
+    steps:
+      - run: make test level=mutation tag=dev-${{ github.sha }}

@@ -1,7 +1,3 @@
-php ?= 8.1.9
-image = bauhausphp/package-tests
-workdir = /usr/local/bauhaus
-
 sh:
 	@make run cmd=sh
 
@@ -15,15 +11,22 @@ test:
 #
 # Docker
 php ?= 8.1.9
+tag ?= dev
+
+registry = ghcr.io
+image = ${registry}/bauhausphp/bauhaus:${tag}
 workdir = /usr/local/bauhaus
-image = bauhausphp/contributor-tool
-binds = composer.json composer.lock config packages reports tests
 
 build: args = --build-arg PHP=${php} --build-arg WORKDIR=${workdir}
 build:
 	@docker build ${args} -t ${image} .
 
+push:
+	@echo ${password} | docker login ${registry} -u ${username} --password-stdin
+	@docker push ${image}
+
+run: binds = composer.json composer.lock config packages reports tests
+run: volumes = $(addprefix -v ,$(join $(addprefix "$$PWD"/,${binds}),$(addprefix :${workdir},${binds})))
 run: options = --rm $(if ${CI},,-it) ${volumes}
-run: volumes = $(addprefix -v,$(join $(addprefix $(shell pwd)/,${binds}),$(addprefix :${workdir}/,${binds})))
 run:
-	@docker run ${options} ${image} ${cmd}
+	docker run ${options} ${image} ${cmd}
