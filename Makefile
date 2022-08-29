@@ -10,14 +10,15 @@ test:
 
 #
 # Docker
-php ?= 8.1.9
-tag ?= dev
+version ?= local
+phpVersion ?= 8.1.9
 
 registry = ghcr.io
 image = ${registry}/bauhausphp/bauhaus:${tag}
+tag = dev-${version}-php${phpVersion}
 workdir = /usr/local/bauhaus
 
-build: args = --build-arg PHP=${php} --build-arg WORKDIR=${workdir}
+build: args = --build-arg PHP_VERSION=${phpVersion} --build-arg WORKDIR=${workdir}
 build:
 	@docker build ${args} -t ${image} .
 
