@@ -25,4 +25,4 @@ jobs:
     needs: build
     steps:
     - uses: actions/checkout@v3
-    - run: make test level=${{ matrix.level }} version=${{ env.version }}
+    - run: make test version=${{ env.version }} level=${{ matrix.level }}
