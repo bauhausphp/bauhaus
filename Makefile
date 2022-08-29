@@ -17,7 +17,7 @@ test:
 php ?= 8.1.9
 workdir = /usr/local/bauhaus
 image = bauhausphp/contributor-tool
-binds = composer.json composer.lock packages reports tests
+binds = composer.json composer.lock config packages reports tests
 
 build: args = --build-arg PHP=${php} --build-arg WORKDIR=${workdir}
 build:
