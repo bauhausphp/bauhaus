@@ -2,7 +2,7 @@ version: 2
 
 updates:
 - package-ecosystem: docker
-  directory: "/docker"
+  directory: "/"
   schedule:
     interval: daily
     time: '04:00'
@@ -11,7 +11,7 @@ updates:
   - fefas
 
 - package-ecosystem: composer
-  directory: "/docker"
+  directory: "/"
   schedule:
     interval: daily
     time: '04:00'
