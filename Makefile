@@ -19,20 +19,11 @@ workdir = /usr/local/bauhaus
 image = bauhausphp/contributor-tool
 binds = composer.json composer.lock packages reports tests
 
+build: args = --build-arg PHP=${php} --build-arg WORKDIR=${workdir}
 build:
-	@docker build \
-	    -t ${image} \
-	    --build-arg PHP=${php} \
-	    --build-arg WORKDIR=${workdir} \
-	    .
+	@docker build ${args} -t ${image} .
 
-run: hostDirs = $(addprefix $(shell pwd)/,${binds})
-run: containerDir = $(addprefix :${workdir}/,${binds})
-run: volumes = $(addprefix -v,$(join ${hostDirs},${containerDir}))
+run: options = --rm $(if ${CI},,-it) ${volumes}
+run: volumes = $(addprefix -v,$(join $(addprefix $(shell pwd)/,${binds}),$(addprefix :${workdir}/,${binds})))
 run:
-	@docker run \
-	    -it \
-	    --rm \
-	    ${volumes} \
-	    ${image} \
-	    ${cmd}
+	@docker run ${options} ${image} ${cmd}
