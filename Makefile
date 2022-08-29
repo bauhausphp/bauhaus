@@ -26,7 +26,7 @@ run: binds = composer.json composer.lock config packages reports tests
 run: volumes = $(addprefix -v ,$(join $(addprefix "$$PWD"/,${binds}),$(addprefix :${workdir}/,${binds})))
 run: options = --rm $(if ${CI},,-it ${volumes})
 run:
-	docker run ${options} ${image} ${cmd}
+	@docker run ${options} ${image} ${cmd}
 
 #
 # Pipeline
