@@ -1,5 +1,5 @@
 php ?= 8.1.9
-image = bauhausphp/contributor-tool
+image = bauhausphp/package-tests
 workdir = /usr/local/bauhaus
 
 sh:
