@@ -5,7 +5,10 @@
     "license": "MIT",
 
     "scripts": {
-        "test:unit": "phpunit -c tests/phpunit.xml"
+        "test:unit": "phpunit -c tests/phpunit.xml",
+        "test:all": [
+            "@test:unit"
+        ]
     },
 
     "autoload": {
