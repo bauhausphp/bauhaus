@@ -3,7 +3,7 @@ on: push
 
 jobs:
   test-cs:
-    name: Test CS
+    name: CS Test
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -11,9 +11,17 @@ jobs:
     - run: make test level=cs
 
   test-unit:
-    name: Test Unit
+    name: Unit Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - run: make build
       - run: make test level=unit
+
+  test-mutation:
+    name: Mutation Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: make build
+      - run: make test level=mutation
