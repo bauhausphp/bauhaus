@@ -26,6 +26,7 @@
 
         "infection/infection": "^0.26.13",
         "phpunit/phpunit": "^9.5",
+        "qossmic/deptrac-shim": "^0.24.0",
         "squizlabs/php_codesniffer": "^3.7"
     },
 
