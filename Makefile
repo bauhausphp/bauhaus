@@ -22,7 +22,7 @@ build: args = --build-arg PHP_VERSION=${phpVersion} --build-arg WORKDIR=${workdi
 build:
 	@docker build ${args} -t ${image} .
 
-run: binds = composer.json composer.lock config packages reports tests
+run: binds = composer.json composer.lock cache config packages reports tests
 run: volumes = $(addprefix -v ,$(join $(addprefix "$$PWD"/,${binds}),$(addprefix :${workdir}/,${binds})))
 run: options = --rm $(if ${CI},,-it ${volumes})
 run:

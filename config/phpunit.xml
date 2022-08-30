@@ -3,12 +3,12 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
     bootstrap="./autoload.php"
-    cacheResult="false"
+    cacheResult="../cache/phpunit.cache"
     colors="true">
 
     <testsuites>
         <testsuite name="Packages">
-            <directory suffix="Test.php">./../tests</directory>
+            <directory suffix="Test.php">../tests</directory>
         </testsuite>
     </testsuites>
 
