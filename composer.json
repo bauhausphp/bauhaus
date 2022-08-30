@@ -5,14 +5,14 @@
     "license": "MIT",
 
     "scripts": {
-        "test:cs": "phpcs -ps --standard=config/phpcs.xml",
+        "test:static:syntax": "phpcs -ps --standard=config/phpcs.xml",
+        "test:static:dependency": "deptrac --config-file=config/deptrac.yaml --cache-file=cache/deptrac.cache",
+
+        "test:cs": [ "@test:static:syntax", "@test:static:dependency" ],
         "test:unit": "phpunit -c config/phpunit.xml --coverage-html reports/coverage",
         "test:mutation": "infection run -s -j4 -c config/infection.json",
-        "test:all": [
-            "@test:cs",
-            "@test:unit",
-            "@test:mutation"
-        ]
+
+        "test:all": [ "@test:cs", "@test:unit", "@test:mutation" ]
     },
 
     "autoload": {

@@ -1,0 +1,23 @@
+deptrac:
+  ignore_uncovered_internal_classes: true # ignore dependency to internal php classes
+
+  paths:
+  - ../packages
+  - ../tests
+  - ../vendor/psr
+  exclude_files: ~
+
+  ruleset:
+    ServiceResolver: [ PSR11 ]
+    TestServiceResolver: [ +ServiceResolver ]
+
+  layers:
+  - name: ServiceResolver
+    collectors:
+    - { type: classLike, value: Bauhaus\\ServiceResolver\\.* }
+
+  - name: TestServiceResolver
+    collectors: [ { type: classLike, value: Bauhaus\\Tests\\ServiceResolver\\.* } ]
+
+  - name: PSR11
+    collectors: [ { type: classLike, value: Psr\\Container\\.* } ]
