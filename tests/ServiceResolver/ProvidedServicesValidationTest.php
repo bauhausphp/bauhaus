@@ -5,6 +5,8 @@ namespace Bauhaus\Tests\ServiceResolver;
 use Bauhaus\ServiceResolver;
 use Bauhaus\ServiceResolverSettings;
 use PHPUnit\Framework\TestCase;
+use Bauhaus\ServiceResolver\Definition;
+use Psr\Container\ContainerInterface as PsrContainer;
 
 class ProvidedServicesValidationTest extends TestCase
 {
@@ -18,6 +20,13 @@ class ProvidedServicesValidationTest extends TestCase
 
         self::expectException(\InvalidArgumentException::class);
         self::expectExceptionMessage('Definition file does not exist: invalid-file-path');
+
+        $class = new class implements Definition {
+            public function load(PsrContainer $psrContainer): object
+            {
+                // TODO: Implement load() method.
+            }
+        };
 
         ServiceResolver::build($settings);
     }
