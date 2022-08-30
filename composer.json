@@ -6,7 +6,7 @@
 
     "scripts": {
         "test:static:syntax": "phpcs -ps --standard=config/phpcs.xml",
-        "test:static:dependency": "deptrac --config-file=config/deptrac.yaml --cache-file=cache/deptrac.cache",
+        "test:static:dependency": "deptrac --config-file=config/deptrac.yaml --cache-file=cache/deptrac.cache --formatter=graphviz-image --output=reports/deptrac.png",
 
         "test:cs": [ "@test:static:syntax", "@test:static:dependency" ],
         "test:unit": "phpunit -c config/phpunit.xml --coverage-html reports/coverage",

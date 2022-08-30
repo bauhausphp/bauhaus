@@ -21,3 +21,13 @@ deptrac:
 
   - name: PSR11
     collectors: [ { type: classLike, value: Psr\\Container\\.* } ]
+
+  formatters:
+    graphviz:
+      groups:
+        Packages:
+        - ServiceResolver
+        Tests:
+        - TestServiceResolver
+        PSRs:
+        - PSR11

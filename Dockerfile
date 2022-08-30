@@ -3,11 +3,11 @@ ARG PHP_VERSION
 FROM php:${PHP_VERSION}-alpine3.16
 
 ARG WORKDIR
-ENV COMPOSER_VENDOR_DIR /usr/local/composer
 
 RUN apk add --no-cache \
         $PHPIZE_DEPS \
         git \
+        graphviz \
         vim && \
     curl -sS https://getcomposer.org/installer | php -- \
         --version=2.4.1 \
