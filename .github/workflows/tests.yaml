@@ -10,19 +10,28 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: [ 8.1.9, 8.1.8 ]
+        php: [ 8.2.0RC1, 8.1.9, 8.1.8 ]
     steps:
     - uses: actions/checkout@v3
-    - run: make publish version=${{ env.version }} username=${{ github.actor }} password=${{ secrets.GITHUB_TOKEN }}
+    - run: |
+        make publish \
+          php=${{ matrix.php }} \
+          version=${{ env.version }} \
+          username=${{ github.actor }} \
+          password=${{ secrets.GITHUB_TOKEN }}
 
   test:
     name: Test
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: [ 8.1.9, 8.1.8 ]
+        php: [ 8.2.0RC1, 8.1.9, 8.1.8 ]
         level: [ cs, unit, mutation ]
     needs: build
     steps:
     - uses: actions/checkout@v3
-    - run: make test version=${{ env.version }} level=${{ matrix.level }}
+    - run: |
+        make test \
+          php=${{ matrix.php }} \
+          version=${{ env.version }} \
+          level=${{ matrix.level }}
