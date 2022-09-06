@@ -1,6 +1,6 @@
-ARG PHP_VERSION
+ARG PHP
 
-FROM php:${PHP_VERSION}-alpine3.16
+FROM php:${PHP}-alpine3.16
 
 ARG WORKDIR
 ENV COMPOSER_VENDOR_DIR /usr/local/composer
