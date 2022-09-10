@@ -13,9 +13,8 @@ test:
 revision ?= local
 php ?= 8.1.9
 
-registry = ghcr.io
-image = ${registry}/bauhausphp/bauhaus:${tag}
-tag = dev-${version}-php${php}
+image = bauhausphp/bauhaus:${tag}
+tag = dev-${revision}-php${php}
 workdir = /usr/local/bauhaus
 
 build: args  = --build-arg PHP=${php}
