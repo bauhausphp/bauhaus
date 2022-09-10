@@ -31,12 +31,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     steps:
-      - run: echo ${{ toJSON(github) }}
-#      - uses: ad-m/github-push-action@master
-#        with:
-#          branch: dev-${{ github.ref_name }}
-#          directory: packages/${{ matrix.pacakge }}
-#          repository:
+      - uses: ad-m/github-push-action@master
+        with:
+          branch: ${{ github.ref_name }}
+          directory: packages/${{ matrix.pacakge }}
+          repository: ${{ github.repository_owner }}/${{ matrix.pacakge }}
     strategy:
       matrix:
         package:
