@@ -33,7 +33,10 @@ jobs:
     #needs: test
     steps:
       - uses: actions/checkout@v3
-      - run: make publish package=${{ matrix.package }} version=${{ env.version }} author='${{ env.author }}'
+      - run: |
+          git config --global user.email "${{ github.event.commits[0].author.name }}"
+          git config --global user.email "${{ github.event.commits[0].author.email }}"
+          make publish package=${{ matrix.package }} version=${{ env.version }}
     strategy:
       matrix:
         package:

@@ -39,5 +39,5 @@ publish:
 	git clone --branch main ${repo} ${dir}
 	rsync --archive --verbose --exclude .git --delete-after packages/${package}/ ${dir}
 	git -C ${dir} add .
-	git -C ${dir} commit --message 'reference bauhausphp/bauhaus#${version}' --author='${author}'
+	git -C ${dir} commit --message 'bauhausphp/bauhaus#${version}'
 	git -C ${dir} push -u origin main:new-branch
