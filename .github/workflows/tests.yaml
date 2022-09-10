@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - run: docker login ghcr.io -u ${{ github.actor }} -p ${{ github.token }}
-    - run: make build php=${{ matrix.php }} revision=${{ env.revision }} push=y
+    - run: make build php=${{ matrix.php }} revision=${{ env.revision }}
     strategy:
       matrix:
         php: [ 8.2.0RC1, 8.1.9 ]
