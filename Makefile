@@ -32,12 +32,12 @@ run:
 
 #
 # Release
-publish: repo = https://${user}:${pass}@github.com/bauhausphp/${package}
+publish: repo = git@github.com:bauhausphp/${package}.git
 publish: dir = temp/${package}
 publish:
 	rm -rf ${dir}
 	git clone --branch main ${repo} ${dir}
 	rsync --archive --verbose --exclude .git --delete-after packages/${package}/ ${dir}
 	git -C ${dir} add .
-	git -C ${dir} commit --author='${author}' --message 'bauhausphp/bauhaus#${version}'
-	git -C ${dir} push ${repo} HEAD:new-branch
+	git -C ${dir} commit --message 'bauhausphp/bauhaus#${version}'
+	git -C ${dir} push -u oring HEAD:new-branch

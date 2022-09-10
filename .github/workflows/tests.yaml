@@ -33,9 +33,13 @@ jobs:
     #needs: test
     steps:
       - uses: actions/checkout@v3
-      - run: git config --global user.name "${{ github.event.commits[0].author.name }}"
-      - run: git config --global user.email ${{ github.event.commits[0].author.email }}
-      - run: make publish package=${{ matrix.package }} version=${{ env.version }} author='${{ env.author }}' user=${{ github.actor }} pass=${{ github.token }}
+      - uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.PACKAGE_DEPLOY_KEY }}
+      - run: |
+          git config --global user.name "${{ github.event.commits[0].author.name }}"
+          git config --global user.email ${{ github.event.commits[0].author.email }}
+      - run: make publish package=${{ matrix.package }} version=${{ env.version }}
     strategy:
       matrix:
         package:
