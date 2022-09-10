@@ -4,6 +4,7 @@ on: push
 concurrency: action-on-${{ github.ref_name }}
 
 env:
+  author: ${{ github.event.commits[0].author.name }} <${{ github.event.commits[0].author.email }}>
   version: ${{ github.sha }}
 
 jobs:
@@ -32,7 +33,7 @@ jobs:
     #needs: test
     steps:
       - uses: actions/checkout@v3
-      - run: make publish package=${{ matrix.package }} version=${{ env.version }} author='${{ github.event.commits[0].author }}'
+      - run: make publish package=${{ matrix.package }} version=${{ env.version }} author='${{ env.author }}'
     strategy:
       matrix:
         package:
