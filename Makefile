@@ -10,7 +10,6 @@ test:
 
 #
 # Docker
-version ?= local
 revision ?= local
 php ?= 8.1.9
 
@@ -34,7 +33,6 @@ run:
 #
 # Release
 publish: remote = git@github.com:bauhausphp/${package}.git
-publish: branch = ${version}
 publish: commit = Ref bauhausphp/bauhaus@${revision}
 publish: source = packages/${package}
 publish: destination = temp/${package}

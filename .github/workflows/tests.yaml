@@ -4,33 +4,32 @@ on: push
 concurrency: action-on-${{ github.ref_name }}
 
 env:
-  version: ${{ github.ref_name }}
   revision: ${{ github.sha }}
 
 jobs:
-  #build:
-  #  runs-on: ubuntu-latest
-  #  steps:
-  #  - uses: actions/checkout@v3
-  #  - run: make build php=${{ matrix.php }} version=${{ env.version }} user=${{ github.actor }} pass=${{ github.token }}
-  #  strategy:
-  #    matrix:
-  #      php: [ 8.2.0RC1, 8.1.9 ]
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - run: make build php=${{ matrix.php }} revision=${{ env.revision }} user=${{ github.actor }} pass=${{ github.token }}
+    strategy:
+      matrix:
+        php: [ 8.2.0RC1, 8.1.9 ]
 
-  #test:
-  #  runs-on: ubuntu-latest
-  #  needs: build
-  #  steps:
-  #  - uses: actions/checkout@v3
-  #  - run: make test php=${{ matrix.php }} version=${{ env.version }} level=${{ matrix.level }}
-  #  strategy:
-  #    matrix:
-  #      php: [ 8.2.0RC1, 8.1.9 ]
-  #      level: [ cs, unit, mutation ]
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - uses: actions/checkout@v3
+    - run: make test php=${{ matrix.php }} revision=${{ env.revision }} level=${{ matrix.level }}
+    strategy:
+      matrix:
+        php: [ 8.2.0RC1, 8.1.9 ]
+        level: [ cs, unit, mutation ]
 
   publish:
     runs-on: ubuntu-latest
-    #needs: test
+    needs: test
     strategy:
       matrix:
         package: [ service-resolver ]
@@ -48,4 +47,4 @@ jobs:
           git config --global user.email ${{ github.event.commits[0].author.email }}
 
       - name: Push code
-        run: make publish package=${{ matrix.package }} version=${{ env.version }} revision=${{ env.revision }}
+        run: make publish package=${{ matrix.package }} branch=${{ github.ref_name }} revision=${{ env.revision }}
