@@ -32,15 +32,13 @@ jobs:
     #needs: test
     steps:
       - uses: actions/checkout@v3
-      - name: set up ssh key
+      - name: Set up deploy key
         uses: webfactory/ssh-agent@v0.5.4
-        with:
-          ssh-private-key: ${{ secrets.PACKAGE_DEPLOY_KEY }}
-      - name: set git author
-        run: |
-          git config --global user.name "${{ github.event.commits[0].author.name }}"
-          git config --global user.email ${{ github.event.commits[0].author.email }}
-#      - run: make publish package=${{ matrix.package }} version=${{ env.version }}
+        with: { ssh-private-key: ${{ secrets.PACKAGE_DEPLOY_KEY }} }
+      - name: Set up git author
+        uses: fregante/setup-git-user@v1
+      - name: push code
+        run: make publish package=${{ matrix.package }} version=${{ env.version }}
     strategy:
       matrix:
         package:
