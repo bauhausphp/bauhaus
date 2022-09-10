@@ -22,7 +22,7 @@ build: args  = --build-arg PHP=${php}
 build: args += --build-arg WORKDIR=${workdir}
 build:
 	docker build ${args} -t ${image} .
-	$(if ${CI},echo ${pass} | docker login ${registry} -u ${user} --password-stdin && docker push ${image})
+	$(if ${push},docker push ${image})
 
 run: binds = composer.json composer.lock config packages reports tests
 run: volumes = $(addprefix -v ,$(join $(addprefix "$$PWD"/,${binds}),$(addprefix :${workdir}/,${binds})))
