@@ -34,9 +34,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          git config --global user.name "${{ github.event.commits[0].author.name }}"
-          git config --global user.email "${{ github.event.commits[0].author.email }}"
-          make publish package=${{ matrix.package }} version=${{ env.version }}
+          git config --global user.name "ToSatisfyGit"
+          git config --global user.email "something@invalid"
+          make publish package=${{ matrix.package }} version=${{ env.version }} author='${{ env.author }}'
     strategy:
       matrix:
         package:
