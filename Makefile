@@ -32,7 +32,7 @@ run:
 
 #
 # Release
-publish: repo = https://${user}@${pass}:github.com/bauhausphp/${package}.git
+publish: repo = https://github.com/bauhausphp/${package}.git
 publish: dir = temp/${package}
 publish:
 	rm -rf ${dir}
