@@ -40,8 +40,7 @@ jobs:
         run: |
           git config --global user.name "${{ github.event.commits[0].author.name }}"
           git config --global user.email ${{ github.event.commits[0].author.email }}
-      - name: Push code
-        run: make publish package=${{ matrix.package }} branch=${{ github.ref_name }} revision=${{ env.revision }}
+      - run: make publish package=${{ matrix.package }} branch=${{ github.ref_name }} revision=${{ env.revision }}
     strategy:
       matrix:
         package: [ service-resolver ]
