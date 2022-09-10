@@ -33,10 +33,9 @@ jobs:
     #needs: test
     steps:
       - uses: actions/checkout@v3
-      - run: |
-          git config --global user.name "ToSatisfyGit"
-          git config --global user.email "something@invalid"
-          make publish package=${{ matrix.package }} version=${{ env.version }} author='${{ env.author }}'
+      - run: git config user.name "${{ github.event.commits[0].author.name }}"
+      - run: git config user.email ${{ github.event.commits[0].author.email }}
+      - run: make publish package=${{ matrix.package }} version=${{ env.version }} author='${{ env.author }}' user=${{ github.actor }} pass=${{ github.token }}
     strategy:
       matrix:
         package:
