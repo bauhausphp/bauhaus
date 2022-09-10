@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - run: echo ${pass} | docker login ${registry} -u ${{ github.actor }} -p ${{ github.token }}
+    - run: echo ${pass} | docker login ghcr.io -u ${{ github.actor }} -p ${{ github.token }}
     - run: make build php=${{ matrix.php }} revision=${{ env.revision }} push=y
     strategy:
       matrix:
