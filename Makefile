@@ -1,12 +1,12 @@
 sh:
-	@make run cmd=sh
+	@make -s run cmd=sh
 
 fix-cs:
-	@make run cmd=phpcbf
+	@make -s run cmd=phpcbf
 
 test: level ?= all
 test:
-	@make run cmd='composer run test:${level}'
+	@make -s run cmd='composer run test:${level}'
 
 #
 # Docker
@@ -32,6 +32,6 @@ run:
 #
 # Pipeline
 publish:
-	make build
-	echo ${password} | docker login ${registry} -u ${username} --password-stdin
+	make -s build
+	echo ${pass} | docker login ${registry} -u ${user} --password-stdin
 	docker push ${image}
