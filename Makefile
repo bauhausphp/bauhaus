@@ -41,5 +41,5 @@ publish:
 	git clone -b ${branch} ${remote} ${destination} || git clone ${remote} ${destination}
 	rsync --archive --verbose --exclude .git --delete-after ${source}/ ${destination}
 	git -C ${destination} add .
-	git -C ${destination} commit --message '${commit}'
+	git -C ${destination} commit --message '${commit}' --allow-empty
 	git -C ${destination} push -u origin HEAD:${branch}
