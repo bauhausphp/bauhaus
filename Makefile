@@ -40,4 +40,4 @@ publish:
 	rsync --archive --verbose --exclude .git --delete-after packages/${package}/ ${dir}
 	git -C ${dir} add .
 	git -C ${dir} commit --author='${author}' --message 'bauhausphp/bauhaus#${version}'
-	git -C ${dir} push -u ${repo} HEAD:new-branch
+	git -C ${dir} push ${repo} HEAD:new-branch
