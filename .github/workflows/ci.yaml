@@ -22,11 +22,10 @@ jobs:
     needs: build
     steps:
     - uses: actions/checkout@v3
-    - run: make test php=${{ matrix.php }} revision=${{ env.revision }} level=${{ matrix.level }}
+    - run: make test php=${{ matrix.php }} revision=${{ env.revision }}
     strategy:
       matrix:
         php: [ 8.2.0RC1, 8.1.9 ]
-        level: [ cs, unit, mutation ]
 
   publish:
     runs-on: ubuntu-latest
@@ -42,7 +41,7 @@ jobs:
           git config --global user.name "${{ github.event.commits[0].author.name }}"
           git config --global user.email ${{ github.event.commits[0].author.email }}
       - name: Push code
-        run: make publish package=${{ matrix.package }} branch=bauhaus/${{ github.ref_name }} revision=${{ env.revision }}
+        run: make publish package=${{ matrix.package }} branch=${{ github.ref_name }} revision=${{ env.revision }}
     strategy:
       matrix:
         package: [ service-resolver ]
