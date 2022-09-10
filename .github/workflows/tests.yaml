@@ -29,8 +29,9 @@ jobs:
 
   publish:
     runs-on: ubuntu-latest
-    needs: test
+    #needs: test
     steps:
+      - uses: actions/checkout@v3
       - run: make publish package=${{ matrix.package }} version=${{ env.version }} user=${{ github.actor }} pass=${{ github.token }}
     strategy:
       matrix:
