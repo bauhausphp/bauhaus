@@ -4,7 +4,8 @@ on: push
 concurrency: action-on-${{ github.ref_name }}
 
 env:
-  version: ${{ github.sha }}
+  version: ${{ github.ref_name }}
+  revision: ${{ github.sha }}
 
 jobs:
   #build:
@@ -46,5 +47,5 @@ jobs:
           git config --global user.name "${{ github.event.commits[0].author.name }}"
           git config --global user.email ${{ github.event.commits[0].author.email }}
 
-      - name: push code
-        run: make publish package=${{ matrix.package }} version=${{ env.version }}
+      - name: Push code
+        run: make publish package=${{ matrix.package }} version=${{ env.version }} revision=${{ env.revision }}

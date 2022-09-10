@@ -11,6 +11,7 @@ test:
 #
 # Docker
 version ?= local
+revision ?= local
 php ?= 8.1.9
 
 registry = ghcr.io
@@ -32,12 +33,15 @@ run:
 
 #
 # Release
-publish: repo = git@github.com:bauhausphp/${package}.git
-publish: dir = temp/${package}
+publish: remote = git@github.com:bauhausphp/${package}.git
+publish: branch = ${version}
+publish: commit = Ref bauhausphp/bauhaus@${revision}
+publish: source = packages/${package}
+publish: destination = temp/${package}
 publish:
-	rm -rf ${dir}
-	git clone ${repo} ${dir}
-	rsync --archive --verbose --exclude .git --delete-after packages/${package}/ ${dir}
-	git -C ${dir} add .
-	git -C ${dir} commit --message 'bauhausphp/bauhaus@${version}'
-	git -C ${dir} push -f -u origin HEAD:new-branch
+	rm -rf ${destination}
+	git clone -b ${branch} ${remote} ${destination} || git clone ${remote} ${destination}
+	rsync --archive --verbose --exclude .git --delete-after ${source}/ ${destination}
+	git -C ${destination} add .
+	git -C ${destination} commit --message '${commit}'
+	git -C ${destination} push -u origin HEAD:${branch}
