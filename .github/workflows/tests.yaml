@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: [ 8.2.0RC1, 8.1.9, 8.1.8 ]
+        php: [ 8.2.0RC1, 8.1.9 ]
     steps:
     - uses: actions/checkout@v3
     - run: |
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: [ 8.2.0RC1, 8.1.9, 8.1.8 ]
+        php: [ 8.2.0RC1, 8.1.9 ]
         level: [ cs, unit, mutation ]
     needs: build
     steps:
