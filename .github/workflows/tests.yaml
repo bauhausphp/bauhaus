@@ -1,9 +1,7 @@
 name: CI
-on: push
 
-concurrency:
-  group: action-on-${{ github.ref_name }}
-  cancel-in-progress: ${{ 'main' != github.ref_name }}
+on: push
+concurrency: action-on-${{ github.ref_name }}
 
 env:
   version: ${{ github.sha }}
