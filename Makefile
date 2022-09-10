@@ -1,27 +1,28 @@
 sh:
-	@make run cmd=sh
+	@make -s run cmd=sh
 
 fix-cs:
-	@make run cmd=phpcbf
+	@make -s run cmd=phpcbf
 
 test: level ?= all
 test:
-	@make run cmd='composer run test:${level}'
+	@make -s run cmd='composer run test:${level}'
 
 #
 # Docker
-version ?= local
+revision ?= local
 php ?= 8.1.9
 
 registry = ghcr.io
 image = ${registry}/bauhausphp/bauhaus:${tag}
-tag = dev-${version}-php${php}
+tag = dev-${revision}-php${php}
 workdir = /usr/local/bauhaus
 
 build: args  = --build-arg PHP=${php}
 build: args += --build-arg WORKDIR=${workdir}
 build:
 	docker build ${args} -t ${image} .
+	$(if ${CI},docker push ${image})
 
 run: binds = composer.json composer.lock config packages reports tests
 run: volumes = $(addprefix -v ,$(join $(addprefix "$$PWD"/,${binds}),$(addprefix :${workdir}/,${binds})))
@@ -30,8 +31,15 @@ run:
 	docker run ${options} ${image} ${cmd}
 
 #
-# Pipeline
+# Release
+publish: remote = git@github.com:bauhausphp/${package}.git
+publish: commit = Ref bauhausphp/bauhaus@${revision}
+publish: source = packages/${package}
+publish: destination = temp/${package}
 publish:
-	make build
-	echo ${password} | docker login ${registry} -u ${username} --password-stdin
-	docker push ${image}
+	rm -rf ${destination}
+	git clone -b ${branch} ${remote} ${destination} || git clone ${remote} ${destination}
+	rsync --archive --verbose --exclude .git --delete-after ${source}/ ${destination}
+	git -C ${destination} add .
+	git -C ${destination} commit --message '${commit}' || echo 'No change'
+	git -C ${destination} push -u origin HEAD:${branch}
