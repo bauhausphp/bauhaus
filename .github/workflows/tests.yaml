@@ -5,6 +5,11 @@ env:
   version: ${{ github.sha }}
 
 jobs:
+  print:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ github.ref }} ${{ github.ref_name }}
+
   build:
     runs-on: ubuntu-latest
     steps:
