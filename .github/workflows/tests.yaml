@@ -32,7 +32,7 @@ jobs:
     #needs: test
     steps:
       - uses: actions/checkout@v3
-      - run: make publish package=${{ matrix.package }} version=${{ env.version }} user=${{ github.actor }} pass=${{ github.token }}
+      - run: make publish package=${{ matrix.package }} version=${{ env.version }} author='${{ github.event.commits[0].author }}'
     strategy:
       matrix:
         package:
