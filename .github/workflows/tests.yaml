@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - run: make publish php=${{ matrix.php }} version=${{ env.version }} user=${{ github.actor }} pass=${{ github.token }}
+    - run: make build php=${{ matrix.php }} version=${{ env.version }} user=${{ github.actor }} pass=${{ github.token }}
     strategy:
       matrix:
         php: [ 8.2.0RC1, 8.1.9 ]

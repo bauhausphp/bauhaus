@@ -22,16 +22,10 @@ build: args  = --build-arg PHP=${php}
 build: args += --build-arg WORKDIR=${workdir}
 build:
 	docker build ${args} -t ${image} .
+	$(if ${CI},echo ${pass} | docker login ${registry} -u ${user} --password-stdin && docker push ${image})
 
 run: binds = composer.json composer.lock config packages reports tests
 run: volumes = $(addprefix -v ,$(join $(addprefix "$$PWD"/,${binds}),$(addprefix :${workdir}/,${binds})))
 run: options = --rm $(if ${CI},,-it ${volumes})
 run:
 	docker run ${options} ${image} ${cmd}
-
-#
-# Pipeline
-publish:
-	make -s build
-	echo ${pass} | docker login ${registry} -u ${user} --password-stdin
-	docker push ${image}
