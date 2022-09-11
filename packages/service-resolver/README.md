@@ -31,8 +31,7 @@ $ composer require bauhaus/service-resolver
 ```php
 <?php
 
-use Bauhaus\ServiceResolver;
-use Bauhaus\ServiceResolverSettings;
+use Bauhaus\ServiceResolver;use Bauhaus\ServiceResolverSettings;
 
 $settins = ServiceResolverSettings::new()
     ->withDefintionFiles(

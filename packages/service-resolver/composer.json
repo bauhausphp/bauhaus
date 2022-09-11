@@ -13,7 +13,10 @@
     "license": "MIT",
 
     "autoload": {
-        "psr-4": { "Bauhaus\\": "./" }
+        "psr-4": {
+            "Bauhaus\\": "public/",
+            "Bauhaus\\ServiceResolver\\": "private/"
+        }
     },
 
     "require": {
