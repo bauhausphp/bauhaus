@@ -18,11 +18,14 @@ RUN apk add --no-cache \
     chmod +x \
         /usr/local/bin/install-php-extensions && \
     install-php-extensions \
-        pcov
+        pcov && \
+    composer global require --no-scripts --no-plugins --no-cache \
+        infection/infection \
+        phpunit/phpunit \
+        qossmic/deptrac-shim \
+        squizlabs/php_codesniffer
 
 WORKDIR $WORKDIR
 COPY . .
 
-RUN composer install \
-        --no-cache \
-        --no-scripts
+# RUN composer install --no-cache --no-scripts

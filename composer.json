@@ -4,10 +4,16 @@
     "description": "Bauhaus packages tests",
 
     "scripts": {
-        "test:all": [ "@test:cs:syntax", "@test:unit", "@test:mutation" ],
+        "test:all": [
+            "@test:syntax",
+            "@test:dependency",
+            "@test:unit",
+            "@test:mutation"
+        ],
 
-        "test:cs:syntax": "phpcs -ps --standard=config/phpcs.xml",
-        "test:unit": "phpunit -c config/phpunit.xml --coverage-html reports/coverage",
+        "test:syntax": "phpcs -ps --standard=config/phpcs.xml",
+        "test:dependency": "deptrac --config-file=config/deptrac.yaml --cache-file=cache/deptrac.cache",
+        "test:unit": "global exec phpunit -- -c config/phpunit.xml --coverage-html reports/coverage",
         "test:mutation": "infection run -s -j4 -c config/infection.json"
     },
 
@@ -16,12 +22,7 @@
     },
 
     "require": {
-        "bauhaus/service-resolver": "dev-main",
-
-        "infection/infection": "^0.26.13",
-        "phpunit/phpunit": "^9.5",
-        "qossmic/deptrac-shim": "^0.24.0",
-        "squizlabs/php_codesniffer": "^3.7"
+        "bauhaus/service-resolver": "dev-main"
     },
 
     "repositories": [
@@ -29,7 +30,6 @@
     ],
 
     "config": {
-        "sort-packages": false,
-        "allow-plugins": { "infection/extension-installer": false }
+        "sort-packages": false
     }
 }
