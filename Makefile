@@ -1,12 +1,15 @@
-sh:
-	@make -s run cmd=sh
-
 fix-cs:
-	@make -s run cmd=phpcbf
+	@make -s composer cmd='run phpcbf'
 
 test: level ?= all
 test:
-	@make -s run cmd='composer run test:${level}'
+	@make -s composer cmd='run test:${level}'
+
+composer:
+	@make -s run cmd='composer ${cmd}'
+
+sh:
+	@make -s run cmd=sh
 
 #
 # Docker

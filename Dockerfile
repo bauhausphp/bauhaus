@@ -3,14 +3,15 @@ ARG PHP
 FROM php:${PHP}-alpine3.16
 
 ARG WORKDIR
+ENV COMPOSER_HOME /usr/local/composer
+ENV PATH $PATH:$COMPOSER_HOME/vendor/bin
 
 RUN apk add --no-cache \
         $PHPIZE_DEPS \
-        git \
+        gnupg \
         graphviz \
         vim && \
     curl -sS https://getcomposer.org/installer | php -- \
-        --version=2.4.1 \
         --install-dir=/usr/local/bin \
         --filename=composer && \
     curl -sSLf https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions \
@@ -18,14 +19,14 @@ RUN apk add --no-cache \
     chmod +x \
         /usr/local/bin/install-php-extensions && \
     install-php-extensions \
-        pcov && \
-    composer global require --no-scripts --no-plugins --no-cache \
-        infection/infection \
-        phpunit/phpunit \
-        qossmic/deptrac-shim \
-        squizlabs/php_codesniffer
+        pcov
+RUN composer global require --no-cache \
+        phpunit/phpunit:^9.5 \
+        qossmic/deptrac-shim:^0.24.0 \
+        squizlabs/php_codesniffer:^3.7
+        #infection/infection:^0.26.13 \
 
 WORKDIR $WORKDIR
 COPY . .
 
-# RUN composer install --no-cache --no-scripts
+RUN composer install --no-cache

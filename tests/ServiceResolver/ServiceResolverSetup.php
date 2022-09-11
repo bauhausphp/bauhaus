@@ -3,10 +3,10 @@
 namespace Bauhaus\Tests\ServiceResolver;
 
 use Bauhaus\ServiceResolver;
+use Bauhaus\ServiceResolverSettings;
 use Bauhaus\Tests\ServiceResolver\Doubles\DiscoverA\DiscoverableA1;
 use Bauhaus\Tests\ServiceResolver\Doubles\NotDiscover\ServiceWithoutDependencyA;
 use Bauhaus\Tests\ServiceResolver\Doubles\NotDiscover\ServiceWithoutDependencyB;
-use Bauhaus\ServiceResolverSettings;
 
 trait ServiceResolverSetup
 {
