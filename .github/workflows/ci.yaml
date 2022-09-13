@@ -26,6 +26,7 @@ jobs:
     strategy:
       matrix:
         php: [ 8.2.0RC1, 8.1.9 ]
+        level: [ syntax, dependency, unit ]
 
   publish:
     runs-on: ubuntu-latest
