@@ -6,11 +6,12 @@
     "scripts": {
         "test:all": [
             "@test:syntax",
+            "@test:dependency",
             "@test:unit"
         ],
 
         "test:syntax": "phpcs -ps",
-        "test:dependency": "deptrac --no-cache",
+        "test:dependency": "deptrac --no-cache --fail-on-uncovered --report-uncovered",
         "test:unit": "phpunit",
         "test:mutation": "infection run -s -j4"
     },
