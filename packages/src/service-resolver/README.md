@@ -23,7 +23,7 @@ Yet another service resolver (aka service container) implementation following
 ## Installation
 
 ```sh
-$ setup-composer require bauhaus/service-resolver
+$ composer require bauhaus/service-resolver
 ```
 
 ## Using it
