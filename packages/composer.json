@@ -28,7 +28,6 @@
     ],
 
     "config": {
-        "sort-packages": false,
-        "allow-plugins": { "infection/extension-installer": false }
+        "sort-packages": false
     }
 }
