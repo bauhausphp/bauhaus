@@ -1,0 +1,33 @@
+{
+    "type": "project",
+    "license": "MIT",
+    "description": "Bauhaus packages tests",
+
+    "scripts": {
+        "test:all": [
+            "@test:syntax",
+            "@test:unit"
+        ],
+
+        "test:syntax": "phpcs -ps",
+        "test:dependency": "deptrac --no-cache",
+        "test:unit": "phpunit",
+        "test:mutation": "infection run -s -j4"
+    },
+
+    "autoload": {
+        "psr-4": { "Bauhaus\\Tests\\": "./tests" }
+    },
+
+    "require": {
+        "bauhaus/service-resolver": "dev-main"
+    },
+
+    "repositories": [
+        { "type":"path", "url": "src/*/" }
+    ],
+
+    "config": {
+        "sort-packages": false
+    }
+}
