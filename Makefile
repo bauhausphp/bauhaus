@@ -50,7 +50,7 @@ stack:
 # Release
 publish: remote = git@github.com:bauhausphp/${package}.git
 publish: commit = Ref bauhausphp/bauhaus@${revision}
-publish: source = packages/${package}
+publish: source = packages/src/${package}
 publish: destination = temp/${package}
 publish:
 	rm -rf ${destination}
