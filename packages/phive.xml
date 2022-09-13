@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phive xmlns="https://phar.io/phive">
-  <phar name="composer" version="^2.4.1" location="/usr/local/bin/composer" copy="false" installed="2.4.1"/>
-  <phar name="infection" version="^0.26.14" location="/usr/local/bin/infection" copy="false" installed="0.26.14"/>
-  <phar name="phpcs" version="^3.7.1" location="/usr/local/bin/phpcs" copy="false" installed="3.7.1"/>
-  <phar name="phpunit" version="^9.5.24" location="/usr/local/bin/phpunit" copy="false" installed="9.5.24"/>
+  <phar name="composer" version="^2.4.1" installed="2.4.1" location="../../bin/composer" copy="false"/>
+  <phar name="deptrac" version="^0.24.0" installed="0.24.0" location="../../bin/deptrac" copy="false"/>
+  <phar name="infection" version="^0.26.14" installed="0.26.14" location="../../bin/infection" copy="false"/>
+  <phar name="phpcs" version="^3.7.1" installed="3.7.1" location="../../bin/phpcs" copy="false"/>
+  <phar name="phpunit" version="^9.5.24" installed="9.5.24" location="../../bin/phpunit" copy="false"/>
 </phive>
