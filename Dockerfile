@@ -11,6 +11,7 @@ RUN apk add --no-cache \
         $PHPIZE_DEPS \
         gnupg \
         graphviz \
+        terminus-font \
         vim && \
     curl -sSLf \
         -o /usr/local/bin/install-php-extensions \
