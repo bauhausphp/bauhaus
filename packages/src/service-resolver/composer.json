@@ -1,6 +1,6 @@
 {
     "name": "bauhaus/service-resolver",
-    "description": "Yet another service resolver implementation",
+    "description": "Yet another PSR-11 implementation",
     "keywords": [
         "bauhaus",
         "service resolver",

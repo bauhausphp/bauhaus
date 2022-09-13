@@ -1,0 +1,7 @@
+version: '3.9'
+
+services:
+  packages:
+    command: [ 'tail', '-f', '/dev/null' ]
+    volumes:
+    - ./packages/:${DIR_PACKAGES}/

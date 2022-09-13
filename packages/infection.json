@@ -1,6 +1,6 @@
 {
     "source": {
-        "directories": [ "packages" ]
+        "directories": [ "./src" ]
     },
     "mutators": {
         "@default": true

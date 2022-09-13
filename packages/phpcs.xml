@@ -4,6 +4,6 @@
 
     <rule ref="PSR12"/>
 
-    <file>../packages</file>
-    <file>../tests</file>
+    <file>src/</file>
+    <file>tests/</file>
 </ruleset>

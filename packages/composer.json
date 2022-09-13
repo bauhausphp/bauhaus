@@ -6,15 +6,13 @@
     "scripts": {
         "test:all": [
             "@test:syntax",
-            "@test:dependency",
-            "@test:unit",
-            "@test:mutation"
+            "@test:unit"
         ],
 
-        "test:syntax": "phpcs -ps --standard=config/phpcs.xml",
-        "test:dependency": "deptrac --config-file=config/depfile.yaml --cache-file=cache/deptrac.cache",
-        "test:unit": "phpunit -c config/phpunit.xml",
-        "test:mutation": "infection run -s -j4 -c config/infection.json"
+        "test:syntax": "phpcs -ps",
+        "test:dependency": "deptrac --no-cache",
+        "test:unit": "phpunit",
+        "test:mutation": "infection run -s -j4"
     },
 
     "autoload": {
@@ -26,7 +24,7 @@
     },
 
     "repositories": [
-        { "type":"path", "url": "./packages/*/" }
+        { "type":"path", "url": "src/*/" }
     ],
 
     "config": {

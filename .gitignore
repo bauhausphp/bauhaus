@@ -1,4 +1,2 @@
-cache/
-reports/
 vendor/
-temp/
+packages/reports/

@@ -1,37 +1,50 @@
-fix-cs:
-	@make -s composer cmd='run phpcbf'
+version ?= local
+php ?= 8.1.9
+revision = dev-${version}-php${php}
+
+include stack.config.env
+export
+export PHP := ${php}
+export REVISION := ${revision}
+
+build:
+	@make -s stack cmd=build
 
 test: level ?= all
 test:
-	@make -s composer cmd='run test:${level}'
-
-composer:
-	@make -s run cmd='composer ${cmd}'
+	@make -s stack-run cmd='composer test:${level}'
 
 sh:
-	@make -s run cmd=sh
+	@make -s stack-run cmd='sh'
+
+#
+# Local
+local-setup:
+	@make -s build
+	@make -s local-copy-vendor
+
+local-copy-vendor:
+	@make -s stack cmd='up -d'
+	@make -s stack cmd='cp packages:${DIR_COMPOSER_VENDOR} ./vendor'
+	@make -s stack cmd='down'
 
 #
 # Docker
-revision ?= local
-php ?= 8.1.9
+stackFiles = stack.yaml $(if ${CI},,stack.local.yaml)
 
-registry = ghcr.io
-image = ${registry}/bauhausphp/bauhaus:${tag}
-tag = dev-${revision}-php${php}
-workdir = /usr/local/bauhaus
+stack-files:
+	@echo ${stackFiles}
 
-build: args  = --build-arg PHP=${php}
-build: args += --build-arg WORKDIR=${workdir}
-build:
-	docker build ${args} -t ${image} .
-	$(if ${CI},docker push ${image})
+stack-dump:
+	@make -s stack cmd=config
 
-run: binds = composer.json composer.lock cache config packages reports tests
-run: volumes = $(addprefix -v ,$(join $(addprefix "$$PWD"/,${binds}),$(addprefix :${workdir}/,${binds})))
-run: options = --rm $(if ${CI},,-it ${volumes})
-run:
-	docker run ${options} ${image} ${cmd}
+stack-run: options = $(if ${CI},-T)
+stack-run:
+	@make -s stack cmd='run ${options} packages ${cmd}'
+
+stack: stack = $(addprefix -f,${stackFiles})
+stack:
+	@docker compose ${stack} ${cmd}
 
 #
 # Release
