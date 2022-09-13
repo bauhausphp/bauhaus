@@ -8,7 +8,7 @@ deptrac:
   exclude_files: ~
 
   ruleset:
-    ServiceResolver: [ Psr11 ]
+    ServiceResolver: [ PSR-11 ]
     TestServiceResolver: [ +ServiceResolver, PhpUnit ]
 
   layers:
@@ -22,7 +22,7 @@ deptrac:
       - { type: directory, value: ./tests/ServiceResolver/ }
       - { type: classLike, value: Bauhaus\\Tests\\ServiceResolver\\Doubles\\NotFoundService }
 
-    - name: Psr11
+    - name: PSR-11
       collectors:
       - { type: directory, value: ../vendor/psr/container/ }
 
@@ -37,6 +37,7 @@ deptrac:
         - ServiceResolver
         Tests:
         - TestServiceResolver
+        PSRs:
+        - PSR-11
         Vendor:
-        - Psr11
         - PhpUnit
