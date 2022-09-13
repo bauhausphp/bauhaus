@@ -52,9 +52,9 @@ class GetTest extends TestCase
             'concrete object #1'
                 => ['concrete-object', ServiceWithoutDependencyB::class],
             'concrete object #2'
-                => ['without-callback', \StdClass::class],
+                => ['without-callback', \DateTime::class],
             'concrete object #3'
-                => ['without-callback', \StdClass::class],
+                => ['without-callback', \DateTime::class],
             'alias to callable'
                 => ['alias-to-callable', ServiceWithoutDependencyA::class],
             'alias to concrete object'
@@ -106,7 +106,7 @@ class GetTest extends TestCase
             'non existing id'
                 => ['non-existing-id'],
             'out of any discoverable namespace #1'
-                => [\StdClass::class],
+                => [\DateTime::class],
             'out of any discoverable namespace #2'
                 => [\DateTime::class],
             'out of any discoverable namespace #3'
@@ -246,7 +246,7 @@ class GetTest extends TestCase
                 ServiceWithVariadicDependency::class, <<<MSG
                     Definition evaluation error
                         requested id -> Bauhaus\Tests\ServiceResolver\Doubles\DiscoverB\ServiceWithVariadicDependency
-                         > Cannot load variadic dependency: StdClass ...\$classes
+                         > Cannot load variadic dependency: DateTime ...\$classes
                     MSG,
             ],
             'sub-dependency on primitive' => [

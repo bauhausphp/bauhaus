@@ -84,7 +84,7 @@ class HaveTest extends TestCase
     {
         return [
             'non existing id' => ['non-existing-id'],
-            'out of any discoverable namespace #1' => [\StdClass::class],
+            'out of any discoverable namespace #1' => [\DateTime::class],
             'out of any discoverable namespace #2' => [\DateTime::class],
             'out of any discoverable namespace #3' => [Unresolvable::class],
             'interface among discoverable namespace' => [InterfaceInADiscoverableNamespace::class],
