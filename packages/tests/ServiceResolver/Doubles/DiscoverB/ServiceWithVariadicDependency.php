@@ -2,11 +2,11 @@
 
 namespace Bauhaus\Tests\ServiceResolver\Doubles\DiscoverB;
 
-use DateTime;
+use stdClass;
 
 class ServiceWithVariadicDependency
 {
-    public function __construct(DateTime ...$classes)
+    public function __construct(stdClass ...$classes)
     {
     }
 }
