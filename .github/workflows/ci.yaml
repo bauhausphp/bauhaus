@@ -15,7 +15,7 @@ jobs:
     - run: make build php=${{ matrix.php }} revision=${{ env.revision }}
     strategy:
       matrix:
-        php: [ 8.2.0RC1, 8.1.9 ]
+        php: [ 8.2.0RC2, 8.1.9 ]
 
   test:
     runs-on: ubuntu-latest
@@ -25,8 +25,8 @@ jobs:
     - run: make test php=${{ matrix.php }} revision=${{ env.revision }}
     strategy:
       matrix:
-        php: [ 8.2.0RC1, 8.1.9 ]
         level: [ syntax, dependency, unit ]
+        php: [ 8.2.0RC2, 8.1.9 ]
 
   publish:
     runs-on: ubuntu-latest
