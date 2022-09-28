@@ -45,3 +45,10 @@ jobs:
     strategy:
       matrix:
         package: [ service-resolver ]
+
+  pr-control:
+    runs-on: ubuntu-latest
+    needs: [ build, test, publish ]
+    steps:
+      - name: You shall pass!
+        run: echo You shall pass!
