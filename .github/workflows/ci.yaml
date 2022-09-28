@@ -48,7 +48,7 @@ jobs:
 
   pr-control:
     runs-on: ubuntu-latest
-    needs: [ build, test, publish ]
+    needs: [ build, test ]
     steps:
       - name: You shall pass!
         run: echo You shall pass!
