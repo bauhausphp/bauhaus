@@ -14,6 +14,9 @@ test: level ?= all
 test:
 	@make -s stack-run cmd='composer test:${level}'
 
+update:
+	@make -s stack-run cmd='composer update'
+
 sh:
 	@make -s stack-run cmd='sh'
 
