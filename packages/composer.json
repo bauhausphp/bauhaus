@@ -18,6 +18,7 @@
     },
 
     "require": {
+        "bauhaus/http-message": "dev-main",
         "bauhaus/service-resolver": "dev-main"
     },
 
