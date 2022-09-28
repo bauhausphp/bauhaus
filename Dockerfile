@@ -1,11 +1,13 @@
 ARG PHP
 
-FROM php:${PHP}-alpine3.16
+FROM php:${PHP}-cli-alpine3.16
 
+ARG DIR_BIN
 ARG DIR_PACKAGES
 ARG DIR_COMPOSER_VENDOR
 
-ENV COMPOSER_VENDOR_DIR=$DIR_COMPOSER_VENDOR
+ENV COMPOSER_VENDOR_DIR $DIR_COMPOSER_VENDOR
+ENV PATH $PATH:$DIR_BIN
 
 RUN apk add --no-cache \
         $PHPIZE_DEPS \
@@ -27,8 +29,10 @@ RUN apk add --no-cache \
 
 WORKDIR $DIR_PACKAGES
 
+COPY ./bin/ $DIR_BIN
+RUN cd $DIR_BIN && yes | phive install
+
 COPY ./packages/ $DIR_PACKAGES
-RUN yes | phive install && \
-    composer install
+RUN cd $DIR_PACKAGES && composer install
 
 ENTRYPOINT []
