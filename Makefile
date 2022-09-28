@@ -21,12 +21,19 @@ sh:
 # Local
 local-setup:
 	@make -s build
-	@make -s local-copy-vendor
+	@make -s local-cp-files
 
-local-copy-vendor:
+local-cp-files: localBin = ./bin
+local-cp-files: localVendor = ./vendor
+local-cp-files:
+	@rm -rf ${localBin} ${localVendor}
 	@make -s stack cmd='up -d'
-	@make -s stack cmd='cp packages:${DIR_COMPOSER_VENDOR} ./vendor'
-	@make -s stack cmd='down'
+	@make -s cp from=${DIR_BIN} to=${localBin}
+	@make -s cp from=${DIR_COMPOSER_VENDOR} to=${localVendor}
+	@make -s stack cmd='down --remove-orphans'
+
+cp:
+	@make -s stack cmd='cp bauhaus:${from} ${to}'
 
 #
 # Docker
@@ -40,7 +47,7 @@ stack-dump:
 
 stack-run: options = $(if ${CI},-T)
 stack-run:
-	@make -s stack cmd='run ${options} packages ${cmd}'
+	@make -s stack cmd='run ${options} bauhaus ${cmd}'
 
 stack: stack = $(addprefix -f,${stackFiles})
 stack:

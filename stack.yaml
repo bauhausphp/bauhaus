@@ -1,10 +1,11 @@
 version: '3.9'
 
 services:
-  packages:
+  bauhaus:
     image: ${REGISTRY}/bauhausphp/packages:${REVISION}
     build:
       args:
         PHP: ${PHP}
+        DIR_BIN: ${DIR_BIN}
         DIR_PACKAGES: ${DIR_PACKAGES}
         DIR_COMPOSER_VENDOR: ${DIR_COMPOSER_VENDOR}
