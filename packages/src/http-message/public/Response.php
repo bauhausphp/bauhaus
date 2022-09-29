@@ -2,78 +2,90 @@
 
 namespace Bauhaus\Http;
 
+use Bauhaus\Http\Message\ResponseStatus\Status;
 use Psr\Http\Message\ResponseInterface as PsrResponse;
-use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\StreamInterface as PsrStream;
 
 final class Response implements PsrResponse
 {
-    public function getProtocolVersion()
-    {
-        // TODO: Implement getProtocolVersion() method.
+    private function __construct(
+        private Status $status,
+    ) {
     }
 
-    public function withProtocolVersion($version)
+    public static function new(int $statusCode): self
     {
-        // TODO: Implement withProtocolVersion() method.
+        return new self(new Status());
     }
 
-    public function getHeaders()
+    /** {@inheritdoc} */
+    public function getProtocolVersion(): string
     {
-        // TODO: Implement getHeaders() method.
     }
 
-    public function hasHeader($name)
+    /** {@inheritdoc} */
+    public function getStatusCode(): int
     {
-        // TODO: Implement hasHeader() method.
     }
 
-    public function getHeader($name)
+    /** {@inheritdoc} */
+    public function getReasonPhrase(): string
     {
-        // TODO: Implement getHeader() method.
     }
 
-    public function getHeaderLine($name)
+    /** {@inheritdoc} */
+    public function getHeaders(): array
     {
-        // TODO: Implement getHeaderLine() method.
     }
 
-    public function withHeader($name, $value)
+    /** {@inheritdoc} */
+    public function getHeader($name): array
     {
-        // TODO: Implement withHeader() method.
     }
 
-    public function withAddedHeader($name, $value)
+    /** {@inheritdoc} */
+    public function getBody(): PsrStream
     {
-        // TODO: Implement withAddedHeader() method.
     }
 
-    public function withoutHeader($name)
+    /** {@inheritdoc} */
+    public function hasHeader($name): bool
     {
-        // TODO: Implement withoutHeader() method.
     }
 
-    public function getBody()
+    /** {@inheritdoc} */
+    public function getHeaderLine($name): string
     {
-        // TODO: Implement getBody() method.
     }
 
-    public function withBody(StreamInterface $body)
+    /** {@inheritdoc} */
+    public function withProtocolVersion($version): PsrResponse
     {
-        // TODO: Implement withBody() method.
     }
 
-    public function getStatusCode()
+    /** {@inheritdoc} */
+    public function withStatus($code, $reasonPhrase = ''): PsrResponse
     {
-        // TODO: Implement getStatusCode() method.
+        return self::new($code);
     }
 
-    public function withStatus($code, $reasonPhrase = '')
+    /** {@inheritdoc} */
+    public function withHeader($name, $value): PsrResponse
     {
-        // TODO: Implement withStatus() method.
     }
 
-    public function getReasonPhrase()
+    /** {@inheritdoc} */
+    public function withAddedHeader($name, $value): PsrResponse
     {
-        // TODO: Implement getReasonPhrase() method.
+    }
+
+    /** {@inheritdoc} */
+    public function withoutHeader($name): PsrResponse
+    {
+    }
+
+    /** {@inheritdoc} */
+    public function withBody(PsrStream $body): PsrResponse
+    {
     }
 }
