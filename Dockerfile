@@ -7,7 +7,6 @@ ARG DIR_PACKAGES
 ARG DIR_COMPOSER_VENDOR
 
 ENV COMPOSER_VENDOR_DIR $DIR_COMPOSER_VENDOR
-ENV PATH $PATH:$DIR_BIN
 
 RUN apk add --no-cache \
         $PHPIZE_DEPS \
@@ -27,12 +26,17 @@ RUN apk add --no-cache \
     install-php-extensions \
         pcov
 
-WORKDIR $DIR_PACKAGES
-
 COPY ./bin/ $DIR_BIN
-RUN cd $DIR_BIN && yes | phive install
+RUN cd $DIR_BIN && \
+    yes | phive install && \
+    ln -s $DIR_BIN/composer.phar /usr/local/bin/composer && \
+    ln -s $DIR_BIN/deptrac.phar /usr/local/bin/deptrac && \
+    ln -s $DIR_BIN/infection.phar /usr/local/bin/infection && \
+    ln -s $DIR_BIN/phpcs.phar /usr/local/bin/phpcs && \
+    ln -s $DIR_BIN/phpunit.phar /usr/local/bin/phpunit
 
 COPY ./packages/ $DIR_PACKAGES
-RUN cd $DIR_PACKAGES && composer install
+RUN composer -d $DIR_PACKAGES install
 
+WORKDIR $DIR_PACKAGES
 ENTRYPOINT []
