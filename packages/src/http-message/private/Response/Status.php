@@ -11,7 +11,7 @@ final class Status
     {
         $this->code = new StatusCode($code);
         $this->reasonPhrase = '' === $reasonPhrase ?
-            StatusReasonPhrase::fromCode($this->code) :
+            StatusReasonPhrase::fromIanaRegistry($this->code) :
             StatusReasonPhrase::custom($reasonPhrase);
     }
 

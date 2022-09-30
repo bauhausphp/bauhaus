@@ -19,7 +19,7 @@ class ResponseStatusMutationTest extends ResponseTestCase
 
     /**
      * @test
-     * @dataProvider validStatusCodes
+     * @dataProvider statusCodesWithIanaReasonPhrases
      */
     public function useReasonPhraseFromIanaRegistryByDefault(int $code, string $reasonPhrase): void
     {
