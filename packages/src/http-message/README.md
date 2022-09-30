@@ -23,7 +23,7 @@ Yet another service resolver (aka service container) implementation following
 ## Installation
 
 ```sh
-$ composer require bauhaus/http-client-message
+$ composer require bauhaus/http-message
 ```
 
 ## Using it

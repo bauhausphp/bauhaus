@@ -2,20 +2,15 @@
 
 namespace Bauhaus\Http;
 
-use Bauhaus\Http\Message\ResponseStatus\Status;
+use Bauhaus\Http\Message\Response\Status;
 use Psr\Http\Message\ResponseInterface as PsrResponse;
 use Psr\Http\Message\StreamInterface as PsrStream;
 
 final class Response implements PsrResponse
 {
-    private function __construct(
+    public function __construct(
         private Status $status,
     ) {
-    }
-
-    public static function new(int $statusCode): self
-    {
-        return new self(new Status());
     }
 
     /** {@inheritdoc} */
@@ -26,11 +21,13 @@ final class Response implements PsrResponse
     /** {@inheritdoc} */
     public function getStatusCode(): int
     {
+        return $this->status->code();
     }
 
     /** {@inheritdoc} */
     public function getReasonPhrase(): string
     {
+        return $this->status->reasonPhrase();
     }
 
     /** {@inheritdoc} */
@@ -66,7 +63,7 @@ final class Response implements PsrResponse
     /** {@inheritdoc} */
     public function withStatus($code, $reasonPhrase = ''): PsrResponse
     {
-        return self::new($code);
+        return $this->clonedWith(status: new Status($code, $reasonPhrase));
     }
 
     /** {@inheritdoc} */
@@ -87,5 +84,13 @@ final class Response implements PsrResponse
     /** {@inheritdoc} */
     public function withBody(PsrStream $body): PsrResponse
     {
+    }
+
+    private function clonedWith(
+        Status $status,
+    ) {
+        return new self(
+            $status,
+        );
     }
 }
