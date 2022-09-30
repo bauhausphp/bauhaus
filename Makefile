@@ -11,8 +11,10 @@ build:
 	@make -s stack cmd=build
 
 test: level ?= all
+test: options += $(if ${filter},--filter=${filter})
+test: options += $(if ${testdox},--testdox)
 test:
-	@make -s stack-run cmd='composer test:${level}'
+	@make -s stack-run cmd='composer test:${level} -- ${options}'
 
 update:
 	@make -s stack-run cmd='composer update'
