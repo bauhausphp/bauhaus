@@ -2,6 +2,7 @@
 
 namespace Bauhaus\Http;
 
+use Bauhaus\Http\Message\Protocol;
 use Bauhaus\Http\Message\Response\Status;
 use Psr\Http\Message\ResponseInterface as PsrResponse;
 use Psr\Http\Message\StreamInterface as PsrStream;
@@ -9,13 +10,15 @@ use Psr\Http\Message\StreamInterface as PsrStream;
 final class Response implements PsrResponse
 {
     public function __construct(
-        private Status $status,
+        private readonly Protocol $protocol,
+        private readonly Status $status,
     ) {
     }
 
     /** {@inheritdoc} */
     public function getProtocolVersion(): string
     {
+        return $this->protocol->toString();
     }
 
     /** {@inheritdoc} */
@@ -58,6 +61,7 @@ final class Response implements PsrResponse
     /** {@inheritdoc} */
     public function withProtocolVersion($version): PsrResponse
     {
+        return $this->clonedWith(protocol: Protocol::fromString($version));
     }
 
     /** {@inheritdoc} */
@@ -87,10 +91,12 @@ final class Response implements PsrResponse
     }
 
     private function clonedWith(
-        Status $status,
-    ) {
+        Protocol $protocol = null,
+        Status $status = null,
+    ): self {
         return new self(
-            $status,
+            $protocol ?? $this->protocol,
+            $status ?? $this->status,
         );
     }
 }
