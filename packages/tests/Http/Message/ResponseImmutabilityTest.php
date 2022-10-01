@@ -10,7 +10,9 @@ class ResponseImmutabilityTest extends ResponseTestCase
         $initial = $this->response;
 
         $mutated = $initial
-            ->withStatus(404);
+            ->withProtocolVersion('1.0')
+            ->withStatus(404)
+            ->withHeader('h1', 'v1');
 
         $this->assertNotSame($initial, $mutated);
     }
@@ -22,7 +24,9 @@ class ResponseImmutabilityTest extends ResponseTestCase
         $clonedInitial = clone $initial;
 
         $initial
-            ->withStatus(404);
+            ->withProtocolVersion('1.0')
+            ->withStatus(404)
+            ->withHeader('h1', 'v1');
 
         $this->assertEquals($clonedInitial, $initial);
     }
