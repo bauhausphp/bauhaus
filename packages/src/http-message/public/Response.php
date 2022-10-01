@@ -17,10 +17,20 @@ final class Response implements PsrResponse
     ) {
     }
 
+    public function toString(): string
+    {
+        return <<<STR
+            {$this->protocol->toString()} {$this->status->toString()}
+            {$this->headers->toString()}
+
+            {}
+            STR;
+    }
+
     /** {@inheritdoc} */
     public function getProtocolVersion(): string
     {
-        return $this->protocol->toString();
+        return $this->protocol->versionToString();
     }
 
     /** {@inheritdoc} */

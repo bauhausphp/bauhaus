@@ -38,18 +38,21 @@ final class Headers
         return $arr;
     }
 
+    public function toString(): string
+    {
+        $lines = array_map(fn (HeaderLine $l): string => $l->toString(), $this->lines);
+
+        return implode("\n", $lines);
+    }
+
     public function overwrittenWith(string $name, string ...$values): self
     {
-        return $this
-            ->without($name)
-            ->with(new HeaderLine($name, ...$values));
+        return $this->with(new HeaderLine($name, ...$values));
     }
 
     public function appendedWith(string $name, string ...$values): self
     {
-        return $this
-            ->without($name)
-            ->with($this->find($name)->appendedWith(...$values));
+        return $this->with($this->find($name)->appendedWith(...$values));
     }
 
     public function without(string $name): self
@@ -59,7 +62,9 @@ final class Headers
 
     private function with(HeaderLine $line): self
     {
-        return new self($line, ...$this->lines);
+        $newLines = [...$this->without($line->name())->lines, $line];
+
+        return new self(...$newLines);
     }
 
     private function filter(callable $filter): array

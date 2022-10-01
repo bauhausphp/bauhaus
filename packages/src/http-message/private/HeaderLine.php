@@ -38,6 +38,11 @@ final class HeaderLine
         return implode(', ', $this->values);
     }
 
+    public function toString(): string
+    {
+        return "{$this->name()}: {$this->valuesToString()}";
+    }
+
     public function appendedWith(string ...$thatValues): self
     {
         return new self($this->name, ...$this->values, ...$thatValues);

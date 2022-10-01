@@ -24,4 +24,9 @@ final class Status
     {
         return $this->reasonPhrase->toString();
     }
+
+    public function toString(): string
+    {
+        return "{$this->code()} {$this->reasonPhrase()}";
+    }
 }

@@ -12,8 +12,13 @@ enum Protocol: string
         return self::tryFrom($version) ?? throw new UnsupportedProtocol();
     }
 
-    public function toString(): string
+    public function versionToString(): string
     {
         return $this->value;
+    }
+
+    public function toString(): string
+    {
+        return "HTTP/{$this->versionToString()}";
     }
 }
