@@ -2,7 +2,7 @@
 
 namespace Bauhaus\Tests\Http\Message\Response;
 
-class ResponseToStringTest extends ResponseTestCase
+class StringCastTest extends TestCase
 {
     /** @test */
     public function haveEmptyHeadersByDefault(): void
