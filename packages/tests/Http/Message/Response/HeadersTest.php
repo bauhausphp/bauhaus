@@ -2,6 +2,7 @@
 
 namespace Bauhaus\Tests\Http\Message\Response;
 
+// TODO validate name and values
 class HeadersTest extends TestCase
 {
     private const CASE_INSENSITIVITY_SAMPLES = [
