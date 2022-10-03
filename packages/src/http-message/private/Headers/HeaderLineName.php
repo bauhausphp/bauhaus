@@ -20,7 +20,7 @@ final class HeaderLineName
         return $this->value;
     }
 
-    public function toLowerCaseString(): string
+    public function toNormalizedString(): string
     {
         return strtolower($this->value);
     }

@@ -9,7 +9,7 @@ final class Headers
     private function __construct(HeaderLine ...$lines)
     {
         foreach ($lines as $line) {
-            $this->lines[$line->lowerCaseName()] = $line;
+            $this->lines[$line->normalizedName()] = $line;
         }
 
         ksort($this->lines);
@@ -47,7 +47,7 @@ final class Headers
     {
         $line = HeaderLine::fromInput($name);
 
-        return $this->lines[$line->lowerCaseName()] ?? $line;
+        return $this->lines[$line->normalizedName()] ?? $line;
     }
 
     public function overwrittenWith(string $name, string ...$values): self

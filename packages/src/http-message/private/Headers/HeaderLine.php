@@ -25,9 +25,9 @@ final class HeaderLine
         return $this->name->toString();
     }
 
-    public function lowerCaseName(): string
+    public function normalizedName(): string
     {
-        return $this->name->toLowerCaseString();
+        return $this->name->toNormalizedString();
     }
 
     public function values(): array
