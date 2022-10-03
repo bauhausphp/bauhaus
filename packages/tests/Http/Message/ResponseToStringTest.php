@@ -15,7 +15,8 @@ class ResponseToStringTest extends ResponseTestCase
 
         $string = $response->toString();
 
-        $this->assertEquals(<<<STR
+        $this->assertEquals(
+            <<<STR
             HTTP/1.0 404 Not Found
             Content-Type: application/json
             X-Custom: Einstein, Newton
