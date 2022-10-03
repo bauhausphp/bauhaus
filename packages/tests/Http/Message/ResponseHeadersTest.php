@@ -10,7 +10,7 @@ class ResponseHeadersTest extends ResponseTestCase
         $this->assertEmpty($this->response->getHeaders());
     }
 
-    public function asd(): array
+    public function caseSensitiveSamples(): array
     {
         return [
             'Both added and checked in lower-case' => ['h1', 'h1'],
@@ -22,7 +22,7 @@ class ResponseHeadersTest extends ResponseTestCase
 
     /**
      * @test
-     * @dataProvider asd
+     * @dataProvider caseSensitiveSamples
      */
     public function haveHeaderAfterItWasAddedInAnInsensitiveManner(string $toAdd, string $toCheck): void
     {
@@ -47,21 +47,26 @@ class ResponseHeadersTest extends ResponseTestCase
         $this->assertEmpty($this->response->getHeader('h1'));
     }
 
-    /** @test */
-    public function returnLineValuesAsArrayWhenItHasOnlyOneValue(): void
+    /**
+     * @test
+     * @dataProvider caseSensitiveSamples
+     */
+    public function returnLineValuesAsArrayWhenItHasOnlyOneValue(string $toAdd, string $toCheck): void
     {
-        $response = $this->response->withHeader('h1', 'v1');
+        $response = $this->response->withHeader($toAdd, 'v1');
 
-        $this->assertEquals(['v1'], $response->getHeader('h1'));
+        $this->assertEquals(['v1'], $response->getHeader($toCheck));
     }
 
-    /** @test */
-    public function returnLineValuesAsArrayWhenItHasMoreThanOneValue(): void
+    /**
+     * @test
+     * @dataProvider caseSensitiveSamples
+     */
+    public function returnLineValuesAsArrayWhenItHasMoreThanOneValue(string $toAdd, string $toCheck): void
     {
-        $response = $this->response
-            ->withHeader('h1', ['v1', 'v2']);
+        $response = $this->response->withHeader($toAdd, ['v1', 'v2']);
 
-        $this->assertEquals(['v1', 'v2'], $response->getHeader('h1'));
+        $this->assertEquals(['v1', 'v2'], $response->getHeader($toCheck));
     }
 
     /** @test */
@@ -70,21 +75,26 @@ class ResponseHeadersTest extends ResponseTestCase
         $this->assertEmpty($this->response->getHeaderLine('h1'));
     }
 
-    /** @test */
-    public function returnLineAsStringWhenItHasOnlyOneValue(): void
+    /**
+     * @test
+     * @dataProvider caseSensitiveSamples
+     */
+    public function returnLineAsStringWhenItHasOnlyOneValue(string $toAdd, string $toCheck): void
     {
-        $response = $this->response->withHeader('h1', 'v1');
+        $response = $this->response->withHeader($toAdd, 'v1');
 
-        $this->assertEquals('v1', $response->getHeaderLine('h1'));
+        $this->assertEquals('v1', $response->getHeaderLine($toCheck));
     }
 
-    /** @test */
-    public function returnLineValuesAsCommaSeparatedStringWhenItHasMoreThanOneValue(): void
+    /**
+     * @test
+     * @dataProvider caseSensitiveSamples
+     */
+    public function returnLineAsCommaSeparatedStringWhenItHasMoreThanOneValue(string $toAdd, string $toCheck): void
     {
-        $response = $this->response
-            ->withHeader('h1', ['v1', 'v2']);
+        $response = $this->response->withHeader($toAdd, ['v1', 'v2']);
 
-        $this->assertEquals('v1, v2', $response->getHeaderLine('h1'));
+        $this->assertEquals('v1, v2', $response->getHeaderLine($toCheck));
     }
 
     /** @test */
