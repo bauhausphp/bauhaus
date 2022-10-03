@@ -1,21 +1,18 @@
 <?php
 
-namespace Bauhaus\Http\Message;
+namespace Bauhaus\Http\Message\Headers;
 
 final class HeaderLine
 {
-    private readonly string $name;
-    private readonly array $values;
-
-    public function __construct(string $name, string ...$values)
-    {
-        $this->name = $name;
-        $this->values = $values;
+    private function __construct(
+        private readonly HeaderLineName $name,
+        private readonly array $values,
+    ) {
     }
 
-    public function hasNameEqualTo(string $thatName): bool
+    public static function fromInput(string $name, string ...$values): self
     {
-        return $this->name === $thatName;
+        return new self(HeaderLineName::fromInput($name), $values);
     }
 
     public function hasValues(): bool
@@ -25,7 +22,12 @@ final class HeaderLine
 
     public function name(): string
     {
-        return $this->name;
+        return $this->name->toString();
+    }
+
+    public function lowerCaseName(): string
+    {
+        return $this->name->toLowerCaseString();
     }
 
     public function values(): array
@@ -45,6 +47,6 @@ final class HeaderLine
 
     public function appendedWith(string ...$thatValues): self
     {
-        return new self($this->name, ...$this->values, ...$thatValues);
+        return new self($this->name, [...$this->values, ...$thatValues]);
     }
 }

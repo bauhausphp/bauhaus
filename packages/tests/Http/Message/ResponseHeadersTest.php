@@ -10,12 +10,25 @@ class ResponseHeadersTest extends ResponseTestCase
         $this->assertEmpty($this->response->getHeaders());
     }
 
-    /** @test */
-    public function haveHeaderAfterItWasAdded(): void
+    public function asd(): array
     {
-        $response = $this->response->withHeader('h1', 'v1');
+        return [
+            'Both added and checked in lower-case' => ['h1', 'h1'],
+            'Both added and checked in upper-case' => ['H1', 'H1'],
+            'Added in upper-case and checked in lower-case' => ['H1', 'h1'],
+            'Added in lower-case and checked in upper-case' => ['h1', 'H1'],
+        ];
+    }
 
-        $this->assertTrue($response->hasHeader('h1'));
+    /**
+     * @test
+     * @dataProvider asd
+     */
+    public function haveHeaderAfterItWasAddedInAnInsensitiveManner(string $toAdd, string $toCheck): void
+    {
+        $response = $this->response->withHeader($toAdd, 'v1');
+
+        $this->assertTrue($response->hasHeader($toCheck));
     }
 
     /** @test */
