@@ -1,6 +1,6 @@
 <?php
 
-namespace Bauhaus\Http\Message;
+namespace Bauhaus\Http;
 
 use InvalidArgumentException;
 

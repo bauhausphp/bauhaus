@@ -2,6 +2,8 @@
 
 namespace Bauhaus\Http\Message;
 
+use Bauhaus\Http\UnsupportedProtocol;
+
 enum Protocol: string
 {
     case V_1_0 = '1.0';

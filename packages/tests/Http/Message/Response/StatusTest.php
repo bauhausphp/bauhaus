@@ -2,7 +2,7 @@
 
 namespace Bauhaus\Tests\Http\Message\Response;
 
-use Bauhaus\Http\Message\Response\InvalidStatusCode;
+use Bauhaus\Http\InvalidStatusCode;
 
 class StatusTest extends TestCase
 {
