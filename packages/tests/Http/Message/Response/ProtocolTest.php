@@ -1,6 +1,6 @@
 <?php
 
-namespace Bauhaus\Tests\Http\Message;
+namespace Bauhaus\Tests\Http\Message\Response;
 
 use Bauhaus\Http\Message\UnsupportedProtocol;
 
