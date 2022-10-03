@@ -4,12 +4,12 @@ namespace Bauhaus\Tests\Http\Message\Response;
 
 use Bauhaus\Http\Message\UnsupportedProtocol;
 
-class ResponseProtocolMutationTest extends ResponseTestCase
+class ProtocolTest extends TestCase
 {
-    /**
-     * @test
-     * @dataProvider supportedVersions
-     */
+    private const SUPPORTED_VERSIONS = ['1.0', '1.1'];
+    private const UNSUPPORTED_VERSIONS = ['banana', '0.9'];
+
+    /** @test @dataProvider supportedVersions */
     public function newInstanceContainsNewVersion(string $version): void
     {
         $response = $this->response->withProtocolVersion($version);
@@ -17,18 +17,7 @@ class ResponseProtocolMutationTest extends ResponseTestCase
         $this->assertEquals($version, $response->getProtocolVersion());
     }
 
-    public function supportedVersions(): array
-    {
-        return [
-            '1.0' => ['1.0'],
-            '1.1' => ['1.1'],
-        ];
-    }
-
-    /**
-     * @test
-     * @dataProvider unsupportedVersions
-     */
+    /** @test @dataProvider unsupportedVersions */
     public function throwExceptionIfProvidedProtocolIsUnsupported(string $version): void
     {
         $this->expectException(UnsupportedProtocol::class);
@@ -36,11 +25,17 @@ class ResponseProtocolMutationTest extends ResponseTestCase
         $this->response->withProtocolVersion($version);
     }
 
-    public function unsupportedVersions(): array
+    public function supportedVersions(): \Generator
     {
-        return [
-            'banana' => ['banana'],
-            '0.9' => ['0.9'],
-        ];
+        foreach (self::SUPPORTED_VERSIONS as $v) {
+            yield $v => [$v];
+        }
+    }
+
+    public function unsupportedVersions(): \Generator
+    {
+        foreach (self::UNSUPPORTED_VERSIONS as $v) {
+            yield $v => [$v];
+        }
     }
 }
