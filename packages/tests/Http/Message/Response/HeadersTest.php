@@ -1,136 +1,174 @@
 <?php
 
-namespace Bauhaus\Tests\Http\Message;
+namespace Bauhaus\Tests\Http\Message\Response;
 
-class ResponseHeadersTest extends ResponseTestCase
+class HeadersTest extends TestCase
 {
-    /** @test */
-    public function haveEmptyHeadersByDefault(): void
-    {
-        $this->assertEmpty($this->response->getHeaders());
-    }
+    private const CASE_INSENSITIVITY_SAMPLES = [
+        ['sample', 'Sample'],
+        ['sample', 'SAMPLE'],
+        ['super-sample', 'Super-Sample'],
+        ['super-sample', 'SUPER-SAMPLE'],
+        ['another-super-sample', 'AnoTHER-supEr-SampLE'],
+    ];
 
-    public function caseSensitiveSamples(): array
-    {
-        return [
-            'Both added and checked in lower-case' => ['h1', 'h1'],
-            'Both added and checked in upper-case' => ['H1', 'H1'],
-            'Added in upper-case and checked in lower-case' => ['H1', 'h1'],
-            'Added in lower-case and checked in upper-case' => ['h1', 'H1'],
-        ];
-    }
-
-    /**
-     * @test
-     * @dataProvider caseSensitiveSamples
-     */
-    public function haveHeaderAfterItWasAddedInAnInsensitiveManner(string $toAdd, string $toCheck): void
-    {
-        $response = $this->response->withHeader($toAdd, 'v1');
-
-        $this->assertTrue($response->hasHeader($toCheck));
-    }
-
-    /** @test */
-    public function doNotHaveHeaderAfterItsRemoval(): void
+    /** @test @dataProvider caseInsensitiveSamples */
+    public function haveHeaderAfterAddingValues(string $case1, string $case2): void
     {
         $response = $this->response
-            ->withHeader('h1', 'v1')
-            ->withoutHeader('h1');
+            ->withHeader($case1, ['v1', 'v2']);
 
-        $this->assertFalse($response->hasHeader('h1'));
+        $this->assertTrue($response->hasHeader($case2));
     }
 
-    /** @test */
-    public function returnEmptyArrayWhenItWasNeverAdded(): void
-    {
-        $this->assertEmpty($this->response->getHeader('h1'));
-    }
-
-    /**
-     * @test
-     * @dataProvider caseSensitiveSamples
-     */
-    public function returnLineValuesAsArrayWhenItHasOnlyOneValue(string $toAdd, string $toCheck): void
-    {
-        $response = $this->response->withHeader($toAdd, 'v1');
-
-        $this->assertEquals(['v1'], $response->getHeader($toCheck));
-    }
-
-    /**
-     * @test
-     * @dataProvider caseSensitiveSamples
-     */
-    public function returnLineValuesAsArrayWhenItHasMoreThanOneValue(string $toAdd, string $toCheck): void
-    {
-        $response = $this->response->withHeader($toAdd, ['v1', 'v2']);
-
-        $this->assertEquals(['v1', 'v2'], $response->getHeader($toCheck));
-    }
-
-    /** @test */
-    public function returnEmptyStringWhenItWasNeverAdded(): void
-    {
-        $this->assertEmpty($this->response->getHeaderLine('h1'));
-    }
-
-    /**
-     * @test
-     * @dataProvider caseSensitiveSamples
-     */
-    public function returnLineAsStringWhenItHasOnlyOneValue(string $toAdd, string $toCheck): void
-    {
-        $response = $this->response->withHeader($toAdd, 'v1');
-
-        $this->assertEquals('v1', $response->getHeaderLine($toCheck));
-    }
-
-    /**
-     * @test
-     * @dataProvider caseSensitiveSamples
-     */
-    public function returnLineAsCommaSeparatedStringWhenItHasMoreThanOneValue(string $toAdd, string $toCheck): void
-    {
-        $response = $this->response->withHeader($toAdd, ['v1', 'v2']);
-
-        $this->assertEquals('v1, v2', $response->getHeaderLine($toCheck));
-    }
-
-    /** @test */
-    public function overwritePreviousValuesIfItAlreadyExists(): void
+    /** @test @dataProvider caseInsensitiveSamples */
+    public function haveHeaderAfterAddingAndAppendingValues(string $case1, string $case2): void
     {
         $response = $this->response
-            ->withHeader('h1', 'v1')
-            ->withHeader('h1', 'v2');
+            ->withHeader($case1, 'v1')
+            ->withAddedHeader($case1, 'v2');
 
-        $this->assertEquals(['v2'], $response->getHeader('h1'));
+        $this->assertTrue($response->hasHeader($case2));
     }
 
-    /** @test */
-    public function allowAppendNewValuesIfItAlreadyExists(): void
+    /** @test @dataProvider caseInsensitiveSamples */
+    public function doNotHaveHeaderAfterRemovingIt(string $case1, string $case2): void
     {
         $response = $this->response
-            ->withHeader('h1', 'v1')
-            ->withAddedHeader('h1', 'v2');
+            ->withHeader($case1, 'v1')
+            ->withAddedHeader($case1, 'v2')
+            ->withoutHeader($case2);
 
-        $this->assertEquals(['v1', 'v2'], $response->getHeader('h1'));
+        $this->assertFalse($response->hasHeader($case1));
     }
 
-    /** @test */
-    public function returnEverythingAsArray(): void
+    /** @test @dataProvider caseInsensitiveSamples */
+    public function haveValuesAsArrayEvenAfterAddingOnlyOne(string $case1, string $case2): void
     {
-        $response = $this->response
-            ->withHeader('h1', 'v1')
-            ->withHeader('h2', 'v2')
-            ->withHeader('h1', ['v3', 'v4'])
-            ->withAddedHeader('h1', 'v5')
-            ->withHeader('h3', ['v6', 'v7'])
-            ->withoutHeader('h3');
+        $values = $this->response
+            ->withHeader($case1, 'v1')
+            ->getHeader($case2);
+
+        $this->assertEquals(['v1'], $values);
+    }
+
+    /** @test @dataProvider caseInsensitiveSamples */
+    public function haveValuesAsArrayAfterAddingMoreThanOne(string $case1, string $case2): void
+    {
+        $values = $this->response
+            ->withHeader($case1, ['v1', 'v2'])
+            ->getHeader($case2);
+
+        $this->assertEquals(['v1', 'v2'], $values);
+    }
+
+    /** @test @dataProvider caseInsensitiveSamples */
+    public function haveValuesAsArrayAfterAddingAndAppendingThem(string $case1, string $case2): void
+    {
+        $values = $this->response
+            ->withHeader($case1, 'v1')
+            ->withAddedHeader($case1, 'v2')
+            ->getHeader($case2);
+
+        $this->assertEquals(['v1', 'v2'], $values);
+    }
+
+    /** @test @dataProvider caseInsensitiveSamples */
+    public function doNotHaveValueAsArrayAfterRemovingIt(string $case1, string $case2): void
+    {
+        $values = $this->response
+            ->withHeader($case1, 'v1')
+            ->withAddedHeader($case1, 'v2')
+            ->withoutHeader($case2)
+            ->getHeader($case1);
+
+        $this->assertEmpty($values);
+    }
+
+    /** @test @dataProvider caseInsensitiveSamples */
+    public function returnLineAsStringAfterAddingOneValue(string $case1, string $case2): void
+    {
+        $line = $this->response
+            ->withHeader($case1, 'v1')
+            ->getHeaderLine($case2);
+
+        $this->assertEquals('v1', $line);
+    }
+
+    /** @test @dataProvider caseInsensitiveSamples */
+    public function returnLineStringAfterAddingMultipleValues(string $case1, string $case2): void
+    {
+        $line = $this->response
+            ->withHeader($case1, ['v1', 'v2'])
+            ->getHeaderLine($case2);
+
+        $this->assertEquals('v1, v2', $line);
+    }
+
+    /** @test @dataProvider caseInsensitiveSamples */
+    public function returnLineAsStringAfterAddingAndAppendingMultipleValues(string $case1, string $case2): void
+    {
+        $line = $this->response
+            ->withHeader($case1, ['v1', 'v2'])
+            ->withAddedHeader($case1, ['v1', 'v2'])
+            ->getHeaderLine($case2);
+
+        $this->assertEquals('v1, v2, v1, v2', $line);
+    }
+
+    /** @test @dataProvider caseInsensitiveSamples */
+    public function haveEmptyLineAsStringAfterRemovingIt(string $case1, string $case2): void
+    {
+        $line = $this->response
+            ->withHeader($case1, ['v1', 'v2'])
+            ->withAddedHeader($case1, ['v1', 'v2'])
+            ->withoutHeader($case2)
+            ->getHeaderLine($case1);
+
+        $this->assertEmpty($line);
+    }
+
+    /** @test @dataProvider caseInsensitiveSamples */
+    public function overwritePreviousValuesIfItAlreadyExists(string $case1, string $case2): void
+    {
+        $values = $this->response
+            ->withHeader($case1, 'v1')
+            ->withHeader($case2, 'v2')
+            ->getHeader($case1);
+
+        $this->assertEquals(['v2'], $values);
+    }
+
+    /** @test @dataProvider caseInsensitiveSamples */
+    public function preserveOriginalCaseUsedToAddOrAppendValues(string $case1, string $case2): void
+    {
+        $headerXCase1 = "X-$case1";
+        $headerXCase2 = "X-$case2";
+        $headerYCase1 = "Y-$case1";
+        $headerYCase2 = "Y-$case2";
+
+        $allHeaders = $this->response
+            ->withHeader($headerXCase1, 'v1')
+            ->withHeader($headerYCase1, 'v2')
+            ->withHeader($headerXCase1, ['v3', 'v4'])
+            ->withAddedHeader($headerXCase2, 'v5')
+            ->withoutHeader($headerYCase2)
+            ->withAddedHeader($headerYCase2, ['v6', 'v7'])
+            ->getHeaders();
 
         $this->assertEquals(
-            ['h1' => ['v3', 'v4', 'v5'], 'h2' => ['v2']],
-            $response->getHeaders(),
+            [$headerXCase1 => ['v3', 'v4', 'v5'], $headerYCase2 => ['v6', 'v7']],
+            $allHeaders,
         );
+    }
+
+    public function caseInsensitiveSamples(): \Generator
+    {
+        foreach (self::CASE_INSENSITIVITY_SAMPLES as $s) {
+            $r = array_reverse($s);
+
+            yield "{$s[0]}={$s[1]}" => $s;
+            yield "{$r[0]}={$r[1]}" => $r;
+        }
     }
 }
