@@ -8,13 +8,13 @@ deptrac:
   exclude_files: ~
 
   ruleset:
-    HttpClientMessage: [ PSR-7-basic, PSR-17-basic ]
+    HttpMessage: [ PSR-7-17-basic ]
     ServiceResolver: [ PSR-11 ]
-    TestHttpClientMessage: [ +HttpClientMessage, PhpUnit ]
+    TestHttpMessage: [ +HttpMessage, PhpUnit ]
     TestServiceResolver: [ +ServiceResolver, PhpUnit ]
 
   layers:
-    - name: HttpClientMessage
+    - name: HttpMessage
       collectors:
       - { type: directory, value: ./src/http-message/public/ }
       - { type: directory, value: ./src/http-message/private/, private: true }
@@ -24,38 +24,30 @@ deptrac:
       - { type: directory, value: ./src/service-resolver/public/ }
       - { type: directory, value: ./src/service-resolver/private/, private: true }
 
+    - name: TestHttpMessage
+      collectors:
+      - { type: directory, value: ./tests/Http/Message/ }
+
     - name: TestServiceResolver
       collectors:
       - { type: directory, value: ./tests/ServiceResolver/ }
       - { type: classLike, value: Bauhaus\\Tests\\ServiceResolver\\Doubles\\NotFoundService }
 
-    - name: PSR-7-basic
+    - name: PSR-7-17-basic
       collectors:
+      - { type: classLike, value: Psr\\Http\\Message\\MessageInterface }
       - { type: classLike, value: Psr\\Http\\Message\\RequestInterface }
       - { type: classLike, value: Psr\\Http\\Message\\ResponseInterface }
       - { type: classLike, value: Psr\\Http\\Message\\StreamInterface }
       - { type: classLike, value: Psr\\Http\\Message\\UriInterface }
-
-    - name: PSR-7-server
-      collectors:
-      - { type: classLike, value: Psr\\Http\\Message\\ServerRequestInterface }
-      - { type: classLike, value: Psr\\Http\\Message\\UploadedFileInterface }
-
-    - name: PSR-11
-      collectors:
-      - { type: directory, value: ../vendor/psr/container/ }
-
-    - name: PSR-17-basic
-      collectors:
       - { type: classLike, value: Psr\\Http\\Message\\RequestFactoryInterface }
       - { type: classLike, value: Psr\\Http\\Message\\ResponseFactoryInterface }
       - { type: classLike, value: Psr\\Http\\Message\\StreamFactoryInterface }
       - { type: classLike, value: Psr\\Http\\Message\\UriFactoryInterface }
 
-    - name: PSR-17-server
+    - name: PSR-11
       collectors:
-      - { type: classLike, value: Psr\\Http\\Message\\ServerRequestFactoryInterface }
-      - { type: classLike, value: Psr\\Http\\Message\\UploadedFileFactoryInterface }
+      - { type: directory, value: ../vendor/psr/container/ }
 
     - name: PhpUnit
       collectors:
@@ -65,14 +57,13 @@ deptrac:
     graphviz:
       groups:
         Packages:
+        - HttpMessage
         - ServiceResolver
         Tests:
+        - TestHttpMessage
         - TestServiceResolver
         PSRs:
-        - PSR-7-basic
-        - PSR-7-server
+        - PSR-7-17-basic
         - PSR-11
-        - PSR-17-basic
-        - PSR-17-server
         Vendor:
         - PhpUnit
