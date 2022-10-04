@@ -1,4 +1,5 @@
 {
+    "bootstrap": "./autoload.php",
     "source": {
         "directories": [ "./src" ]
     },

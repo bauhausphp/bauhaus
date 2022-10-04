@@ -24,6 +24,7 @@ RUN apk add --no-cache \
         /usr/local/bin/install-php-extensions \
         /usr/local/bin/phive && \
     install-php-extensions \
+        intl \
         pcov
 
 COPY ./bin/ $DIR_BIN
