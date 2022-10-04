@@ -7,6 +7,7 @@ use Bauhaus\Http\InvalidStatusCode;
 class StatusTest extends TestCase
 {
     private const INVALID_STATUS_CODES = [-100, -1, 0, 1, 99, 600, 601, 666];
+    private const VALID_STATUS_CODES = [100, 101, 200, 201, 299, 300, 500, 501, 599];
     private const IANA_STATUS_CODES = [
             100 => 'Continue',
             101 => 'Switching Protocols',
@@ -103,7 +104,9 @@ class StatusTest extends TestCase
 
     public function validStatusCodes(): \Generator
     {
-        return $this->statusCodesWithIanaReasonPhrases();
+        foreach (self::VALID_STATUS_CODES as $code) {
+            yield "code $code" => [$code];
+        }
     }
 
     public function statusCodesWithIanaReasonPhrases(): \Generator
