@@ -2,6 +2,7 @@
 
 namespace Bauhaus\Http;
 
+use Bauhaus\Http\Message\Body;
 use Bauhaus\Http\Message\Headers;
 use Bauhaus\Http\Message\Protocol;
 use Bauhaus\Http\Message\Response\Status;
@@ -14,6 +15,7 @@ final class Response implements PsrResponse
         private readonly Protocol $protocol,
         private readonly Status $status,
         private readonly Headers $headers,
+        private readonly Body $body,
     ) {
     }
 
@@ -23,7 +25,7 @@ final class Response implements PsrResponse
             {$this->protocol->toString()} {$this->status->toString()}
             {$this->headers->toString()}
 
-            {}
+            {$this->body->toString()}
             STR;
     }
 
@@ -72,6 +74,7 @@ final class Response implements PsrResponse
     /** {@inheritdoc} */
     public function getBody(): PsrStream
     {
+        return $this->body;
     }
 
     /** {@inheritdoc} */
@@ -111,17 +114,20 @@ final class Response implements PsrResponse
     /** {@inheritdoc} */
     public function withBody(PsrStream $body): PsrResponse
     {
+        return $this->clonedWith(body: $body);
     }
 
     private function clonedWith(
         Protocol $protocol = null,
         Status $status = null,
         Headers $headers = null,
+        Body $body = null,
     ): self {
         return new self(
             $protocol ?? $this->protocol,
             $status ?? $this->status,
             $headers ?? $this->headers,
+            $body ?? $this->body,
         );
     }
 }

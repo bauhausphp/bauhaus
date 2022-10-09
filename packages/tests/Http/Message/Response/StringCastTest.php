@@ -2,6 +2,8 @@
 
 namespace Bauhaus\Tests\Http\Message\Response;
 
+use Bauhaus\Http\Message\Body;
+
 class StringCastTest extends TestCase
 {
     /** @test */
@@ -11,7 +13,8 @@ class StringCastTest extends TestCase
             ->withProtocolVersion('1.0')
             ->withStatus(404)
             ->withHeader('Content-Type', 'application/json')
-            ->withHeader('X-Custom', ['Einstein', 'Newton']);
+            ->withHeader('X-Custom', ['Einstein', 'Newton'])
+            ->withBody(Body::fromString('{"field":"value"}'));
 
         $string = $response->toString();
 
@@ -21,7 +24,7 @@ class StringCastTest extends TestCase
             Content-Type: application/json
             X-Custom: Einstein, Newton
 
-            {}
+            {"field":"value"}
             STR,
             $string
         );

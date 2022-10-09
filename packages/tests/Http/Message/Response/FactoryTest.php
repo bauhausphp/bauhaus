@@ -3,6 +3,7 @@
 namespace Bauhaus\Tests\Http\Message\Response;
 
 use Bauhaus\Http\InvalidStatusCode;
+use Bauhaus\Http\Message\Body;
 
 class FactoryTest extends TestCase
 {
@@ -24,6 +25,12 @@ class FactoryTest extends TestCase
     public function createResponseWithEmptyHeadersByDefault(): void
     {
         $this->assertEmpty($this->response->getHeaders());
+    }
+
+    /** @test */
+    public function createResponseWithEmptyBodyByDefault(): void
+    {
+        $this->assertEquals(Body::empty(), $this->response->getBody());
     }
 
     /** @test @dataProvider validStatusCodes */
