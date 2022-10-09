@@ -1,6 +1,6 @@
 <?php
 
-namespace Bauhaus\Http\Message\Headers;
+namespace Bauhaus\Http\Message;
 
 final class Headers
 {
