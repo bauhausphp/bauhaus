@@ -4,7 +4,7 @@
     "description": "Bauhaus packages tests",
 
     "scripts": {
-        "test:all": [ "@test:cs", "@test:unit" ],
+        "test:all": [ "@test:cs", "@test:unit", "@test:mutation" ],
         "test:cs": [ "@test:cs:syntax", "@test:cs:dependency" ],
 
         "test:cs:syntax": "phpcs -ps",
