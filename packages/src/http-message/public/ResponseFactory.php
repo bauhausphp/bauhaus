@@ -10,12 +10,21 @@ use Psr\Http\Message\ResponseInterface as PsrResponse;
 
 final class ResponseFactory implements PsrResponseFactory
 {
+    private function __construct(
+        private Protocol $protocol,
+        private Headers $headers,
+    ) {
+    }
+
+    public static function withDefaults(): self
+    {
+        return new self(Protocol::V_1_1, Headers::empty());
+    }
+
     public function createResponse(int $code = 200, string $reasonPhrase = ''): PsrResponse
     {
-        return new Response(
-            Protocol::V_1_1,
-            new Status($code, $reasonPhrase),
-            Headers::empty(),
-        );
+        $status = Status::fromInput($code, $reasonPhrase);
+
+        return new Response($this->protocol, $status, $this->headers);
     }
 }

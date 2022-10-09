@@ -4,15 +4,21 @@ namespace Bauhaus\Http\Message\Response;
 
 final class Status
 {
-    private readonly StatusCode $code;
-    private readonly StatusReasonPhrase $reasonPhrase;
+    private function __construct(
+        private readonly StatusCode $code,
+        private readonly StatusReasonPhrase $reasonPhrase,
+    ) {
+    }
 
-    public function __construct(int $code, string $reasonPhrase)
+    public static function fromInput(int $code, string $reasonPhrase): self
     {
-        $this->code = new StatusCode($code);
-        $this->reasonPhrase = '' === $reasonPhrase ?
-            StatusReasonPhrase::fromIanaRegistry($this->code) :
-            StatusReasonPhrase::custom($reasonPhrase);
+        $code = new StatusCode($code);
+        $reasonPhrase = match ($reasonPhrase) {
+            '' => StatusReasonPhrase::fromIanaRegistry($code),
+            default => StatusReasonPhrase::custom($reasonPhrase),
+        };
+
+        return new self($code, $reasonPhrase);
     }
 
     public function code(): int

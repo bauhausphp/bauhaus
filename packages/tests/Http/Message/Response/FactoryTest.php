@@ -14,6 +14,18 @@ class FactoryTest extends TestCase
         $this->assertEquals(200, $this->response->getStatusCode());
     }
 
+    /** @test */
+    public function createResponseWith1_1AsProtocolByDefault(): void
+    {
+        $this->assertEquals('1.1', $this->response->getProtocolVersion());
+    }
+
+    /** @test */
+    public function createResponseWithEmptyHeadersByDefault(): void
+    {
+        $this->assertEmpty($this->response->getHeaders());
+    }
+
     /** @test @dataProvider validStatusCodes */
     public function createResponseWithProvidedStatusCode(int $code): void
     {

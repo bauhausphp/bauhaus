@@ -9,9 +9,9 @@ use Psr\Http\Message\ResponseInterface as PsrResponse;
 
 abstract class TestCase extends PhpUnitTestCase
 {
-    protected PsrResponseFactory $factory;
-    protected PsrResponse $response;
-    private PsrResponse $responseCopy;
+    protected readonly PsrResponseFactory $factory;
+    protected readonly PsrResponse $response;
+    private readonly PsrResponse $responseCopy;
 
     /** @before */
     public function copyResponse(): void
@@ -28,7 +28,7 @@ abstract class TestCase extends PhpUnitTestCase
     /** @before */
     public function setUpFactory(): void
     {
-        $this->factory = new ResponseFactory();
+        $this->factory = ResponseFactory::withDefaults();
     }
 
     /** @after */

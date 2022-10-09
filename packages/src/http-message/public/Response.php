@@ -83,7 +83,7 @@ final class Response implements PsrResponse
     /** {@inheritdoc} */
     public function withStatus($code, $reasonPhrase = ''): PsrResponse
     {
-        return $this->clonedWith(status: new Status($code, $reasonPhrase));
+        return $this->clonedWith(status: Status::fromInput($code, $reasonPhrase));
     }
 
     /** {@inheritdoc} */
