@@ -2,8 +2,8 @@
 
 namespace Bauhaus\Tests\Http\Message\Response;
 
+use Bauhaus\Http\Body;
 use Bauhaus\Http\InvalidStatusCode;
-use Bauhaus\Http\Message\Body;
 
 class FactoryTest extends TestCase
 {
@@ -16,7 +16,7 @@ class FactoryTest extends TestCase
     }
 
     /** @test */
-    public function createResponseWith1_1AsProtocolByDefault(): void
+    public function createResponseWith1Point1AsProtocolByDefault(): void
     {
         $this->assertEquals('1.1', $this->response->getProtocolVersion());
     }

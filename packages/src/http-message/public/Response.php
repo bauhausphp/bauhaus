@@ -2,7 +2,6 @@
 
 namespace Bauhaus\Http;
 
-use Bauhaus\Http\Message\Body;
 use Bauhaus\Http\Message\Headers;
 use Bauhaus\Http\Message\Protocol;
 use Bauhaus\Http\Message\Response\Status;
