@@ -34,6 +34,10 @@ abstract class TestCase extends PhpUnitTestCase
     /** @after */
     public function assertImmutability(): void
     {
-        $this->assertEquals($this->responseCopy, $this->response, 'Immutability assertion');
+        $this->assertEquals(
+            $this->responseCopy,
+            $this->response,
+            'Response immutability assertion',
+        );
     }
 }
