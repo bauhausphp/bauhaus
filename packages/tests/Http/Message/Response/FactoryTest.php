@@ -4,22 +4,28 @@ namespace Bauhaus\Tests\Http\Message\Response;
 
 use Bauhaus\Http\InvalidStatusCode;
 
-class StatusTest extends TestCase
+class FactoryTest extends TestCase
 {
     use StatusDataProvider;
 
-    /** @test @dataProvider validStatusCodes */
-    public function mutateStatusCode(int $code): void
+    /** @test */
+    public function createResponseWith200AsStatusCodeIfNoneIsProvided(): void
     {
-        $response = $this->response->withStatus($code);
+        $this->assertEquals(200, $this->response->getStatusCode());
+    }
+
+    /** @test @dataProvider validStatusCodes */
+    public function createResponseWithProvidedStatusCode(int $code): void
+    {
+        $response = $this->factory->createResponse($code);
 
         $this->assertEquals($code, $response->getStatusCode());
     }
 
     /** @test @dataProvider statusCodesWithIanaReasonPhrases */
-    public function useReasonPhraseFromIanaRegistryByDefault(int $code, string $reasonPhrase): void
+    public function useReasonPhraseFromIanaRegistryIfNoneIsProvided(int $code, string $reasonPhrase): void
     {
-        $response = $this->response->withStatus($code);
+        $response = $this->factory->createResponse($code);
 
         $this->assertEquals($reasonPhrase, $response->getReasonPhrase());
     }
@@ -27,16 +33,16 @@ class StatusTest extends TestCase
     /** @test @dataProvider validStatusCodes */
     public function overwriteReasonPhraseIfOneIsProvided(int $code): void
     {
-        $response = $this->response->withStatus($code, 'Custom Reason Phrase');
+        $response = $this->factory->createResponse($code, 'Custom Reason Phrase');
 
         $this->assertEquals('Custom Reason Phrase', $response->getReasonPhrase());
     }
 
     /** @test @dataProvider invalidStatusCodes */
-    public function throwExceptionIfProvidedCodeIsInvalid(int $invalidCode): void
+    public function throwExceptionIfProvidedStatusCodeIsInvalid(int $invalidCode): void
     {
         $this->expectException(InvalidStatusCode::class);
 
-        $this->response->withStatus($invalidCode);
+        $this->factory->createResponse($invalidCode);
     }
 }
