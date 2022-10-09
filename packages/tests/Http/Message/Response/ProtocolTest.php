@@ -2,7 +2,7 @@
 
 namespace Bauhaus\Tests\Http\Message\Response;
 
-use Bauhaus\Http\UnsupportedProtocol;
+use Bauhaus\Http\Message\UnsupportedProtocol;
 
 class ProtocolTest extends TestCase
 {

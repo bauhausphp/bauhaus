@@ -2,7 +2,7 @@
 
 namespace Bauhaus\Tests\Http\Message\Response;
 
-use Bauhaus\Http\Body;
+use Bauhaus\Http\Message\Body;
 
 class StringCastTest extends TestCase
 {

@@ -12,7 +12,7 @@
             "dist": {
                 "type": "path",
                 "url": "src/http-message",
-                "reference": "1e06a78a8bc27c8fec307d9d5e6cf82ebfa61a94"
+                "reference": "07b2f87cacb3d8dd9371aa8f2a22971856cb0c64"
             },
             "require": {
                 "php": "^8.1",
@@ -22,8 +22,10 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Bauhaus\\Http\\": "public/",
-                    "Bauhaus\\Http\\Message\\": "private/"
+                    "Bauhaus\\Http\\Message\\": [
+                        "public/",
+                        "private/"
+                    ]
                 }
             },
             "license": [

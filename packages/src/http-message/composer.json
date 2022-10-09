@@ -12,8 +12,7 @@
 
     "autoload": {
         "psr-4": {
-            "Bauhaus\\Http\\": "public/",
-            "Bauhaus\\Http\\Message\\": "private/"
+            "Bauhaus\\Http\\Message\\": ["public/", "private/"]
         }
     },
 

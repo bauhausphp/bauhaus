@@ -1,9 +1,7 @@
 <?php
 
-namespace Bauhaus\Http;
+namespace Bauhaus\Http\Message;
 
-use Bauhaus\Http\Message\Headers;
-use Bauhaus\Http\Message\Protocol;
 use Bauhaus\Http\Message\Response\Status;
 use Psr\Http\Message\ResponseInterface as PsrResponse;
 use Psr\Http\Message\StreamInterface as PsrStream;

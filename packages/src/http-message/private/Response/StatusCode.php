@@ -2,7 +2,7 @@
 
 namespace Bauhaus\Http\Message\Response;
 
-use Bauhaus\Http\InvalidStatusCode;
+use Bauhaus\Http\Message\InvalidStatusCode;
 
 final class StatusCode
 {

@@ -2,8 +2,8 @@
 
 namespace Bauhaus\Tests\Http\Message\Response;
 
-use Bauhaus\Http\Body;
-use Bauhaus\Http\InvalidStatusCode;
+use Bauhaus\Http\Message\Body;
+use Bauhaus\Http\Message\InvalidStatusCode;
 
 class FactoryTest extends TestCase
 {

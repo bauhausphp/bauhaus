@@ -2,7 +2,7 @@
 
 namespace Bauhaus\Tests\Http\Message\Response;
 
-use Bauhaus\Http\ResponseFactory;
+use Bauhaus\Http\Message\ResponseFactory;
 use PHPUnit\Framework\TestCase as PhpUnitTestCase;
 use Psr\Http\Message\ResponseFactoryInterface as PsrResponseFactory;
 use Psr\Http\Message\ResponseInterface as PsrResponse;

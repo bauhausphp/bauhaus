@@ -1,6 +1,6 @@
 <?php
 
-namespace Bauhaus\Http;
+namespace Bauhaus\Http\Message;
 
 use Psr\Http\Message\StreamInterface as PsrStream;
 
