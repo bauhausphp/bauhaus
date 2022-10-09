@@ -3,7 +3,7 @@
 namespace Bauhaus\Tests\Http\Message\Response;
 
 use Bauhaus\Http\Message\Body;
-use Bauhaus\Http\Message\InvalidStatusCode;
+use InvalidArgumentException;
 
 class FactoryTest extends TestCase
 {
@@ -60,7 +60,8 @@ class FactoryTest extends TestCase
     /** @test @dataProvider invalidStatusCodes */
     public function throwExceptionIfProvidedStatusCodeIsInvalid(int $invalidCode): void
     {
-        $this->expectException(InvalidStatusCode::class);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid status code');
 
         $this->factory->createResponse($invalidCode);
     }

@@ -2,8 +2,6 @@
 
 namespace Bauhaus\Http\Message\Response;
 
-use Bauhaus\Http\Message\InvalidStatusCode;
-
 final class StatusCode
 {
     public function __construct(

@@ -2,7 +2,7 @@
 
 namespace Bauhaus\Tests\Http\Message\Response;
 
-use Bauhaus\Http\Message\UnsupportedProtocol;
+use InvalidArgumentException;
 
 class ProtocolTest extends TestCase
 {
@@ -20,7 +20,8 @@ class ProtocolTest extends TestCase
     /** @test @dataProvider unsupportedVersions */
     public function throwExceptionIfProvidedProtocolIsUnsupported(string $version): void
     {
-        $this->expectException(UnsupportedProtocol::class);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unsupported protocol');
 
         $this->response->withProtocolVersion($version);
     }
