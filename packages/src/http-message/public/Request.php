@@ -40,12 +40,12 @@ final class Request implements PsrRequest
     }
 
     /** {@inheritdoc} */
-    public function getUri()
+    public function getUri(): PsrUri
     {
     }
 
     /** {@inheritdoc} */
-    public function getRequestTarget()
+    public function getRequestTarget(): string
     {
     }
 
