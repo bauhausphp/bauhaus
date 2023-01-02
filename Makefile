@@ -1,5 +1,5 @@
 version ?= local
-php ?= 8.1.9
+php ?= 8.2.0
 revision = dev-${version}-php${php}
 
 include stack.config.env

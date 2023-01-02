@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1f83e4aa99b7ec41685d7cc86569f458",
+    "content-hash": "eaa3053eb56ac8a374c1c8a0de6bbc3b",
     "packages": [
         {
             "name": "bauhaus/service-resolver",
@@ -12,7 +12,7 @@
             "dist": {
                 "type": "path",
                 "url": "src/service-resolver",
-                "reference": "a387caff7f6834c38a916729298d58a058f7635b"
+                "reference": "d8d7f53c5ffb2898f86ea410da0c2c89aecc03ab"
             },
             "require": {
                 "php": "^8.1",
@@ -28,13 +28,44 @@
             "license": [
                 "MIT"
             ],
-            "description": "Yet another service resolver implementation",
+            "description": "Yet another PSR-11 implementation",
             "keywords": [
                 "bauhaus",
                 "container",
                 "dependency",
                 "injection",
                 "service resolver"
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "bauhaus/type-uri",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "src/type-uri",
+                "reference": "f8ec5e6434b2337e28c3b8a541edfd89c9cc62d1"
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Bauhaus\\Types\\": "public/",
+                    "Bauhaus\\Types\\Uri\\": "private/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Yet another URI implementation",
+            "keywords": [
+                "bauhaus",
+                "type",
+                "uri"
             ],
             "transport-options": {
                 "relative": true
@@ -98,7 +129,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "bauhaus/service-resolver": 20
+        "bauhaus/service-resolver": 20,
+        "bauhaus/type-uri": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
