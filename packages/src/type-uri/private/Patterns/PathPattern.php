@@ -2,10 +2,27 @@
 
 namespace Bauhaus\Types\Uri\Patterns;
 
+use Bauhaus\Types\Uri\Chars;
+
 final class PathPattern extends PrimitivePattern
 {
-    protected function pattern(): string
+    private bool $startingWithSlash = false;
+
+    public static function startingWithSlash(): self
     {
-        return "[{$this->pchar()}\/]*";
+        $self = new self();
+        $self->startingWithSlash = true;
+
+        return $self;
+    }
+
+    protected function firstCharConstraint(): ?string
+    {
+        return $this->startingWithSlash ? Chars::slash() : null;
+    }
+
+    protected function chars(): string
+    {
+        return Chars::pchar() . Chars::slash();
     }
 }

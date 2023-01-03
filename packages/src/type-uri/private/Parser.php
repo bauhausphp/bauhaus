@@ -9,13 +9,13 @@ final readonly class Parser
     private const SUCCESS = 1;
 
     private function __construct(
-        private Pattern $pattern,
+        /** @var Pattern[] */ private array $patterns,
     ) {
     }
 
-    public static function basedOn(Pattern $pattern): self
+    public static function with(Pattern ...$patterns): self
     {
-        return new self($pattern);
+        return new self($patterns);
     }
 
     public function parse(string $subject): array
@@ -28,8 +28,15 @@ final readonly class Parser
     private function runPregMatch(string $subject): array
     {
         $matches = [];
-        $result = preg_match("%^{$this->pattern}$%", $subject, $matches);
+        $pattern = $this->buildPattern();
+
+        $result = preg_match($pattern, $subject, $matches);
 
         return $result === self::SUCCESS ? $matches : throw new InvalidUri($subject);
+    }
+
+    private function buildPattern(): string
+    {
+        return '%^(?J)(' . implode('|', $this->patterns) . ')$%';
     }
 }

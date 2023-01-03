@@ -8,7 +8,21 @@ abstract class PrimitivePattern implements Pattern
 {
     public function __toString(): string
     {
-        return "(?<{$this->name()}>{$this->pattern()})";
+        return $this->hasFistCharConstraint()
+            ? "(?<{$this->name()}>[{$this->firstCharConstraint()}]{1}[{$this->chars()}]*)"
+            : "(?<{$this->name()}>[{$this->chars()}]*)";
+    }
+
+    abstract protected function chars(): string;
+
+    protected function firstCharConstraint(): ?string
+    {
+        return null;
+    }
+
+    private function hasFistCharConstraint(): bool
+    {
+        return null !== $this->firstCharConstraint();
     }
 
     private function name(): string
@@ -18,22 +32,5 @@ abstract class PrimitivePattern implements Pattern
         $name = explode('Pattern', $name);
 
         return strtolower($name[0]);
-    }
-
-    abstract protected function pattern(): string;
-
-    protected function unreserved(): string
-    {
-        return 'a-z\d\-\.\_\~';
-    }
-
-    protected function subdelims(): string
-    {
-        return '\!\$\&\'\(\)\*\+\,\;\=';
-    }
-
-    protected function pchar(): string
-    {
-        return "{$this->unreserved()}{$this->subdelims()}\:\@";
     }
 }

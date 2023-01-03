@@ -2,10 +2,12 @@
 
 namespace Bauhaus\Types\Uri\Patterns;
 
+use Bauhaus\Types\Uri\Chars;
+
 final class PasswordPattern extends PrimitivePattern
 {
-    protected function pattern(): string
+    protected function chars(): string
     {
-        return "[{$this->unreserved()}{$this->subdelims()}\:]*";
+        return Chars::unreserved() . Chars::subdelims() . Chars::colon();
     }
 }

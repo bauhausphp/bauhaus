@@ -2,10 +2,12 @@
 
 namespace Bauhaus\Types\Uri\Patterns;
 
+use Bauhaus\Types\Uri\Chars;
+
 final class PortPattern extends PrimitivePattern
 {
-    protected function pattern(): string
+    protected function chars(): string
     {
-        return '[\d]*';
+        return Chars::digits();
     }
 }

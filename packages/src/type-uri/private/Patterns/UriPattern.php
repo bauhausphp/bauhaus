@@ -10,10 +10,10 @@ final class UriPattern implements Pattern
     {
         $scheme = new SchemePattern();
         $authority = new AuthorityPattern();
-        $path = new PathPattern();
+        $path = PathPattern::startingWithSlash();
         $query = new QueryPattern();
         $fragment = new FragmentPattern();
 
-        return "$scheme://$authority($path)?(\?$query)?(#$fragment)?";
+        return "$scheme://$authority(?!//)($path)?(\?$query)?(#$fragment)?";
     }
 }
