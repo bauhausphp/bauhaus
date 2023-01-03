@@ -1,0 +1,23 @@
+{
+    "name": "bauhaus/type-uri",
+    "description": "Yet another URI implementation",
+    "keywords": [
+        "bauhaus",
+        "type",
+        "uri"
+    ],
+
+    "type": "library",
+    "license": "MIT",
+
+    "autoload": {
+        "psr-4": {
+            "Bauhaus\\Types\\": "public/",
+            "Bauhaus\\Types\\Uri\\": "private/"
+        }
+    },
+
+    "require": {
+        "php": "^8.2"
+    }
+}
