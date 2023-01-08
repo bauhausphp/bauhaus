@@ -1,5 +1,1 @@
-bin/*
-!bin/phive.xml
-packages/reports/
-temp/
-vendor/
+code/var/
