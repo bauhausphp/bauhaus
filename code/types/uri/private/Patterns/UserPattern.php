@@ -1,8 +1,8 @@
 <?php
 
-namespace types\type-uri\private\Patterns;
+namespace Bauhaus\Types\Uri\Patterns;
 
-use uri\private\Chars;
+use Bauhaus\Types\Uri\Chars;
 
 final class UserPattern extends PrimitivePattern
 {

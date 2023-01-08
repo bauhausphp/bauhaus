@@ -1,6 +1,6 @@
 <?php
 
-namespace types\type-uri\private;
+namespace Bauhaus\Types\Uri;
 
 interface Pattern
 {

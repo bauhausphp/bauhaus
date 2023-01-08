@@ -1,8 +1,8 @@
 <?php
 
-namespace types\type-uri\private\Patterns;
+namespace Bauhaus\Types\Uri\Patterns;
 
-use uri\private\Pattern;
+use Bauhaus\Types\Uri\Pattern;
 
 abstract class PrimitivePattern implements Pattern
 {

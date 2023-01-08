@@ -1,10 +1,8 @@
 <?php
 
-namespace types\type-uri\private\Patterns;
+namespace Bauhaus\Types\Uri\Patterns;
 
-use types\typeuse;
-
-types\typeuse types\typeuse types\typeuse uri\private\Pattern;
+use Bauhaus\Types\Uri\Pattern;
 
 final class UriPattern implements Pattern
 {

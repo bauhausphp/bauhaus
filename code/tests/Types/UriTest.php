@@ -3,26 +3,26 @@
 namespace Bauhaus\Tests\Types;
 
 use Bauhaus\ServiceResolverSettings;
+use Bauhaus\Types\InvalidUri;
 use PHPUnit\Framework\TestCase;
-use uri\public\InvalidUri;
-use uri\public\Uri;
+use Bauhaus\Types\Uri;
 
 class UriTest extends TestCase
 {
     public function validUris(): iterable
     {
         yield 'scheme://host'
-            => new uri\public\Uri(scheme: 'scheme', host: 'host');
+            => new Uri(scheme: 'scheme', host: 'host');
         yield 'scheme://user@host'
-            => new uri\public\Uri(scheme: 'scheme', user: 'user', host: 'host');
+            => new Uri(scheme: 'scheme', user: 'user', host: 'host');
         yield 'scheme://user:password@host'
-            => new uri\public\Uri(scheme: 'scheme', user: 'user', password: 'password', host: 'host');
+            => new Uri(scheme: 'scheme', user: 'user', password: 'password', host: 'host');
         yield 'scheme://user:password@host:666'
-            => new uri\public\Uri(scheme: 'scheme', user: 'user', password: 'password', host: 'host', port: 666);
+            => new Uri(scheme: 'scheme', user: 'user', password: 'password', host: 'host', port: 666);
         yield 'scheme://user:password@host:666/path'
-            => new uri\public\Uri(scheme: 'scheme', user: 'user', password: 'password', host: 'host', port: 666, path: '/path');
+            => new Uri(scheme: 'scheme', user: 'user', password: 'password', host: 'host', port: 666, path: '/path');
         yield 'scheme://user:password@host:666/path?query'
-            => new uri\public\Uri(
+            => new Uri(
                 scheme: 'scheme',
                 user: 'user',
                 password: 'password',
@@ -32,7 +32,7 @@ class UriTest extends TestCase
                 query: 'query',
             );
         yield 'scheme://user:password@host:666/path?query#fragment'
-            => new uri\public\Uri(
+            => new Uri(
                 scheme: 'scheme',
                 user: 'user',
                 password: 'password',
@@ -44,60 +44,60 @@ class UriTest extends TestCase
             );
 
         yield 'scheme://host:666'
-            => new uri\public\Uri(scheme: 'scheme', host: 'host', port: 666);
+            => new Uri(scheme: 'scheme', host: 'host', port: 666);
         yield 'scheme://user:@host'
-            => new uri\public\Uri(scheme: 'scheme', user: 'user', host: 'host');
+            => new Uri(scheme: 'scheme', user: 'user', host: 'host');
         yield 'scheme://user@host:666'
-            => new uri\public\Uri(scheme: 'scheme', user: 'user', host: 'host', port: 666);
+            => new Uri(scheme: 'scheme', user: 'user', host: 'host', port: 666);
         yield 'scheme://host/path'
-            => new uri\public\Uri(scheme: 'scheme', host: 'host', path: '/path');
+            => new Uri(scheme: 'scheme', host: 'host', path: '/path');
         yield 'scheme://host:1234/path#fragment'
-            => new uri\public\Uri(scheme: 'scheme', host: 'host', port: 1234, path: '/path', fragment: 'fragment');
+            => new Uri(scheme: 'scheme', host: 'host', port: 1234, path: '/path', fragment: 'fragment');
         yield 'scheme://host?query'
-            => new uri\public\Uri(scheme: 'scheme', host: 'host', query: 'query');
+            => new Uri(scheme: 'scheme', host: 'host', query: 'query');
         yield 'scheme://host/?query'
-            => new uri\public\Uri(scheme: 'scheme', host: 'host', path: '/', query: 'query');
+            => new Uri(scheme: 'scheme', host: 'host', path: '/', query: 'query');
 
         yield 'scheme://host/super/path'
-            => new uri\public\Uri(scheme: 'scheme', host: 'host', path: '/super/path');
+            => new Uri(scheme: 'scheme', host: 'host', path: '/super/path');
         yield 'scheme://host/super/super-path'
-            => new uri\public\Uri(scheme: 'scheme', host: 'host', path: '/super/super-path');
+            => new Uri(scheme: 'scheme', host: 'host', path: '/super/super-path');
         yield 'scheme://host/super/super-path?q1=v1&q2=v2'
-            => new uri\public\Uri(scheme: 'scheme', host: 'host', path: '/super/super-path', query: 'q1=v1&q2=v2');
+            => new Uri(scheme: 'scheme', host: 'host', path: '/super/super-path', query: 'q1=v1&q2=v2');
         yield 's3heme+ooo.666-123+ooo.111://host'
-            => new uri\public\Uri(scheme: 's3heme+ooo.666-123+ooo.111', host: 'host');
+            => new Uri(scheme: 's3heme+ooo.666-123+ooo.111', host: 'host');
         yield "scheme://user-666._~!$&'()*+,;=@host"
-        => new uri\public\Uri(scheme: 'scheme', user: "user-666._~!$&'()*+,;=", host: 'host');
+        => new Uri(scheme: 'scheme', user: "user-666._~!$&'()*+,;=", host: 'host');
         yield "scheme://user:pass123:-666._~!$&'()*+,;=@host"
-            => new uri\public\Uri(scheme: 'scheme', user: 'user', password: "pass123:-666._~!$&'()*+,;=", host: 'host');
+            => new Uri(scheme: 'scheme', user: 'user', password: "pass123:-666._~!$&'()*+,;=", host: 'host');
         yield "scheme://host.com-666_~!$&'()*+,;=host"
-            => new uri\public\Uri(scheme: 'scheme', host: "host.com-666_~!$&'()*+,;=host");
+            => new Uri(scheme: 'scheme', host: "host.com-666_~!$&'()*+,;=host");
         yield "scheme://host/path-666_~!$&'()*+,;=query:@/path"
-            => new uri\public\Uri(scheme: 'scheme', host: 'host', path: "/path-666_~!$&'()*+,;=query:@/path");
+            => new Uri(scheme: 'scheme', host: 'host', path: "/path-666_~!$&'()*+,;=query:@/path");
         yield "scheme://host?query-666_~!$&'()*+,;=query:@/?query"
-            => new uri\public\Uri(scheme: 'scheme', host: 'host', query: "query-666_~!$&'()*+,;=query:@/?query");
+            => new Uri(scheme: 'scheme', host: 'host', query: "query-666_~!$&'()*+,;=query:@/?query");
         yield "scheme://host#fragment-666_~!$&'()*+,;=query:@/?fragment"
-            => new uri\public\Uri(scheme: 'scheme', host: 'host', fragment: "fragment-666_~!$&'()*+,;=query:@/?fragment");
+            => new Uri(scheme: 'scheme', host: 'host', fragment: "fragment-666_~!$&'()*+,;=query:@/?fragment");
 
         yield 'http://127.0.0.1'
-            => new uri\public\Uri(scheme: 'http', host: '127.0.0.1');
+            => new Uri(scheme: 'http', host: '127.0.0.1');
         yield 'HTTP://www.ics.uci.edu/pub/ietf/uri/#Related'
-            => new uri\public\Uri(scheme: 'HTTP', host: 'www.ics.uci.edu', path: '/pub/ietf/uri/', fragment: 'Related');
+            => new Uri(scheme: 'HTTP', host: 'www.ics.uci.edu', path: '/pub/ietf/uri/', fragment: 'Related');
         yield 'ftp://ftp.is.co.za/rfc/rfc1808.txt'
-            => new uri\public\Uri(scheme: 'ftp', host: 'ftp.is.co.za', path: '/rfc/rfc1808.txt');
+            => new Uri(scheme: 'ftp', host: 'ftp.is.co.za', path: '/rfc/rfc1808.txt');
         yield 'http://www.ietf.org/rfc/rfc2396.txt'
-            => new uri\public\Uri(scheme: 'http', host: 'www.ietf.org', path: '/rfc/rfc2396.txt');
+            => new Uri(scheme: 'http', host: 'www.ietf.org', path: '/rfc/rfc2396.txt');
         yield 'telnet://192.0.2.16:80/'
-            => new uri\public\Uri(scheme: 'telnet', host: '192.0.2.16', port:80, path: '/');
+            => new Uri(scheme: 'telnet', host: '192.0.2.16', port:80, path: '/');
 
         yield 'mailto:John.Doe@example.com'
-            => new uri\public\Uri(scheme: 'mailto', path: 'John.Doe@example.com');
+            => new Uri(scheme: 'mailto', path: 'John.Doe@example.com');
         yield 'news:comp.infosystems.www.servers.unix'
-            => new uri\public\Uri(scheme: 'news', path: 'comp.infosystems.www.servers.unix');
+            => new Uri(scheme: 'news', path: 'comp.infosystems.www.servers.unix');
         yield 'tel:+1-816-555-1212'
-            => new uri\public\Uri(scheme: 'tel', path: '+1-816-555-1212');
+            => new Uri(scheme: 'tel', path: '+1-816-555-1212');
         yield 'urn:oasis:names:specification:docbook:dtd:xml:4.1.2'
-            => new uri\public\Uri(scheme: 'urn', path: 'oasis:names:specification:docbook:dtd:xml:4.1.2');
+            => new Uri(scheme: 'urn', path: 'oasis:names:specification:docbook:dtd:xml:4.1.2');
     }
 
     public function validUrisDataProvider(): iterable
@@ -111,10 +111,10 @@ class UriTest extends TestCase
      * @test
      * @dataProvider validUrisDataProvider
      */
-    public function parseUriProperly(string $uri, uri\public\Uri $expected): void
+    public function parseUriProperly(string $uri, Uri $expected): void
     {
         ServiceResolverSettings::new()->withServices([]);
-        $uri = uri\public\Uri::fromString($uri);
+        $uri = Uri::fromString($uri);
 
         self::assertEquals($expected, $uri);
     }
@@ -141,9 +141,9 @@ class UriTest extends TestCase
      */
     public function throwInvalidArgumentInvalidUriProvided(string $uri): void
     {
-        self::expectException(uri\public\InvalidUri::class);
+        self::expectException(InvalidUri::class);
         self::expectExceptionMessage("Invalid URI: $uri");
 
-        uri\public\Uri::fromString($uri);
+        Uri::fromString($uri);
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace types\type-uri\public;
+namespace Bauhaus\Types;
 
-use uri\private\Parser;
-use uri\private\Patterns\UriPattern;
-use uri\private\Patterns\UrnPattern;
+use Bauhaus\Types\Uri\Parser;
+use Bauhaus\Types\Uri\Patterns\UriPattern;
+use Bauhaus\Types\Uri\Patterns\UrnPattern;
 
 /**
  * https://www.rfc-editor.org/rfc/rfc8820

@@ -1,11 +1,8 @@
 <?php
 
-namespace types\type-uri\private;
+namespace Bauhaus\Types\Uri;
 
-use types\typeuse;
-use uri\public\InvalidUri;
-
-types\type
+use Bauhaus\Types\InvalidUri;
 
 final readonly class Parser
 {
