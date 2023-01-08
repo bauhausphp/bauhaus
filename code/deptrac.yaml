@@ -1,0 +1,56 @@
+deptrac:
+  ignore_uncovered_internal_classes: true # ignore dependency to internal php classes
+
+  paths:
+    - ./src
+    - ./tests
+    - ./../vendor/psr
+  exclude_files: ~
+
+  ruleset:
+    ServiceResolver: [ PSR-11 ]
+    TypeUri: []
+    TestServiceResolver: [ +ServiceResolver, PhpUnit ]
+    TestTypeUri: [ +TypeUri, PhpUnit ]
+
+  layers:
+    - name: ServiceResolver
+      collectors:
+      - { type: directory, value: ./src/service-resolver/public/ }
+      - { type: directory, value: ./src/service-resolver/private/, private: true }
+
+    - name: TypeUri
+      collectors:
+      - { type: directory, value: ./src/uri/public/ }
+      - { type: directory, value: ./src/uri/private/, private: true }
+
+    - name: TestServiceResolver
+      collectors:
+      - { type: directory, value: ./tests/ServiceResolver/ }
+      - { type: classLike, value: Bauhaus\\Tests\\ServiceResolver\\Doubles\\NotFoundService }
+
+    - name: TestTypeUri
+      collectors:
+      - { type: directory, value: ./tests/Types/Uri/ }
+
+    - name: PSR-11
+      collectors:
+      - { type: directory, value: ../vendor/psr/container/ }
+
+    - name: PhpUnit
+      collectors:
+      - { type: classLike, value: PHPUnit\\Framework\\TestCase }
+
+  formatters:
+    graphviz:
+      groups:
+        Packages:
+        - ServiceResolver
+        - TypeUri
+        Tests:
+        - TestServiceResolver
+        - TestTypeUri
+        PSRs:
+        - PSR-11
+        Vendor:
+        - PhpUnit
