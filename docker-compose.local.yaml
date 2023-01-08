@@ -4,5 +4,6 @@ services:
   bauhaus:
     command: [ 'tail', '-f', '/dev/null' ]
     volumes:
-    - ./phars:/usr/local/bauhaus/phars
     - ./code:/usr/local/bauhaus/code
+    - ./phars:/usr/local/bauhaus/phars
+    - ./var:/usr/local/bauhaus/var

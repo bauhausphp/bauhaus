@@ -5,6 +5,7 @@
     <rule ref="PSR12"/>
 
     <file>./autoload.php</file>
-    <file>./src/</file>
+    <file>./packages/</file>
     <file>./tests/</file>
+    <file>./types/</file>
 </ruleset>
