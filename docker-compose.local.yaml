@@ -3,5 +3,5 @@ version: '3.9'
 services:
   bauhaus:
     command: [ 'tail', '-f', '/dev/null' ]
-    volumes:
-    - ./packages/:${DIR_PACKAGES}/
+#    volumes:
+#    - ./packages/:/usr/local/bauhaus/packages

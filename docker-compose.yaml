@@ -6,6 +6,3 @@ services:
     build:
       args:
         PHP: ${PHP}
-        DIR_BIN: ${DIR_BIN}
-        DIR_PACKAGES: ${DIR_PACKAGES}
-        DIR_COMPOSER_VENDOR: ${DIR_COMPOSER_VENDOR}
