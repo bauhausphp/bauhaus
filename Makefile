@@ -1,68 +1,87 @@
-version ?= local
+MAKEFLAGS += --silent
+
+version ?=$(shell git rev-parse --short HEAD)$(if ${CI},,-local)
 php ?= 8.2.0
 revision = dev-${version}-php${php}
 
-include stack.config.env
-export
+export REGISTRY = ghcr.io
 export PHP := ${php}
 export REVISION := ${revision}
 
-build:
-	@make -s stack cmd=build
+config:
+	@make docker/compose/config
 
-test: level ?= all
-test:
-	@make -s stack-run cmd='composer test:${level}'
+build:
+	@make docker/compose/build
+
+local-setup:
+	@make build
+#	@make -s setlocal-cp-files
+
+clear:
+	@make docker/compose/down
 
 sh:
-	@make -s stack-run cmd='sh'
+	@make docker/compose/run cmd=sh
 
 #
-# Local
-local-setup:
-	@make -s build
-	@make -s local-cp-files
+# Inside container
+composer/%:
+	@make docker/compose/run/make target=${@}
 
-local-cp-files: localBin = ./bin
-local-cp-files: localVendor = ./vendor
-local-cp-files:
-	@rm -rf ${localBin} ${localVendor}
-	@make -s stack cmd='up -d'
-	@make -s cp from=${DIR_BIN} to=${localBin}
-	@make -s cp from=${DIR_COMPOSER_VENDOR} to=${localVendor}
-	@make -s stack cmd='down --remove-orphans'
+tests/%:
+	@make docker/compose/run/make target=${@}
 
-cp:
-	@make -s stack cmd='cp bauhaus:${from} ${to}'
+
+# Dev
+#local-cp-files: localBin = ./bin
+#local-cp-files: localVendor = ./vendor
+#local-cp-files:
+#	@rm -rf ${localBin} ${localVendor}
+#	@make -s stack cmd='up -d'
+#	@make -s cp from=${DIR_BIN} to=${localBin}
+#	@make -s cp from=${DIR_COMPOSER_VENDOR} to=${localVendor}
+#	@make -s stack cmd='down --remove-orphans'
+#
+#cp:
+#	@make -s stack cmd='cp bauhaus:${from} ${to}'
 
 #
 # Docker
-stackFiles = stack.yaml $(if ${CI},,stack.local.yaml)
+docker/compose: files = $(addprefix -f,$(shell make -s docker/compose/files))
+docker/compose:
+	@docker compose ${files} ${cmd}
 
-stack-files:
-	@echo ${stackFiles}
+docker/compose/files: files = docker-compose.yaml $(if ${CI},,docker-compose.local.yaml)
+docker/compose/files:
+	@echo ${files}
 
-stack-dump:
-	@make -s stack cmd=config
+docker/compose/config:
+	@make docker/compose cmd=config
 
-stack-run: options = $(if ${CI},-T)
-stack-run:
-	@make -s stack cmd='run ${options} bauhaus ${cmd}'
+docker/compose/build:
+	@make docker/compose cmd=build
 
-stack: stack = $(addprefix -f,${stackFiles})
-stack:
-	@docker compose ${stack} ${cmd}
+docker/compose/down:
+	@make docker/compose cmd=down
 
-#
-# Release
-publish: remote = git@github.com:bauhausphp/${package}.git
-publish: commit = Ref bauhausphp/bauhaus@${revision}
-publish: source = packages/src/${package}
-publish: destination = temp/${package}
-publish:
-	rm -rf ${destination}
-	git clone -b ${branch} ${remote} ${destination} || git clone ${remote} ${destination}
-	rsync --archive --verbose --exclude .git --delete-after ${source}/ ${destination}
-	git -C ${destination} add .
-	git -C ${destination} commit --message '${commit}' || echo 'No change'
-	git -C ${destination} push -u origin HEAD:${branch}
+docker/compose/run: options = --no-deps $(if ${CI},-T)
+docker/compose/run:
+	@make docker/compose cmd='run ${options} bauhaus ${cmd}'
+
+docker/compose/run/make:
+	@make docker/compose/run cmd='make ${target}'
+
+##
+## Release
+#publish: remote = git@github.com:bauhausphp/${package}.git
+#publish: commit = Ref bauhausphp/bauhaus@${revision}
+#publish: source = packages/src/${package}
+#publish: destination = temp/${package}
+#publish:
+#	rm -rf ${destination}
+#	git clone -b ${branch} ${remote} ${destination} || git clone ${remote} ${destination}
+#	rsync --archive --verbose --exclude .git --delete-after ${source}/ ${destination}
+#	git -C ${destination} add .
+#	git -C ${destination} commit --message '${commit}' || echo 'No change'
+#	git -C ${destination} push -u origin HEAD:${branch}
