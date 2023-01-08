@@ -4,14 +4,14 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eaa3053eb56ac8a374c1c8a0de6bbc3b",
+    "content-hash": "2e978b0a6b23a628ddeba96611224e9e",
     "packages": [
         {
             "name": "bauhaus/service-resolver",
             "version": "dev-main",
             "dist": {
                 "type": "path",
-                "url": "src/service-resolver",
+                "url": "./packages/service-resolver",
                 "reference": "d8d7f53c5ffb2898f86ea410da0c2c89aecc03ab"
             },
             "require": {
@@ -45,7 +45,7 @@
             "version": "dev-main",
             "dist": {
                 "type": "path",
-                "url": "src/type-uri",
+                "url": "./types/uri",
                 "reference": "f8ec5e6434b2337e28c3b8a541edfd89c9cc62d1"
             },
             "require": {

@@ -1,20 +1,9 @@
 {
     "type": "project",
     "license": "MIT",
-    "description": "Bauhaus packages ../packages/tests",
-
-    "scripts": {
-        "test:all": [ "@test:cs", "@test:unit" ],
-        "test:cs": [ "@test:cs:syntax", "@test:cs:dependency" ],
-
-        "test:cs:syntax": "phpcs -ps",
-        "test:cs:dependency": "deptrac --no-cache --fail-on-uncovered --report-uncovered --formatter=graphviz-image --output=./reports/dep-graph.svg",
-        "test:unit": "phpunit",
-        "test:mutation": "infection run -s -j4"
-    },
 
     "autoload": {
-        "psr-4": { "Bauhaus\\Tests\\": "../packages/tests"}
+        "psr-4": { "Bauhaus\\Tests\\": "./tests/"}
     },
 
     "require": {
@@ -23,11 +12,12 @@
     },
 
     "repositories": [
-        { "type":"path", "url": "packages/*/" },
-        { "type":"path", "url": "types/*/" }
+        { "type":"path", "url": "./packages/*/" },
+        { "type":"path", "url": "./types/*/" }
     ],
 
     "config": {
-        "sort-packages": false
+        "sort-packages": false,
+        "vendor-dir": "/usr/local/bauhaus/composer/phars"
     }
 }
