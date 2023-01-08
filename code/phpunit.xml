@@ -15,7 +15,8 @@
         includeUncoveredFiles="true"
         processUncoveredFiles="true">
         <include>
-            <directory suffix=".php">./src</directory>
+            <directory suffix=".php">./packages</directory>
+            <directory suffix=".php">./types</directory>
         </include>
     </coverage>
 </phpunit>

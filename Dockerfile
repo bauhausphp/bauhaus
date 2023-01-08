@@ -3,8 +3,8 @@ ARG PHP
 FROM php:${PHP}-cli-alpine3.16
 
 ENV HOME_DIR /usr/local/bauhaus
-ENV COMPOSER_CODE_DIR $HOME_DIR/composer/phars
-ENV COMPOSER_PHARS_DIR $HOME_DIR/composer/code
+ENV COMPOSER_CODE_DIR $HOME_DIR/composer/code
+ENV COMPOSER_PHARS_DIR $HOME_DIR/composer/phars
 ENV CODE_DIR $HOME_DIR/code
 ENV PHARS_DIR $HOME_DIR/phars
 ENV VAR_DIR $HOME_DIR/var
