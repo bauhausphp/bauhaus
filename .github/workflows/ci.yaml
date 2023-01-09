@@ -22,8 +22,7 @@ jobs:
     strategy:
       matrix:
         php: [ 8.2.0 ]
-        level: [ unit, mutation ]
-        #level: [ cs, unit, mutation ]
+        level: [ cs, unit, mutation ]
 
 #  publish:
 #    runs-on: ubuntu-latest
