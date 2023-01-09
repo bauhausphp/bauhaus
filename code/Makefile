@@ -7,6 +7,11 @@ reportsDir = ${VAR_DIR}/reports
 
 #
 # test
+.PHONY: tests
+tests:
+	@make tests/unit
+	@make tests/mutation
+
 tests/cs:
 	@phpcs -ps \
 		--cache=${cacheDir}/phpcs.cache

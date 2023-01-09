@@ -1,7 +1,7 @@
 MAKEFLAGS += --silent
 
-version ?=$(shell git rev-parse --short HEAD)$(if ${CI},,-local)
 php ?= 8.2.0
+version ?=$(if ${CI},,local-)$(shell git rev-parse --short HEAD)
 revision = dev-${version}-php${php}
 
 export REGISTRY = ghcr.io
@@ -28,6 +28,9 @@ sh:
 # Inside container
 composer/%:
 	@make docker/compose/run/make target=${@}
+
+tests:
+	@make docker/compose/run/make target=tests
 
 tests/%:
 	@make docker/compose/run/make target=${@}
