@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   bauhaus:
-    image: ${REGISTRY}/bauhausphp/packages:${REVISION}
+    image: ${REGISTRY}/bauhausphp/bauhaus:${REVISION}
     build:
       args:
         PHP: ${PHP}

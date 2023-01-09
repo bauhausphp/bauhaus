@@ -16,8 +16,8 @@ tests/cs:
 tests/unit:
 	@phpunit \
 		--cache-result-file ${CACHE_DIR}/phpunit.cache \
-		--coverage-clover ${REPORTS_DIR}/reports/clover.xml \
-		--coverage-html ${REPORTS_DIR}/reports/coverage
+		--coverage-clover ${REPORTS_DIR}/clover.xml \
+		--coverage-html ${REPORTS_DIR}/coverage
 
 tests/mutation:
 	@infection run -s -j4

@@ -2,7 +2,6 @@ version: '3.9'
 
 services:
   bauhaus:
-    command: [ 'tail', '-f', '/dev/null' ]
     volumes:
     - ./code:/usr/local/bauhaus/code
     - ./phars:/usr/local/bauhaus/phars
