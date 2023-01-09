@@ -2,9 +2,6 @@ MAKEFLAGS += --silent
 
 export
 
-cacheDir = ${VAR_DIR}/cache
-reportsDir = ${VAR_DIR}/reports
-
 #
 # test
 .PHONY: tests
@@ -14,13 +11,13 @@ tests:
 
 tests/cs:
 	@phpcs -ps \
-		--cache=${cacheDir}/phpcs.cache
+		--cache=${CACHE_DIR}/phpcs.cache
 
 tests/unit:
 	@phpunit \
-	  	--cache-result-file ${cacheDir}/phpunit.cache \
-	  	--coverage-clover ${reportsDir}/reports/clover.xml \
-	  	--coverage-html ${reportsDir}/reports/coverage
+		--cache-result-file ${CACHE_DIR}/phpunit.cache \
+		--coverage-clover ${REPORTS_DIR}/reports/clover.xml \
+		--coverage-html ${REPORTS_DIR}/reports/coverage
 
 tests/mutation:
 	@infection run -s -j4

@@ -5,9 +5,10 @@ FROM php:${PHP}-cli-alpine3.16
 ENV HOME_DIR /usr/local/bauhaus
 ENV COMPOSER_CODE_DIR $HOME_DIR/composer/code
 ENV COMPOSER_PHARS_DIR $HOME_DIR/composer/phars
+ENV CACHE_DIR $HOME_DIR/var/cache
 ENV CODE_DIR $HOME_DIR/code
 ENV PHARS_DIR $HOME_DIR/phars
-ENV VAR_DIR $HOME_DIR/var
+ENV REPORTS_DIR $HOME_DIR/var/reports
 
 ENV PATH $PATH:$COMPOSER_PHARS_DIR/bin
 
@@ -31,6 +32,13 @@ RUN apk add --no-cache \
         intl \
         pcov && \
     adduser bauhaus sudo -u 1000 -h $HOME_DIR -s /sbin/nologin -D && \
+    mkdir -p \
+        $COMPOSER_CODE_DIR \
+        $COMPOSER_PHARS_DIR \
+        $CACHE_DIR \
+        $CODE_DIR \
+        $PHARS_DIR \
+        $REPORTS_DIR && \
     chown -R bauhaus:bauhaus $HOME_DIR
 
 WORKDIR $CODE_DIR
