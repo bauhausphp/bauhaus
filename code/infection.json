@@ -4,10 +4,16 @@
         "directories": [ "./packages", "./types" ]
     },
 
-    "mutators": {
-        "@default": true
-    },
-
     "minMsi": 100,
-    "minCoveredMsi": 100
+    "minCoveredMsi": 100,
+
+    "mutators": {
+        "@default": true,
+        "Concat": {
+            "ignore": [
+                "Bauhaus\\Types\\Uri\\Chars",
+                "Bauhaus\\Types\\Uri\\Patterns\\*"
+            ]
+        }
+    }
 }

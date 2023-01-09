@@ -29,11 +29,6 @@ final readonly class Chars
         return new self('\:');
     }
 
-    public static function at(): self
-    {
-        return new self('\@');
-    }
-
     public static function questionMark(): self
     {
         return new self('\?');
@@ -56,6 +51,6 @@ final readonly class Chars
 
     public static function pchar(): self
     {
-        return new self(self::unreserved() . self::subdelims() . self::colon() . self::at());
+        return new self(self::unreserved() . self::subdelims() . self::colon() . '\@');
     }
 }
