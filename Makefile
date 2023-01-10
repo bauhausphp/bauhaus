@@ -39,8 +39,7 @@ publish:
 	@git -C ${destination} config user.name "${author}"
 	@git -C ${destination} config user.email ${email}
 	@git -C ${destination} add .
-	@git -C ${destination} commit --message '${commit}' || echo 'No change'
-	@git -C ${destination} push -u origin HEAD:${branch}
+	@git -C ${destination} commit --message '${commit}' && git -C ${destination} push -u origin HEAD:${branch}
 
 #
 # Docker
