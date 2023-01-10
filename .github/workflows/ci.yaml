@@ -8,7 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: [ 8.2.0 ]
+        php:
+        - 8.2.0
     steps:
     - uses: docker/login-action@v2
       with:
@@ -23,8 +24,12 @@ jobs:
     needs: build
     strategy:
       matrix:
-        php: [ 8.2.0 ]
-        level: [ cs, unit, mutation ]
+        php:
+        - 8.2.0
+        level:
+        - cs
+        - unit
+        - mutation
     steps:
     - uses: actions/checkout@v3
     - run: make pull tests/${{ matrix.level }} php=${{ matrix.php }}
@@ -40,4 +45,14 @@ jobs:
     - run: make publish package=${{ matrix.package }} branch=${{ github.ref_name }} revision=${{ env.revision }} author="${{ github.event.commits[0].author.name }}" email=${{ github.event.commits[0].author.email }}
     strategy:
       matrix:
-        package: [ service-resolver ]
+        package:
+        - service-resolver
+
+  pr-control:
+    runs-on: ubuntu-latest
+    needs:
+    - build
+    - test
+    - publish
+    steps:
+    - run: echo You shall pass!
