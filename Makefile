@@ -35,11 +35,11 @@ publish: author = $(shell git --no-pager show -s --format='%an <%ae>' HEAD)
 publish: source = ./code/packages/${package}
 publish: workdir = ./var/tmp/${package}
 publish:
-	rm -rf ${workdir}
-	git clone -b ${branch} ${remote} ${workdir} || git clone ${remote} ${workdir}
+	@rm -rf ${workdir}
+	@git clone -b ${branch} ${remote} ${workdir} || git clone ${remote} ${workdir}
 	@rsync --archive --verbose --exclude .git --delete-after ${source}/ ${workdir}
 	@git -C ${workdir} add .
-	@echo git -C ${workdir} commit --message "${commit}" --author="${author}" && echo git -C ${workdir} push -u origin HEAD:${branch} || exit 0
+	@git -C ${workdir} commit --message "${commit}" --author="${author}" && git -C ${workdir} push -u origin HEAD:${branch} || exit 0
 
 #
 # Docker
