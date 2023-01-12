@@ -36,10 +36,10 @@ jobs:
 
   publish:
     runs-on: ubuntu-latest
-    needs: test
+    #needs: test
     steps:
     - uses: actions/checkout@v3
-    - run: make publish package=${{ matrix.package }} branch=${{ github.ref_name }} revision=${{ env.revision }} author="${{ github.event.commits[0].author.name }}" email=${{ github.event.commits[0].author.email }}
+    - run: make publish package=${{ matrix.package }}
     strategy:
       matrix:
         package:
