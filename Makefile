@@ -1,4 +1,4 @@
-MAKEFLAGS += --silent
+#MAKEFLAGS += --silent
 
 php ?= 8.2.0
 version = $(shell git rev-parse --short HEAD)
