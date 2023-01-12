@@ -31,15 +31,18 @@ tests/%:
 publish: remote = https://github.com/bauhausphp/${package}.git
 publish: branch = $(shell git rev-parse --abbrev-ref HEAD)
 publish: commit = Ref bauhausphp/bauhaus@${version}
-publish: author = $(shell git --no-pager show -s --format='%an <%ae>' HEAD)
+publish: author-name = $(shell git --no-pager show -s --format='%an' HEAD)
+publish: author-email = $(shell git --no-pager show -s --format='%ae' HEAD)
 publish: source = ./code/packages/${package}
 publish: workdir = ./var/tmp/${package}
 publish:
-	@rm -rf ${workdir}
-	@git clone -b ${branch} ${remote} ${workdir} || git clone ${remote} ${workdir}
-	@rsync --archive --verbose --exclude .git --delete-after ${source}/ ${workdir}
-	@git -C ${workdir} add .
-	@git -C ${workdir} commit --message "${commit}" --author "${author}" && git -C ${workdir} push -u origin HEAD:${branch} || exit 0
+	rm -rf ${workdir}
+	git clone -b ${branch} ${remote} ${workdir} || git clone ${remote} ${workdir}
+	rsync --archive --verbose --exclude .git --delete-after ${source}/ ${workdir}
+	git -C ${workdir} config user.name ${author-name}
+	git -C ${workdir} config user.name ${author-email}
+	git -C ${workdir} add .
+	git -C ${workdir} commit --message "${commit}" && git -C ${workdir} push -u origin HEAD:${branch} || exit 0
 
 #
 # Docker
