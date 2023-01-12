@@ -38,9 +38,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     steps:
-    - uses: webfactory/ssh-agent@v0.5.4
-      with:
-        ssh-private-key: ${{ secrets.PACKAGE_DEPLOY_KEY }}
     - uses: actions/checkout@v3
     - run: make publish package=${{ matrix.package }} branch=${{ github.ref_name }} revision=${{ env.revision }} author="${{ github.event.commits[0].author.name }}" email=${{ github.event.commits[0].author.email }}
     strategy:
