@@ -39,8 +39,8 @@ publish:
 	rm -rf ${workdir}
 	git clone -b ${branch} ${remote} ${workdir} || git clone ${remote} ${workdir}
 	rsync --archive --verbose --exclude .git --delete-after ${source}/ ${workdir}
-	git -C ${workdir} config user.name ${author-name}
-	git -C ${workdir} config user.name ${author-email}
+	git -C ${workdir} config user.name "${author-name}"
+	git -C ${workdir} config user.email ${author-email}
 	git -C ${workdir} add .
 	git -C ${workdir} commit --message "${commit}" && git -C ${workdir} push -u origin HEAD:${branch} || exit 0
 
