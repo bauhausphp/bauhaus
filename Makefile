@@ -39,7 +39,7 @@ publish:
 	@git clone -b ${branch} ${remote} ${workdir} || git clone ${remote} ${workdir}
 	@rsync --archive --verbose --exclude .git --delete-after ${source}/ ${workdir}
 	@git -C ${workdir} add .
-	@git -C ${workdir} commit --message "${commit}" --author="${author}" && git -C ${workdir} push -u origin HEAD:${branch} || exit 0
+	@git -C ${workdir} commit --message "${commit}" --author "${author}" && git -C ${workdir} push -u origin HEAD:${branch} || exit 0
 
 #
 # Docker
