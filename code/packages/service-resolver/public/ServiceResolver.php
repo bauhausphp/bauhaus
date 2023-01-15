@@ -15,8 +15,6 @@ use Bauhaus\ServiceResolver\SelfPsrContainerLocator\SelfPsrContainerDetector;
 use Psr\Container\ContainerInterface as PsrContainer;
 use Throwable;
 
-// asde
-
 final class ServiceResolver implements PsrContainer
 {
     private function __construct(

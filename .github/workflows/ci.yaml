@@ -8,8 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php:
-        - 8.2.0
+        php: [ 8.2.0 ]
     steps:
     - uses: docker/login-action@v2
       with:
@@ -17,42 +16,34 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     - uses: actions/checkout@v3
-    - run: make build push php=${{ matrix.php }}
+    - run: make docker/build docker/push php=${{ matrix.php }}
 
   test:
     runs-on: ubuntu-latest
     needs: build
     strategy:
       matrix:
-        php:
-        - 8.2.0
-        level:
-        - cs
-        - unit
-        - mutation
+        php: [ 8.2.0 ]
+        level: [ cs, unit, mutation ]
     steps:
     - uses: actions/checkout@v3
-    - run: make pull tests/${{ matrix.level }} php=${{ matrix.php }}
+    - run: make docker/pull tests/${{ matrix.level }} php=${{ matrix.php }}
 
   publish:
     runs-on: ubuntu-latest
     # needs: test
+    strategy:
+      matrix:
+        package: [ service-resolver ]
     steps:
     - uses: actions/checkout@v3
     - uses: webfactory/ssh-agent@v0.7.0
       with:
         ssh-private-key: ${{ secrets.PACKAGE_PUBLISH_KEY }}
     - run: make publish package=${{ matrix.package }}
-    strategy:
-      matrix:
-        package:
-        - service-resolver
 
   pr-control:
     runs-on: ubuntu-latest
-    needs:
-    - build
-    - test
-    - publish
+    needs: [ build, test, publish ]
     steps:
     - run: echo You shall pass!

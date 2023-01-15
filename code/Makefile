@@ -1,10 +1,6 @@
 MAKEFLAGS += --silent
-
-export
-
-#
-# test
 .PHONY: tests
+
 tests:
 	@make tests/unit
 	@make tests/mutation
@@ -22,8 +18,6 @@ tests/unit:
 tests/mutation:
 	@infection run -s -j4
 
-#
-# composer
 composer/install: composer/phars/install composer/code/install
 
 composer/phars/%:
