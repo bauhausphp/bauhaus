@@ -1,3 +1,5 @@
+MAKEFLAGS += --silent
+
 tests/%:
 	@make docker/run cmd='make ${@}'
 

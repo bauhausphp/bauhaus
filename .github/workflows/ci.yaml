@@ -27,7 +27,8 @@ jobs:
         level: [ cs, unit, mutation ]
     steps:
     - uses: actions/checkout@v3
-    - run: make docker/pull tests/${{ matrix.level }} php=${{ matrix.php }}
+    - run: make docker/pull php=${{ matrix.php }}
+    - run: make tests/${{ matrix.level }} php=${{ matrix.php }}
 
   publish:
     runs-on: ubuntu-latest
