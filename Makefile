@@ -17,6 +17,7 @@ publish:
 	@rm -rf ${workdir}
 	@git clone -b ${branch} ${remote} ${workdir} || git clone ${remote} ${workdir}
 	@rsync --quiet --archive --verbose --exclude .git --delete-after ./code/packages/${package}/ ${workdir}
+	@git -C ${workdir} status --porcelain
 	@if [ "$$(git -C ${workdir} status --porcelain)" ]; then \
 	    git -C ${workdir} config user.name "${author-name}"; \
 	    git -C ${workdir} config user.email ${author-email}; \
