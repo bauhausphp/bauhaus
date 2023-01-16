@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<ruleset name="Bauhaus">
+    <description>Bauhaus packages PHPCS configuration</description>
+
+    <rule ref="PSR12">
+        <!-- remove when readonly classes are supported -->
+        <exclude name="PSR1.Files.SideEffects.FoundWithSymbols"/>
+    </rule>
+
+    <file>./autoload.php</file>
+    <file>./packages/</file>
+    <file>./tests/</file>
+</ruleset>

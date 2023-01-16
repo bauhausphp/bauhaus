@@ -1,0 +1,16 @@
+{
+    "require": {
+        "infection/infection": "dev-master",
+        "phpunit/phpunit": "*",
+        "qossmic/deptrac-shim": "^1.0",
+        "squizlabs/php_codesniffer": "dev-master"
+    },
+
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "infection/extension-installer": false
+        },
+        "vendor-dir": "/usr/local/bauhaus/composer/code"
+    }
+}

@@ -2,38 +2,51 @@ ARG PHP
 
 FROM php:${PHP}-cli-alpine3.16
 
-ARG DIR_BIN
-ARG DIR_PACKAGES
-ARG DIR_COMPOSER_VENDOR
+ENV HOME_DIR /usr/local/bauhaus
+ENV COMPOSER_CODE_DIR $HOME_DIR/composer/code
+ENV COMPOSER_PHARS_DIR $HOME_DIR/composer/phars
+ENV CACHE_DIR $HOME_DIR/var/cache
+ENV CODE_DIR $HOME_DIR/code
+ENV PHARS_DIR $HOME_DIR/phars
+ENV REPORTS_DIR $HOME_DIR/var/reports
 
-ENV COMPOSER_VENDOR_DIR $DIR_COMPOSER_VENDOR
-ENV PATH $PATH:$DIR_BIN
+ENV PATH $PATH:$COMPOSER_PHARS_DIR/bin
 
 RUN apk add --no-cache \
         $PHPIZE_DEPS \
         gnupg \
         graphviz \
+        make \
         terminus-font \
         vim && \
     curl -sSLf \
+        -o /usr/local/bin/composer \
+        https://getcomposer.org/download/2.5.1/composer.phar && \
+    curl -sSLf \
         -o /usr/local/bin/install-php-extensions \
         https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions && \
-    curl -sSLf \
-        -o /usr/local/bin/phive \
-        https://phar.io/releases/phive.phar && \
     chmod +x \
-        /usr/local/bin/install-php-extensions \
-        /usr/local/bin/phive && \
+        /usr/local/bin/composer \
+        /usr/local/bin/install-php-extensions && \
     install-php-extensions \
         intl \
-        pcov
+        pcov && \
+    adduser bauhaus sudo -u 1000 -h $HOME_DIR -s /sbin/nologin -D && \
+    mkdir -p \
+        $COMPOSER_CODE_DIR \
+        $COMPOSER_PHARS_DIR \
+        $CACHE_DIR \
+        $CODE_DIR \
+        $PHARS_DIR \
+        $REPORTS_DIR && \
+    chown -R bauhaus:bauhaus $HOME_DIR
 
-WORKDIR $DIR_PACKAGES
+WORKDIR $CODE_DIR
+USER bauhaus
 
-COPY ./bin/ $DIR_BIN
-RUN cd $DIR_BIN && yes | phive install
+COPY --chown=bauhaus:bauhaus phars/ $PHARS_DIR/
+COPY --chown=bauhaus:bauhaus code/ $CODE_DIR/
 
-COPY ./packages/ $DIR_PACKAGES
-RUN cd $DIR_PACKAGES && composer install
+RUN make composer/install
 
 ENTRYPOINT []

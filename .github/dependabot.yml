@@ -2,11 +2,20 @@ version: 2
 
 updates:
 - package-ecosystem: composer
-  directory: "/"
+  directory: "/code"
   schedule:
     interval: daily
     time: '04:00'
     timezone: Europe/Berlin
   assignees:
   - fefas
+  versioning-strategy: increase
+- package-ecosystem: composer
+  directory: "/phars"
+  schedule:
+    interval: daily
+    time: '04:00'
+    timezone: Europe/Berlin
+  assignees:
+    - fefas
   versioning-strategy: increase

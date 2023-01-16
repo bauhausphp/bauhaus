@@ -1,0 +1,8 @@
+version: '3.9'
+
+services:
+  bauhaus:
+    image: ghcr.io/bauhausphp/bauhaus:${TAG}
+    build:
+      args:
+        PHP: ${PHP}

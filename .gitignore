@@ -1,5 +1,2 @@
-bin/*
-!bin/phive.xml
-packages/reports/
-temp/
-vendor/
+var/*
+!var/.gitkeep
