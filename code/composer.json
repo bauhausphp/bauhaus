@@ -12,8 +12,7 @@
     },
 
     "repositories": [
-        { "type":"path", "url": "./packages/*/" },
-        { "type":"path", "url": "./types/*/" }
+        { "type":"path", "url": "./packages/*/" }
     ],
 
     "config": {

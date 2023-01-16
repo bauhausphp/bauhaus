@@ -10,5 +10,4 @@
     <file>./autoload.php</file>
     <file>./packages/</file>
     <file>./tests/</file>
-    <file>./types/</file>
 </ruleset>

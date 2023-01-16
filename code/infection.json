@@ -1,7 +1,7 @@
 {
     "bootstrap": "./autoload.php",
     "source": {
-        "directories": [ "./packages", "./types" ]
+        "directories": [ "./packages" ]
     },
 
     "minMsi": 100,
