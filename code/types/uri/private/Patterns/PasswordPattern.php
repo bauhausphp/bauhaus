@@ -8,6 +8,6 @@ final class PasswordPattern extends PrimitivePattern
 {
     protected function chars(): string
     {
-        return Chars::unreserved() . Chars::subdelims() . Chars::colon();
+        return Chars::with(Chars::unreserved(), Chars::subdelims(), Chars::colon());
     }
 }

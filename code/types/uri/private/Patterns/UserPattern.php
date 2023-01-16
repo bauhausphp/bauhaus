@@ -8,6 +8,6 @@ final class UserPattern extends PrimitivePattern
 {
     protected function chars(): string
     {
-        return Chars::unreserved() . Chars::subdelims();
+        return Chars::with(Chars::unreserved(), Chars::subdelims());
     }
 }

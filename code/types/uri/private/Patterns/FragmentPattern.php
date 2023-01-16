@@ -8,6 +8,6 @@ final class FragmentPattern extends PrimitivePattern
 {
     protected function chars(): string
     {
-        return Chars::pchar() . Chars::questionMark() . Chars::slash();
+        return Chars::with(Chars::pchar(), Chars::questionMark(), Chars::slash());
     }
 }

@@ -13,6 +13,6 @@ final class SchemePattern extends PrimitivePattern
 
     protected function chars(): string
     {
-        return Chars::alpha() . Chars::digits() . '\.\-\+';
+        return Chars::with(Chars::alpha(), Chars::digits(), Chars::dot(), Chars::dash(), Chars::plus());
     }
 }

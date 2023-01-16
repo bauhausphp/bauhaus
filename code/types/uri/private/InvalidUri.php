@@ -1,6 +1,6 @@
 <?php
 
-namespace Bauhaus\Types;
+namespace Bauhaus\Types\Uri;
 
 use InvalidArgumentException;
 

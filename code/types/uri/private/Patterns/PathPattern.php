@@ -23,6 +23,6 @@ final class PathPattern extends PrimitivePattern
 
     protected function chars(): string
     {
-        return Chars::pchar() . Chars::slash();
+        return Chars::with(Chars::pchar(), Chars::slash());
     }
 }

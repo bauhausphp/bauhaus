@@ -4,14 +4,16 @@ namespace Bauhaus\Types\Uri;
 
 final readonly class Chars
 {
-    private function __construct(
-        private string $values,
-    ) {
+    private string $values;
+
+    private function __construct(string ...$values)
+    {
+        $this->values = implode('', $values);
     }
 
-    public function __toString(): string
+    public static function with(self ...$chars): self
     {
-        return $this->values;
+        return new self(...$chars);
     }
 
     public static function digits(): self
@@ -21,7 +23,7 @@ final readonly class Chars
 
     public static function alpha(): self
     {
-        return new self('a-zA-Z');
+        return new self('a-z');
     }
 
     public static function colon(): self
@@ -39,9 +41,24 @@ final readonly class Chars
         return new self('\/');
     }
 
+    public static function dash(): self
+    {
+        return new self('\-');
+    }
+
+    public static function dot(): self
+    {
+        return new self('\.');
+    }
+
+    public static function plus(): self
+    {
+        return new self('\+');
+    }
+
     public static function unreserved(): self
     {
-        return new self(self::alpha() . self::digits() . '\-\.\_\~');
+        return new self(self::alpha(), self::digits(), self::dash(), self::dot(), '\_\~');
     }
 
     public static function subdelims(): self
@@ -51,6 +68,11 @@ final readonly class Chars
 
     public static function pchar(): self
     {
-        return new self(self::unreserved() . self::subdelims() . self::colon() . '\@');
+        return new self(self::unreserved(), self::subdelims(), self::colon(), '\@');
+    }
+
+    public function __toString(): string
+    {
+        return $this->values;
     }
 }

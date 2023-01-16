@@ -9,11 +9,5 @@
 
     "mutators": {
         "@default": true,
-        "Concat": {
-            "ignore": [
-                "Bauhaus\\Types\\Uri\\Chars",
-                "Bauhaus\\Types\\Uri\\Patterns\\*"
-            ]
-        }
     }
 }

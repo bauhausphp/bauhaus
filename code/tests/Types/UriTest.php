@@ -2,8 +2,8 @@
 
 namespace Bauhaus\Tests\Types;
 
+use InvalidArgumentException;
 use Bauhaus\ServiceResolverSettings;
-use Bauhaus\Types\InvalidUri;
 use PHPUnit\Framework\TestCase;
 use Bauhaus\Types\Uri;
 
@@ -141,7 +141,7 @@ class UriTest extends TestCase
      */
     public function throwInvalidArgumentInvalidUriProvided(string $uri): void
     {
-        self::expectException(InvalidUri::class);
+        self::expectException(InvalidArgumentException::class);
         self::expectExceptionMessage("Invalid URI: $uri");
 
         Uri::fromString($uri);

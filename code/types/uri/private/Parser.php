@@ -2,8 +2,6 @@
 
 namespace Bauhaus\Types\Uri;
 
-use Bauhaus\Types\InvalidUri;
-
 final readonly class Parser
 {
     private const SUCCESS = 1;
@@ -37,6 +35,6 @@ final readonly class Parser
 
     private function buildPattern(): string
     {
-        return '%^(?J)(' . implode('|', $this->patterns) . ')$%';
+        return '%^(?J)(' . implode('|', $this->patterns) . ')$%i';
     }
 }
