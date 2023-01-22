@@ -39,4 +39,9 @@ final class ServiceResolverSettings
     {
         return new self($this->services, $this->definitionFiles, $discoverableNamespaces);
     }
+
+    public function build(): ServiceResolver
+    {
+        return ServiceResolver::build($this);
+    }
 }

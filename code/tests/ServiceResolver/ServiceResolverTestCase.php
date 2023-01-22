@@ -2,31 +2,23 @@
 
 namespace Bauhaus\Tests\ServiceResolver;
 
-use Bauhaus\ServiceResolver;
 use Bauhaus\ServiceResolverSettings;
 use Bauhaus\Tests\ServiceResolver\Doubles\DiscoverA\DiscoverableA1;
 use Bauhaus\Tests\ServiceResolver\Doubles\NotDiscover\ServiceWithoutDependencyA;
 use Bauhaus\Tests\ServiceResolver\Doubles\NotDiscover\ServiceWithoutDependencyB;
+use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface as PsrContainer;
 
-trait ServiceResolverSetup
+abstract class ServiceResolverTestCase extends TestCase
 {
-    protected readonly ServiceResolver $resolver;
-    private readonly ServiceResolverSettings $settings;
+    protected readonly PsrContainer $resolver;
 
     /**
      * @before
      */
     public function setUpServiceResolver(): void
     {
-        $this->resolver = ServiceResolver::build($this->settings);
-    }
-
-    /**
-     * @before
-     */
-    public function setUpSettings(): void
-    {
-        $this->settings = ServiceResolverSettings::new()
+        $this->resolver = ServiceResolverSettings::new()
             ->withServices([
                 'callable' => fn () => new ServiceWithoutDependencyA(),
                 'concrete-object' => new ServiceWithoutDependencyB(),
@@ -42,6 +34,7 @@ trait ServiceResolverSetup
             ->withDiscoverableNamespaces(
                 'Bauhaus\\Tests\\ServiceResolver\\Doubles\\DiscoverA',
                 'Bauhaus\\Tests\\ServiceResolver\\Doubles\\DiscoverB',
-            );
+            )
+            ->build();
     }
 }
