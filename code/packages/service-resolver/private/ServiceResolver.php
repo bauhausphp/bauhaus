@@ -14,10 +14,10 @@ use Throwable;
 /**
  * @internal
  */
-final class ServiceResolver implements PsrContainer
+final readonly class ServiceResolver implements PsrContainer
 {
     private function __construct(
-        private readonly Locator $locator,
+        private Locator $locator,
     ) {
     }
 
