@@ -2,6 +2,7 @@ MAKEFLAGS += --silent
 .PHONY: tests
 
 tests:
+	@make tests/cs
 	@make tests/unit
 	@make tests/mutation
 

@@ -8,6 +8,9 @@ install:
 	@make docker/build
 	@make docker/cp from=/usr/local/bauhaus/composer/code to=./vendor
 
+tests:
+	@make docker/run cmd='make tests'
+
 tests/%:
 	@make docker/run cmd='make ${@}'
 
@@ -43,15 +46,19 @@ docker:
 docker/files:
 	@echo docker-compose.yaml $(if ${CI},,docker-compose.local.yaml)
 
-docker/run: options = --no-deps $(if ${CI},-T)
+docker/run: options = --rm --no-deps $(if ${CI},-T)
 docker/run:
 	@make docker cmd='run ${options} bauhaus ${cmd}'
+	@make docker/down
+
+docker/down:
+	@make docker cmd='down --remove-orphans'
 
 docker/cp:
 	@rm -rf ${to}
 	@make docker cmd='up -d'
 	@make docker cmd='cp bauhaus:${from} ${to}'
-	@make docker cmd='down --remove-orphans'
+	@make docker/down
 
 docker/%:
 	@make docker cmd='${*}'
