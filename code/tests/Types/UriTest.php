@@ -3,7 +3,6 @@
 namespace Bauhaus\Tests\Types;
 
 use InvalidArgumentException;
-use Bauhaus\ServiceResolverSettings;
 use PHPUnit\Framework\TestCase;
 use Bauhaus\Types\Uri;
 
@@ -113,7 +112,6 @@ class UriTest extends TestCase
      */
     public function parseUriProperly(string $uri, Uri $expected): void
     {
-        ServiceResolverSettings::new()->withServices([]);
         $uri = Uri::fromString($uri);
 
         self::assertEquals($expected, $uri);

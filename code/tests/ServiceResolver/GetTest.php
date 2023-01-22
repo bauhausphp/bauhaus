@@ -30,14 +30,11 @@ use Bauhaus\Tests\ServiceResolver\Doubles\NotDiscover\ServiceWithOneDependency;
 use Bauhaus\Tests\ServiceResolver\Doubles\NotDiscover\ServiceWithoutDependencyA;
 use Bauhaus\Tests\ServiceResolver\Doubles\NotDiscover\ServiceWithoutDependencyB;
 use Bauhaus\Tests\ServiceResolver\Doubles\NotDiscover\Unresolvable;
-use PHPUnit\Framework\TestCase;
 use Psr\Container\NotFoundExceptionInterface as PsrNotFoundException;
 use Psr\Container\ContainerExceptionInterface as PsrContainerException;
 
-class GetTest extends TestCase
+class GetTest extends ServiceResolverTestCase
 {
-    use ServiceResolverSetup;
-
     public function idsWithExpectedClasses(): array
     {
         return [

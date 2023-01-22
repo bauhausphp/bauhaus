@@ -28,12 +28,9 @@ use Bauhaus\Tests\ServiceResolver\Doubles\DiscoverB\SubdependencyOnScalar2;
 use Bauhaus\Tests\ServiceResolver\Doubles\NotDiscover\ServiceWithOneDependency;
 use Bauhaus\Tests\ServiceResolver\Doubles\NotDiscover\ServiceWithoutDependencyA;
 use Bauhaus\Tests\ServiceResolver\Doubles\NotDiscover\Unresolvable;
-use PHPUnit\Framework\TestCase;
 
-class HaveTest extends TestCase
+class HaveTest extends ServiceResolverTestCase
 {
-    use ServiceResolverSetup;
-
     public function idsWithDefinition(): array
     {
         return [
@@ -84,7 +81,7 @@ class HaveTest extends TestCase
     {
         return [
             'non existing id' => ['non-existing-id'],
-            'out of any discoverable namespace #1' => [\stdClass::class],
+            'out of any discoverable namespace #1' => [\DateTime::class],
             'out of any discoverable namespace #2' => [\stdClass::class],
             'out of any discoverable namespace #3' => [Unresolvable::class],
             'interface among discoverable namespace' => [InterfaceInADiscoverableNamespace::class],

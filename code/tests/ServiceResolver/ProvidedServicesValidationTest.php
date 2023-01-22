@@ -2,8 +2,8 @@
 
 namespace Bauhaus\Tests\ServiceResolver;
 
-use Bauhaus\ServiceResolver;
 use Bauhaus\ServiceResolverSettings;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class ProvidedServicesValidationTest extends TestCase
@@ -16,10 +16,10 @@ class ProvidedServicesValidationTest extends TestCase
         $settings = ServiceResolverSettings::new()
             ->withDefinitionFiles('invalid-file-path');
 
-        self::expectException(\InvalidArgumentException::class);
+        self::expectException(InvalidArgumentException::class);
         self::expectExceptionMessage('Definition file does not exist: invalid-file-path');
 
-        ServiceResolver::build($settings);
+        $settings->build();
     }
 
     /**
@@ -31,10 +31,10 @@ class ProvidedServicesValidationTest extends TestCase
         $settings = ServiceResolverSettings::new()
             ->withDefinitionFiles($filePath);
 
-        self::expectException(\InvalidArgumentException::class);
+        self::expectException(InvalidArgumentException::class);
         self::expectExceptionMessage("Definition file must return array: {$filePath}");
 
-        ServiceResolver::build($settings);
+        $settings->build();
     }
 
     /**
@@ -45,9 +45,9 @@ class ProvidedServicesValidationTest extends TestCase
         $settings = ServiceResolverSettings::new()
             ->withDefinitionFiles(__DIR__ . '/Doubles/definitions-file-invalid-definition.php');
 
-        self::expectException(\InvalidArgumentException::class);
+        self::expectException(InvalidArgumentException::class);
         self::expectExceptionMessage("Invalid service provided");
 
-        ServiceResolver::build($settings);
+        $settings->build();
     }
 }

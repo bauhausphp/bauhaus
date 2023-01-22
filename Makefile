@@ -1,5 +1,16 @@
 MAKEFLAGS += --silent
 
+php ?= 8.2.0
+version = $(shell git rev-parse --short HEAD)
+revision = dev-${version}-php${php}
+
+install:
+	@make docker/build
+	@make docker/cp from=/usr/local/bauhaus/composer/code to=./vendor
+
+tests:
+	@make docker/run cmd='make tests'
+
 tests/%:
 	@make docker/run cmd='make ${@}'
 
@@ -28,9 +39,6 @@ publish:
 	    git -C ${workdir} push -u origin HEAD:${branch}; \
 	fi;
 
-docker: php ?= 8.2.0
-docker: version = $(shell git rev-parse --short HEAD)
-docker: revision = dev-${version}-php${php}
 docker: files = $(addprefix -f,$(shell make -s docker/files))
 docker:
 	@TAG=${revision} PHP=${php} docker compose ${files} ${cmd}
@@ -38,9 +46,19 @@ docker:
 docker/files:
 	@echo docker-compose.yaml $(if ${CI},,docker-compose.local.yaml)
 
-docker/run: options = --no-deps $(if ${CI},-T)
+docker/run: options = --rm --no-deps $(if ${CI},-T)
 docker/run:
 	@make docker cmd='run ${options} bauhaus ${cmd}'
+	@make docker/down
+
+docker/down:
+	@make docker cmd='down --remove-orphans'
+
+docker/cp:
+	@rm -rf ${to}
+	@make docker cmd='up -d'
+	@make docker cmd='cp bauhaus:${from} ${to}'
+	@make docker/down
 
 docker/%:
 	@make docker cmd='${*}'
