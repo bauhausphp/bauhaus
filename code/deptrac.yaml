@@ -2,9 +2,9 @@ deptrac:
   ignore_uncovered_internal_classes: true # ignore dependency to internal php classes
 
   paths:
-    - ./src
+    - ./packages
     - ./tests
-    - ./../vendor/psr
+    - ../composer/code/psr
   exclude_files: ~
 
   ruleset:
@@ -16,13 +16,13 @@ deptrac:
   layers:
     - name: ServiceResolver
       collectors:
-      - { type: directory, value: ./src/service-resolver/public/ }
-      - { type: directory, value: ./src/service-resolver/private/, private: true }
+      - { type: directory, value: ./packages/service-resolver/public/ }
+      - { type: directory, value: ./packages/service-resolver/private/, private: true }
 
     - name: TypeUri
       collectors:
-      - { type: directory, value: ./src/uri/public/ }
-      - { type: directory, value: ./src/uri/private/, private: true }
+      - { type: directory, value: ./packages/type-uri/public/ }
+      - { type: directory, value: ./packages/type-uri/private/, private: true }
 
     - name: TestServiceResolver
       collectors:
@@ -31,11 +31,11 @@ deptrac:
 
     - name: TestTypeUri
       collectors:
-      - { type: directory, value: ./tests/Types/Uri/ }
+      - { type: directory, value: ./tests/Types/UriTest.php }
 
     - name: PSR-11
       collectors:
-      - { type: directory, value: ../vendor/psr/container/ }
+      - { type: directory, value: ../composer/code/psr/container/ }
 
     - name: PhpUnit
       collectors:
