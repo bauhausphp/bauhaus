@@ -18,6 +18,6 @@
 
     "config": {
         "sort-packages": false,
-        "vendor-dir": "/usr/local/bauhaus/composer/phars"
+        "vendor-dir": "/usr/local/bauhaus/composer/code"
     }
 }

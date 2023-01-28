@@ -6,7 +6,8 @@ revision = dev-${version}-php${php}
 
 install:
 	@make docker/build
-	@make docker/cp from=/usr/local/bauhaus/composer/code to=./vendor
+	@make docker/cp from=/usr/local/bauhaus/composer/code to=./vendors/code
+	@make docker/cp from=/usr/local/bauhaus/composer/phars to=./vendors/phars
 
 tests:
 	@make docker/run cmd='make tests'
@@ -57,6 +58,7 @@ docker/down:
 docker/cp:
 	@rm -rf ${to}
 	@make docker cmd='up -d'
+	@make docker cmd='exec bauhaus rm -rf ${from}/bauhaus'
 	@make docker cmd='cp bauhaus:${from} ${to}'
 	@make docker/down
 
