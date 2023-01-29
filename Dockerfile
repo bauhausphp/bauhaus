@@ -2,42 +2,52 @@ ARG PHP
 
 FROM php:${PHP}-cli-alpine3.16
 
-ARG DIR_BIN
-ARG DIR_PACKAGES
-ARG DIR_COMPOSER_VENDOR
+ENV HOME_DIR /usr/local/bauhaus
+ENV COMPOSER_CODE_DIR $HOME_DIR/composer/code
+ENV COMPOSER_PHARS_DIR $HOME_DIR/composer/phars
+ENV CACHE_DIR $HOME_DIR/var/cache
+ENV CODE_DIR $HOME_DIR/code
+ENV PHARS_DIR $HOME_DIR/phars
+ENV REPORTS_DIR $HOME_DIR/var/reports
 
-ENV COMPOSER_VENDOR_DIR $DIR_COMPOSER_VENDOR
+ENV PATH $PATH:$COMPOSER_PHARS_DIR/bin
 
 RUN apk add --no-cache \
         $PHPIZE_DEPS \
         gnupg \
         graphviz \
+        make \
         terminus-font \
         vim && \
     curl -sSLf \
+        -o /usr/local/bin/composer \
+        https://getcomposer.org/download/2.5.1/composer.phar && \
+    curl -sSLf \
         -o /usr/local/bin/install-php-extensions \
         https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions && \
-    curl -sSLf \
-        -o /usr/local/bin/phive \
-        https://phar.io/releases/phive.phar && \
     chmod +x \
-        /usr/local/bin/install-php-extensions \
-        /usr/local/bin/phive && \
+        /usr/local/bin/composer \
+        /usr/local/bin/install-php-extensions && \
     install-php-extensions \
         intl \
-        pcov
+        pcov && \
+    adduser bauhaus sudo -u 1000 -h $HOME_DIR -s /sbin/nologin -D && \
+    mkdir -p \
+        $COMPOSER_CODE_DIR \
+        $COMPOSER_PHARS_DIR \
+        $CACHE_DIR \
+        $CODE_DIR \
+        $PHARS_DIR \
+        $REPORTS_DIR && \
+    chown -R bauhaus:bauhaus $HOME_DIR
 
-COPY ./bin/ $DIR_BIN
-RUN cd $DIR_BIN && \
-    yes | phive install && \
-    ln -s $DIR_BIN/composer.phar /usr/local/bin/composer && \
-    ln -s $DIR_BIN/deptrac.phar /usr/local/bin/deptrac && \
-    ln -s $DIR_BIN/infection.phar /usr/local/bin/infection && \
-    ln -s $DIR_BIN/phpcs.phar /usr/local/bin/phpcs && \
-    ln -s $DIR_BIN/phpunit.phar /usr/local/bin/phpunit
+WORKDIR $CODE_DIR
+USER bauhaus
 
-COPY ./packages/ $DIR_PACKAGES
-RUN composer -d $DIR_PACKAGES install
+COPY --chown=bauhaus:bauhaus phars/ $PHARS_DIR/
+COPY --chown=bauhaus:bauhaus code/ $CODE_DIR/
+
+RUN make composer/install
 
 WORKDIR $DIR_PACKAGES
 ENTRYPOINT []

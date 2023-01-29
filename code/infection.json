@@ -1,0 +1,13 @@
+{
+    "bootstrap": "./autoload.php",
+    "source": {
+        "directories": [ "./packages" ]
+    },
+
+    "minMsi": 100,
+    "minCoveredMsi": 100,
+
+    "mutators": {
+        "@default": true
+    }
+}

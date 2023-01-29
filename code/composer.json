@@ -1,0 +1,22 @@
+{
+    "type": "project",
+    "license": "MIT",
+
+    "autoload": {
+        "psr-4": { "Bauhaus\\Tests\\": "./tests/"}
+    },
+
+    "require": {
+        "bauhaus/service-resolver": "dev-main",
+        "bauhaus/type-uri": "dev-main"
+    },
+
+    "repositories": [
+        { "type":"path", "url": "./packages/*/" }
+    ],
+
+    "config": {
+        "sort-packages": false,
+        "vendor-dir": "/usr/local/bauhaus/composer/code"
+    }
+}
