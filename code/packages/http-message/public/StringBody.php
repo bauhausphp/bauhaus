@@ -4,7 +4,7 @@ namespace Bauhaus\Http\Message;
 
 use Psr\Http\Message\StreamInterface as PsrStream;
 
-final class Body implements PsrStream
+final class StringStream implements PsrStream
 {
     private function __construct(
         private readonly string $value,
@@ -28,6 +28,7 @@ final class Body implements PsrStream
 
     public function __toString(): string
     {
+        return $this->toString();
     }
 
     public function close(): void

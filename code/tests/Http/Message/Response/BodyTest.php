@@ -2,17 +2,8 @@
 
 namespace Bauhaus\Tests\Http\Message\Response;
 
-use Bauhaus\Http\Message\Body;
+use Bauhaus\Tests\Http\Message\HttpMessageBodyTestCase;
 
-final class BodyTest extends TestCase
+final class BodyTest extends HttpMessageBodyTestCase
 {
-    /** @test */
-    public function mutateBody(): void
-    {
-        $body = Body::fromString('new body');
-
-        $response = $this->response->withBody($body);
-
-        $this->assertEquals($body, $response->getBody());
-    }
 }
