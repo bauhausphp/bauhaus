@@ -27,7 +27,9 @@ tests/unit:
 tests/mutation:
 	@infection run -s -j4
 
-composer/install: composer/phars/install composer/code/install
+composer/%:
+	@make composer/phars/${*}
+	@make composer/code/${*}
 
 composer/phars/%:
 	@make composer cmd=${*} workDir=${PHARS_DIR} vendorDir=${COMPOSER_PHARS_DIR}

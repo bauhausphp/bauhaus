@@ -7,6 +7,7 @@
     },
 
     "require": {
+        "bauhaus/http-message": "dev-main",
         "bauhaus/service-resolver": "dev-main",
         "bauhaus/type-uri": "dev-main"
     },
