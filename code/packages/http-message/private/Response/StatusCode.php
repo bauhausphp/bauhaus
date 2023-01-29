@@ -2,10 +2,10 @@
 
 namespace Bauhaus\Http\Message\Response;
 
-final class StatusCode
+final readonly class StatusCode
 {
     public function __construct(
-        private readonly int $value,
+        private int $value,
     ) {
         $this->assertValidity();
     }

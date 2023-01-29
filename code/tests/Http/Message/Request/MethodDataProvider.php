@@ -6,9 +6,13 @@ trait MethodDataProvider
 {
     public function validMethods(): iterable
     {
-        // todo add all of them
-        foreach (['GET', 'POST', 'PUT'] as $method) {
-            yield "$method" => [$method];
-        }
+        yield 'GET' => ['GET'];
+        yield 'HEAD' => ['HEAD'];
+        yield 'POST' => ['POST'];
+        yield 'PUT' => ['PUT'];
+        yield 'DELETE' => ['DELETE'];
+        yield 'CONNECT' => ['CONNECT'];
+        yield 'OPTIONS' => ['OPTIONS'];
+        yield 'TRACE' => ['TRACE'];
     }
 }

@@ -17,7 +17,7 @@ class HttpMessageProtocolTestCase extends HttpMessageTestCase
      * @test
      * @dataProvider supportedVersions
      */
-    public function newInstanceContainsNewVersion(string $version): void
+    public function createNewInstanceWithProvidedProtocol(string $version): void
     {
         $message = $this->message->withProtocolVersion($version);
 
@@ -34,10 +34,10 @@ class HttpMessageProtocolTestCase extends HttpMessageTestCase
      * @test
      * @dataProvider unsupportedVersions
      */
-    public function throwExceptionIfProvidedProtocolIsUnsupported(string $version): void
+    public function throwExceptionIfProvidedProtocolIsInvalid(string $version): void
     {
         self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('Unsupported protocol');
+        self::expectExceptionMessage('Invalid protocol');
 
         $this->message->withProtocolVersion($version);
     }

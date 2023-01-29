@@ -2,14 +2,16 @@
 
 namespace Bauhaus\Http\Message\Response;
 
-final class StatusReasonPhrase
+use Stringable;
+
+final readonly class StatusReasonPhrase implements Stringable
 {
     private function __construct(
-        private readonly string $value,
+        private string $value,
     ) {
     }
 
-    public function toString(): string
+    public function __toString(): string
     {
         return $this->value;
     }

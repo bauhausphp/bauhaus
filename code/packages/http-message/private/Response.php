@@ -5,31 +5,32 @@ namespace Bauhaus\Http\Message;
 use Bauhaus\Http\Message\Response\Status;
 use Psr\Http\Message\ResponseInterface as PsrResponse;
 use Psr\Http\Message\StreamInterface as PsrStream;
+use Stringable;
 
-final class Response implements PsrResponse
+final readonly class Response implements PsrResponse, Stringable
 {
     public function __construct(
-        private readonly Protocol $protocol,
-        private readonly Status $status,
-        private readonly Headers $headers,
-        private readonly PsrStream $body,
+        private Protocol $protocol,
+        private Status $status,
+        private Headers $headers,
+        private PsrStream $body,
     ) {
     }
 
-    public function toString(): string
+    public function __toString(): string
     {
         return <<<STR
-            {$this->protocol->toString()} {$this->status->toString()}
-            {$this->headers->toString()}
+            HTTP/{$this->protocol} {$this->status}
+            {$this->headers}
 
-            {$this->body->toString()}
+            {$this->body}
             STR;
     }
 
     /** {@inheritdoc} */
     public function getProtocolVersion(): string
     {
-        return $this->protocol->versionToString();
+        return $this->protocol;
     }
 
     /** {@inheritdoc} */
@@ -53,13 +54,13 @@ final class Response implements PsrResponse
     /** {@inheritdoc} */
     public function getHeader($name): array
     {
-        return $this->headers->find($name)->values();
+        return $this->headers->find($name)->valuesAsArray();
     }
 
     /** {@inheritdoc} */
     public function getHeaderLine($name): string
     {
-        return $this->headers->find($name)->valuesToString();
+        return $this->headers->find($name)->valuesAsString();
     }
 
     /** {@inheritdoc} */
@@ -83,7 +84,7 @@ final class Response implements PsrResponse
     /** {@inheritdoc} */
     public function withStatus($code, $reasonPhrase = ''): PsrResponse
     {
-        return $this->clonedWith(status: Status::fromInput($code, $reasonPhrase));
+        return $this->clonedWith(status: Status::with($code, $reasonPhrase));
     }
 
     /** {@inheritdoc} */

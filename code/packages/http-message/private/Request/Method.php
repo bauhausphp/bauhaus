@@ -2,18 +2,25 @@
 
 namespace Bauhaus\Http\Message\Request;
 
-enum Method: string
-{
-    case GET = 'GET';
-    case POST = 'POST';
-    case PUT = 'PUT';
+use Stringable;
 
-    public static function fromString(string $version): self
-    {
-        return self::tryFrom($version) ?? throw new InvalidMethod();
+final readonly class Method implements Stringable
+{
+    private function __construct(
+        private string $value,
+    ) {
     }
 
-    public function toString(): string
+    public static function fromString(string $value): self
+    {
+        return match ($value) {
+            'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE' => new self($value),
+            default => throw new InvalidMethod(),
+        };
+
+    }
+
+    public function __toString(): string
     {
         return $this->value;
     }

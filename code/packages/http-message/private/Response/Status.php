@@ -2,15 +2,17 @@
 
 namespace Bauhaus\Http\Message\Response;
 
-final class Status
+use Stringable;
+
+final readonly class Status implements Stringable
 {
     private function __construct(
-        private readonly StatusCode $code,
-        private readonly StatusReasonPhrase $reasonPhrase,
+        private StatusCode $code,
+        private StatusReasonPhrase $reasonPhrase,
     ) {
     }
 
-    public static function fromInput(int $code, string $reasonPhrase): self
+    public static function with(int $code, string $reasonPhrase): self
     {
         $code = new StatusCode($code);
         $reasonPhrase = match ($reasonPhrase) {
@@ -21,6 +23,11 @@ final class Status
         return new self($code, $reasonPhrase);
     }
 
+    public function __toString(): string
+    {
+        return "{$this->code()} {$this->reasonPhrase()}";
+    }
+
     public function code(): int
     {
         return $this->code->toInt();
@@ -28,11 +35,6 @@ final class Status
 
     public function reasonPhrase(): string
     {
-        return $this->reasonPhrase->toString();
-    }
-
-    public function toString(): string
-    {
-        return "{$this->code()} {$this->reasonPhrase()}";
+        return $this->reasonPhrase;
     }
 }

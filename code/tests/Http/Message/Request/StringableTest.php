@@ -2,25 +2,29 @@
 
 namespace Bauhaus\Tests\Http\Message\Request;
 
-use Bauhaus\Http\Message\Body;
+use Bauhaus\Http\Message\RequestFactory;
+use Bauhaus\Http\Message\StringBody;
+use PHPUnit\Framework\TestCase;
 
-class StringCastTest extends TestCase
+class StringableTest extends TestCase
 {
     /** @test */
     public function haveEmptyHeadersByDefault(): void
     {
-        $request = $this->request
+        $request = RequestFactory::default()
+            ->createRequest('POST', 'https://host/path/path')
             ->withProtocolVersion('1.0')
             ->withMethod('POST')
             ->withHeader('Content-Type', 'application/json')
             ->withHeader('X-Custom', ['Einstein', 'Newton'])
-            ->withBody(Body::fromString('{"field":"value"}'));
+            ->withBody(StringBody::with('{"field":"value"}'));
 
-        $string = $request->toString();
+        $string = (string) $request;
 
+        // TODO uri
         $this->assertEquals(
             <<<STR
-            HTTP/1.0 POST /target/path
+            HTTP/1.0 POST
             Content-Type: application/json
             X-Custom: Einstein, Newton
 

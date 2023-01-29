@@ -2,23 +2,20 @@
 
 namespace Bauhaus\Tests\Http\Message\Request;
 
-class MethodTest extends TestCase
-{
-    private const VALID_METHODS = ['GET', 'POST', 'PUT'];
-    private const INVALID_METHODS = ['invalid'];
+use Bauhaus\Tests\Http\Message\HttpMessageTestCase;
 
-    /** @test @dataProvider validMethods */
+class MethodTest extends HttpMessageTestCase
+{
+    use MethodDataProvider;
+
+    /**
+     * @test
+     * @dataProvider validMethods
+     */
     public function mutateMethod(string $method): void
     {
-        $request = $this->request->withMethod($method);
+        $request = $this->message->withMethod($method);
 
         $this->assertEquals($method, $request->getMethod());
-    }
-
-    public function validMethods(): iterable
-    {
-        foreach (self::VALID_METHODS as $method) {
-            yield $method => [$method];
-        }
     }
 }

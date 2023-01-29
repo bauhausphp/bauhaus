@@ -6,8 +6,9 @@ use Bauhaus\Http\Message\Request\Method;
 use Psr\Http\Message\RequestInterface as PsrRequest;
 use Psr\Http\Message\StreamInterface as PsrStream;
 use Psr\Http\Message\UriInterface as PsrUri;
+use Stringable;
 
-final class Request implements PsrRequest
+final class Request implements PsrRequest, Stringable
 {
     public function __construct(
         private readonly Protocol $protocol,
@@ -17,26 +18,26 @@ final class Request implements PsrRequest
     ) {
     }
 
-    public function toString(): string
+    public function __toString(): string
     {
         return <<<STR
-            {$this->protocol->toString()} {$this->method->toString()}
-            {$this->headers->toString()}
+            HTTP/{$this->protocol} {$this->method}
+            {$this->headers}
 
-            {$this->body->toString()}
+            {$this->body}
             STR;
     }
 
     /** {@inheritdoc} */
     public function getProtocolVersion(): string
     {
-        return $this->protocol->versionToString();
+        return $this->protocol;
     }
 
     /** {@inheritdoc} */
     public function getMethod(): string
     {
-        return $this->method->toString();
+        return $this->method;
     }
 
     /** {@inheritdoc} */
@@ -58,13 +59,13 @@ final class Request implements PsrRequest
     /** {@inheritdoc} */
     public function getHeader($name): array
     {
-        return $this->headers->find($name)->values();
+        return $this->headers->find($name)->valuesAsArray();
     }
 
     /** {@inheritdoc} */
     public function getHeaderLine($name): string
     {
-        return $this->headers->find($name)->valuesToString();
+        return $this->headers->find($name)->valuesAsString();
     }
 
     /** {@inheritdoc} */
@@ -105,18 +106,16 @@ final class Request implements PsrRequest
     public function withHeader($name, $value): PsrRequest
     {
         $values = is_array($value) ? $value : [$value];
-        $headers = $this->headers->overwrittenWith($name, ...$values);
 
-        return $this->clonedWith(headers: $headers);
+        return $this->clonedWith(headers: $this->headers->overwrittenWith($name, ...$values));
     }
 
     /** {@inheritdoc} */
     public function withAddedHeader($name, $value): PsrRequest
     {
         $values = is_array($value) ? $value : [$value];
-        $headers = $this->headers->appendedWith($name, ...$values);
 
-        return $this->clonedWith(headers: $headers);
+        return $this->clonedWith(headers: $this->headers->appendedWith($name, ...$values));
     }
 
     /** {@inheritdoc} */

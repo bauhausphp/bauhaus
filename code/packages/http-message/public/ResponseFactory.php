@@ -18,12 +18,12 @@ final readonly class ResponseFactory implements PsrResponseFactory
 
     public static function default(): self
     {
-        return new self(Protocol::V_1_1, Headers::empty(), StringBody::empty());
+        return new self(Protocol::version1dot1(), Headers::empty(), StringBody::empty());
     }
 
     public function createResponse(int $code = 200, string $reasonPhrase = ''): PsrResponse
     {
-        $status = Status::fromInput($code, $reasonPhrase);
+        $status = Status::with($code, $reasonPhrase);
 
         return new Response($this->protocol, $status, $this->headers, $this->body);
     }

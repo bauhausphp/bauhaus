@@ -2,20 +2,22 @@
 
 namespace Bauhaus\Http\Message;
 
-final class HeaderLineName
+use Stringable;
+
+final readonly class HeaderName implements Stringable
 {
     private function __construct(
-        private readonly string $value,
+        private string $value,
     ) {
         // todo assert validity
     }
 
-    public static function fromInput(string $value): self
+    public static function with(string $value): self
     {
         return new self($value);
     }
 
-    public function toString(): string
+    public function __toString(): string
     {
         return $this->value;
     }

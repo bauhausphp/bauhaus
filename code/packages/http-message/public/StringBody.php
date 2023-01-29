@@ -3,11 +3,12 @@
 namespace Bauhaus\Http\Message;
 
 use Psr\Http\Message\StreamInterface as PsrStream;
+use Stringable;
 
-final readonly class StringBody implements PsrStream
+final readonly class StringBody implements PsrStream, Stringable
 {
     private function __construct(
-        private string $value,
+        private string $content,
     ) {
     }
 
@@ -21,14 +22,9 @@ final readonly class StringBody implements PsrStream
         return new self($str);
     }
 
-    public function toString(): string
-    {
-        return $this->value;
-    }
-
     public function __toString(): string
     {
-        return $this->toString();
+        return $this->content;
     }
 
     public function close(): void
@@ -79,7 +75,7 @@ final readonly class StringBody implements PsrStream
     {
     }
 
-    public function getContents()
+    public function getContents(): string
     {
     }
 

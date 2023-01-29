@@ -2,23 +2,30 @@
 
 namespace Bauhaus\Http\Message;
 
-enum Protocol: string
+use Stringable;
+
+class Protocol implements Stringable
 {
-    case V_1_0 = '1.0';
-    case V_1_1 = '1.1';
+    private function __construct(
+        private string $value,
+    ) {
+    }
+
+    public static function version1dot1(): self
+    {
+        return new self('1.1');
+    }
 
     public static function fromString(string $version): self
     {
-        return self::tryFrom($version) ?? throw new UnsupportedProtocol();
+        return match ($version) {
+            '1.0', '1.1' => new self($version),
+            default => throw new InvalidProtocol(),
+        };
     }
 
-    public function versionToString(): string
+    public function __toString(): string
     {
         return $this->value;
-    }
-
-    public function toString(): string
-    {
-        return "HTTP/{$this->versionToString()}";
     }
 }

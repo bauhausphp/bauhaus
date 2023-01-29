@@ -2,14 +2,16 @@
 
 namespace Bauhaus\Http\Message;
 
-final class Headers
+use Stringable;
+
+final class Headers implements Stringable
 {
     /** @var HeaderLine[] */ private array $lines = [];
 
     private function __construct(HeaderLine ...$lines)
     {
         foreach ($lines as $line) {
-            $this->lines[$line->normalizedName()] = $line;
+            $this->lines[$line->id()] = $line;
         }
 
         ksort($this->lines);
@@ -20,22 +22,19 @@ final class Headers
         return new self();
     }
 
+    public function __toString(): string
+    {
+        return implode("\n", $this->lines);
+    }
+
     public function toArray(): array
     {
         $arr = [];
         foreach ($this->lines as $line) {
-            $arr[$line->name()] = $line->values();
+            $arr[$line->name()] = $line->valuesAsArray();
         }
 
         return $arr;
-    }
-
-    public function toString(): string
-    {
-        return implode(
-            "\n",
-            array_map(fn (HeaderLine $l): string => $l->toString(), $this->lines),
-        );
     }
 
     public function has(string $name): bool
@@ -43,18 +42,18 @@ final class Headers
         return $this->find($name)->hasValues();
     }
 
-    public function find(string $name): ?HeaderLine
+    public function find(string $name): HeaderLine
     {
-        $line = HeaderLine::fromInput($name);
+        $line = HeaderLine::empty($name);
 
-        return $this->lines[$line->normalizedName()] ?? $line;
+        return $this->lines[$line->id()] ?? $line;
     }
 
     public function overwrittenWith(string $name, string ...$values): self
     {
         return $this
             ->without($name)
-            ->with(HeaderLine::fromInput($name, ...$values));
+            ->with(HeaderLine::with($name, ...$values));
     }
 
     public function appendedWith(string $name, string ...$values): self
@@ -66,16 +65,14 @@ final class Headers
 
     public function without(string $name): self
     {
-        return new self(...array_diff_key($this->lines, $this->withOnly($name)->lines));
+        $linesWithout = $this->lines;
+        unset($linesWithout[HeaderLine::empty($name)->id()]);
+
+        return new self(...$linesWithout);
     }
 
     private function with(HeaderLine $newLine): self
     {
         return new self($newLine, ...$this->lines);
-    }
-
-    private function withOnly(string $name): self
-    {
-        return new self($this->find($name));
     }
 }

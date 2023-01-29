@@ -14,9 +14,9 @@ abstract class HttpMessageTestCase extends TestCase
     private readonly PsrHttpMessage $clonedMessage;
 
     /** @before */
-    public function setUpMessage(): void
+    public function setUpImmutabilityAssert(): void
     {
-        $this->message = $this->createMessage();
+        $this->message = $this->setUpMessage();
         $this->clonedMessage = clone $this->message;
     }
 
@@ -26,7 +26,7 @@ abstract class HttpMessageTestCase extends TestCase
         self::assertEquals($this->clonedMessage, $this->message, 'Immutability broken');
     }
 
-    private function createMessage(): PsrHttpMessage
+    protected function setUpMessage(): PsrHttpMessage
     {
         $rClass = new ReflectionClass($this);
         $namespace = explode('\\', $rClass->getNamespaceName());

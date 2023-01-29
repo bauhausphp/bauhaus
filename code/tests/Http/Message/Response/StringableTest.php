@@ -2,21 +2,24 @@
 
 namespace Bauhaus\Tests\Http\Message\Response;
 
-use Bauhaus\Http\Message\Body;
+use Bauhaus\Http\Message\ResponseFactory;
+use Bauhaus\Http\Message\StringBody;
+use PHPUnit\Framework\TestCase;
 
-class StringCastTest extends TestCase
+class StringableTest extends TestCase
 {
     /** @test */
     public function haveEmptyHeadersByDefault(): void
     {
-        $response = $this->response
+        $response = ResponseFactory::default()
+            ->createResponse()
             ->withProtocolVersion('1.0')
             ->withStatus(404)
             ->withHeader('Content-Type', 'application/json')
             ->withHeader('X-Custom', ['Einstein', 'Newton'])
-            ->withBody(Body::fromString('{"field":"value"}'));
+            ->withBody(StringBody::with('{"field":"value"}'));
 
-        $string = $response->toString();
+        $string = (string) $response;
 
         $this->assertEquals(
             <<<STR

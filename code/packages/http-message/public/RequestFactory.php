@@ -18,7 +18,7 @@ final class RequestFactory implements PsrRequestFactory
 
     public static function default(): self
     {
-        return new self(Protocol::V_1_1, Headers::empty(), StringBody::empty());
+        return new self(Protocol::version1dot1(), Headers::empty(), StringBody::empty());
     }
 
     public function createRequest(string $method, $uri): PsrRequest
