@@ -12,7 +12,7 @@ final class Response implements PsrResponse
         private readonly Protocol $protocol,
         private readonly Status $status,
         private readonly Headers $headers,
-        private readonly Body $body,
+        private readonly PsrStream $body,
     ) {
     }
 
@@ -118,7 +118,7 @@ final class Response implements PsrResponse
         Protocol $protocol = null,
         Status $status = null,
         Headers $headers = null,
-        Body $body = null,
+        PsrStream $body = null,
     ): self {
         return new self(
             $protocol ?? $this->protocol,

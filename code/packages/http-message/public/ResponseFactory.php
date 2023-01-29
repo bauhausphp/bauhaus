@@ -5,19 +5,20 @@ namespace Bauhaus\Http\Message;
 use Bauhaus\Http\Message\Response\Status;
 use Psr\Http\Message\ResponseFactoryInterface as PsrResponseFactory;
 use Psr\Http\Message\ResponseInterface as PsrResponse;
+use Psr\Http\Message\StreamInterface as PsrStream;
 
-final class ResponseFactory implements PsrResponseFactory
+final readonly class ResponseFactory implements PsrResponseFactory
 {
     private function __construct(
         private Protocol $protocol,
         private Headers $headers,
-        private Body $body,
+        private PsrStream $body,
     ) {
     }
 
-    public static function withDefaults(): self
+    public static function default(): self
     {
-        return new self(Protocol::V_1_1, Headers::empty(), Body::empty());
+        return new self(Protocol::V_1_1, Headers::empty(), StringBody::empty());
     }
 
     public function createResponse(int $code = 200, string $reasonPhrase = ''): PsrResponse

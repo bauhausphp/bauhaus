@@ -4,10 +4,10 @@ namespace Bauhaus\Http\Message;
 
 use Psr\Http\Message\StreamInterface as PsrStream;
 
-final class StringStream implements PsrStream
+final readonly class StringBody implements PsrStream
 {
     private function __construct(
-        private readonly string $value,
+        private string $value,
     ) {
     }
 
@@ -16,7 +16,7 @@ final class StringStream implements PsrStream
         return new self('');
     }
 
-    public static function fromString(string $str): self
+    public static function with(string $str): self
     {
         return new self($str);
     }

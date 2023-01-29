@@ -5,19 +5,20 @@ namespace Bauhaus\Http\Message;
 use Bauhaus\Http\Message\Request\Method;
 use Psr\Http\Message\RequestFactoryInterface as PsrRequestFactory;
 use Psr\Http\Message\RequestInterface as PsrRequest;
+use Psr\Http\Message\StreamInterface as PsrStream;
 
 final class RequestFactory implements PsrRequestFactory
 {
     private function __construct(
         private Protocol $protocol,
         private Headers $headers,
-        private Body $body,
+        private PsrStream $body,
     ) {
     }
 
-    public static function withDefaults(): self
+    public static function default(): self
     {
-        return new self(Protocol::V_1_1, Headers::empty(), Body::empty());
+        return new self(Protocol::V_1_1, Headers::empty(), StringBody::empty());
     }
 
     public function createRequest(string $method, $uri): PsrRequest

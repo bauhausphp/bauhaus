@@ -13,7 +13,7 @@ final class Request implements PsrRequest
         private readonly Protocol $protocol,
         private readonly Method $method,
         private readonly Headers $headers,
-        private readonly Body $body,
+        private readonly PsrStream $body,
     ) {
     }
 
@@ -135,7 +135,7 @@ final class Request implements PsrRequest
         Protocol $protocol = null,
         Method $method = null,
         Headers $headers = null,
-        Body $body = null,
+        PsrStream $body = null,
     ): self {
         return new self(
             $protocol ?? $this->protocol,

@@ -2,25 +2,53 @@
 
 namespace Bauhaus\Tests\Http\Message\Request;
 
-use Bauhaus\Http\Message\Body;
+use Bauhaus\Http\Message\RequestFactory;
+use PHPUnit\Framework\TestCase;
 
-class FactoryTest extends TestCase
+final class FactoryTest extends TestCase
 {
-    /** @test */
-    public function createRequestWith1Point1AsProtocolByDefault(): void
+    use MethodDataProvider;
+
+    private RequestFactory $factory;
+
+    /** @before  */
+    public function setUpFactory(): void
     {
-        $this->assertEquals('1.1', $this->request->getProtocolVersion());
+        $this->factory = RequestFactory::default();
+    }
+
+    /** @test */
+    public function createRequestWith1Point1ProtocolByDefault(): void
+    {
+        $request = $this->factory->createRequest('GET', '/');
+
+        $this->assertEquals('1.1', $request->getProtocolVersion());
     }
 
     /** @test */
     public function createRequestWithEmptyHeadersByDefault(): void
     {
-        $this->assertEmpty($this->request->getHeaders());
+        $request = $this->factory->createRequest('GET', '/');
+
+        $this->assertEmpty($request->getHeaders());
     }
 
     /** @test */
     public function createRequestWithEmptyBodyByDefault(): void
     {
-        $this->assertEquals(Body::empty(), $this->request->getBody());
+        $request = $this->factory->createRequest('GET', '/');
+
+        $this->assertEmpty((string) $request->getBody());
+    }
+
+    /**
+     * @test
+     * @dataProvider validMethods
+     */
+    public function createRequestWithProvidedMethod(string $method): void
+    {
+        $request = $this->factory->createRequest($method, '/');
+
+        $this->assertEquals($method, $request->getMethod());
     }
 }

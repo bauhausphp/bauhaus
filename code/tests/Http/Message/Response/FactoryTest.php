@@ -2,38 +2,58 @@
 
 namespace Bauhaus\Tests\Http\Message\Response;
 
-use Bauhaus\Http\Message\Body;
 use InvalidArgumentException;
+use Bauhaus\Http\Message\ResponseFactory;
+use PHPUnit\Framework\TestCase;
 
 class FactoryTest extends TestCase
 {
     use StatusDataProvider;
 
-    /** @test */
-    public function createResponseWith200AsStatusCodeIfNoneIsProvided(): void
+    private ResponseFactory $factory;
+
+    /** @before  */
+    public function setUpFactory(): void
     {
-        $this->assertEquals(200, $this->response->getStatusCode());
+        $this->factory = ResponseFactory::default();
     }
 
     /** @test */
-    public function createResponseWith1Point1AsProtocolByDefault(): void
+    public function createResponseWith200StatusCodeIfNoneIsProvided(): void
     {
-        $this->assertEquals('1.1', $this->response->getProtocolVersion());
+        $response = $this->factory->createResponse();
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    /** @test */
+    public function createResponseWith1Point1ProtocolByDefault(): void
+    {
+        $response = $this->factory->createResponse();
+
+        $this->assertEquals('1.1', $response->getProtocolVersion());
     }
 
     /** @test */
     public function createResponseWithEmptyHeadersByDefault(): void
     {
-        $this->assertEmpty($this->response->getHeaders());
+        $response = $this->factory->createResponse();
+
+        $this->assertEmpty($response->getHeaders());
     }
 
     /** @test */
     public function createResponseWithEmptyBodyByDefault(): void
     {
-        $this->assertEquals(Body::empty(), $this->response->getBody());
+        $response = $this->factory->createResponse();
+
+        $this->assertEmpty((string) $response->getBody());
     }
 
-    /** @test @dataProvider validStatusCodes */
+    /**
+     * @test
+     * @dataProvider validStatusCodes
+     */
     public function createResponseWithProvidedStatusCode(int $code): void
     {
         $response = $this->factory->createResponse($code);
@@ -41,24 +61,33 @@ class FactoryTest extends TestCase
         $this->assertEquals($code, $response->getStatusCode());
     }
 
-    /** @test @dataProvider statusCodesWithIanaReasonPhrases */
-    public function useReasonPhraseFromIanaRegistryIfNoneIsProvided(int $code, string $reasonPhrase): void
+    /**
+     * @tes
+     * @dataProvider statusCodesWithIanaReasonPhrases
+     */
+    public function useReasonPhraseFromIanaRegistryIfItWasNotProvided(int $code, string $reasonPhrase): void
     {
         $response = $this->factory->createResponse($code);
 
         $this->assertEquals($reasonPhrase, $response->getReasonPhrase());
     }
 
-    /** @test @dataProvider validStatusCodes */
-    public function overwriteReasonPhraseIfOneIsProvided(int $code): void
+    /**
+     * @test
+     * @dataProvider validStatusCodes
+     */
+    public function createResponseWithProvidedReasonPhraseRegardlessOfProvidedCode(int $code): void
     {
         $response = $this->factory->createResponse($code, 'Custom Reason Phrase');
 
         $this->assertEquals('Custom Reason Phrase', $response->getReasonPhrase());
     }
 
-    /** @test @dataProvider invalidStatusCodes */
-    public function throwExceptionIfProvidedStatusCodeIsInvalid(int $invalidCode): void
+    /**
+     * @test
+     * @dataProvider invalidStatusCodes
+     */
+    public function throwExceptionIfInvalidStatusCodeIsProvided(int $invalidCode): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid status code');
