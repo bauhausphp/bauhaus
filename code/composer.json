@@ -7,6 +7,7 @@
     },
 
     "require": {
+        "bauhaus/http-port": "dev-main",
         "bauhaus/service-resolver": "dev-main",
         "bauhaus/type-uri": "dev-main"
     },
@@ -17,6 +18,6 @@
 
     "config": {
         "sort-packages": false,
-        "vendor-dir": "/usr/local/bauhaus/composer/phars"
+        "vendor-dir": "/usr/local/bauhaus/composer/code"
     }
 }

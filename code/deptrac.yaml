@@ -4,16 +4,24 @@ deptrac:
   paths:
     - ./packages
     - ./tests
-    - ../composer/code/psr
+    - ./../composer/code/psr
   exclude_files: ~
 
   ruleset:
-    ServiceResolver: [ PSR-11 ]
+    HttpPort: [ Psr7, Psr15 ]
+    ServiceResolver: [ Psr11 ]
     TypeUri: []
+    TestHttpPort: [ +HttpPort, PhpUnit ]
     TestServiceResolver: [ +ServiceResolver, PhpUnit ]
     TestTypeUri: [ +TypeUri, PhpUnit ]
+    Psr15: [ Psr7 ]
 
   layers:
+    - name: HttpPort
+      collectors:
+      - { type: directory, value: ./packages/http-port/public/ }
+      - { type: directory, value: ./packages/http-port/private/, private: true }
+
     - name: ServiceResolver
       collectors:
       - { type: directory, value: ./packages/service-resolver/public/ }
@@ -24,6 +32,10 @@ deptrac:
       - { type: directory, value: ./packages/type-uri/public/ }
       - { type: directory, value: ./packages/type-uri/private/, private: true }
 
+    - name: TestHttpPort
+      collectors:
+      - { type: directory, value: ./tests/HttpPort/ }
+
     - name: TestServiceResolver
       collectors:
       - { type: directory, value: ./tests/ServiceResolver/ }
@@ -33,9 +45,17 @@ deptrac:
       collectors:
       - { type: directory, value: ./tests/Types/UriTest.php }
 
-    - name: PSR-11
+    - name: Psr7
+      collectors:
+      - { type: directory, value: ../composer/code/psr/http-message/ }
+
+    - name: Psr11
       collectors:
       - { type: directory, value: ../composer/code/psr/container/ }
+
+    - name: Psr15
+      collectors:
+      - { type: directory, value: ../composer/code/psr/http-server-handler/ }
 
     - name: PhpUnit
       collectors:
@@ -45,12 +65,16 @@ deptrac:
     graphviz:
       groups:
         Packages:
+        - HttpPort
         - ServiceResolver
         - TypeUri
         Tests:
+        - TestHttpPort
         - TestServiceResolver
         - TestTypeUri
         PSRs:
-        - PSR-11
+        - Psr7
+        - Psr11
+        - Psr15
         Vendor:
         - PhpUnit

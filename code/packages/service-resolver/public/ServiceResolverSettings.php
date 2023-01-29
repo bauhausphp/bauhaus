@@ -3,6 +3,7 @@
 namespace Bauhaus;
 
 use Bauhaus\ServiceResolver\ServiceResolver;
+use Psr\Container\ContainerInterface as PsrContainer;
 
 final readonly class ServiceResolverSettings
 {
@@ -42,7 +43,7 @@ final readonly class ServiceResolverSettings
         return new self($this->services, $this->definitionFiles, $discoverableNamespaces);
     }
 
-    public function build(): ServiceResolver
+    public function build(): PsrContainer
     {
         return ServiceResolver::build($this);
     }
