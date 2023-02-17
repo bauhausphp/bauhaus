@@ -17,7 +17,6 @@ final readonly class Method implements Stringable
             'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE' => new self($value),
             default => throw new InvalidMethod(),
         };
-
     }
 
     public function __toString(): string
