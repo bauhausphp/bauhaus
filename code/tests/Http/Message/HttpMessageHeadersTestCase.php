@@ -24,10 +24,7 @@ abstract class HttpMessageHeadersTestCase extends HttpMessageTestCase
         }
     }
 
-    /**
-     * @test
-     * @dataProvider caseInsensitiveSamples
-     */
+    /** @test @dataProvider caseInsensitiveSamples */
     public function haveHeaderAfterAddingHeaderValues(string $case1, string $case2): void
     {
         $message = $this->message->withHeader($case1, ['v1', 'v2']);
@@ -35,10 +32,7 @@ abstract class HttpMessageHeadersTestCase extends HttpMessageTestCase
         self::assertTrue($message->hasHeader($case2));
     }
 
-    /**
-     * @test
-     * @dataProvider caseInsensitiveSamples
-     */
+    /** @test @dataProvider caseInsensitiveSamples */
     public function haveHeaderAfterAppendingHeaderValues(string $case1, string $case2): void
     {
         $message = $this->message->withAddedHeader($case1, 'v2');
@@ -46,10 +40,7 @@ abstract class HttpMessageHeadersTestCase extends HttpMessageTestCase
         self::assertTrue($message->hasHeader($case2));
     }
 
-    /**
-     * @test
-     * @dataProvider caseInsensitiveSamples
-     */
+    /** @test @dataProvider caseInsensitiveSamples */
     public function haveHeaderAfterAddingAndAppendingHeaderValues(string $case1, string $case2): void
     {
         $message = $this->message
@@ -59,10 +50,7 @@ abstract class HttpMessageHeadersTestCase extends HttpMessageTestCase
         self::assertTrue($message->hasHeader($case2));
     }
 
-    /**
-     * @test
-     * @dataProvider caseInsensitiveSamples
-     */
+    /** @test @dataProvider caseInsensitiveSamples */
     public function doNotHaveHeaderAfterRemovingIt(string $case1, string $case2): void
     {
         $message = $this->message
@@ -73,10 +61,7 @@ abstract class HttpMessageHeadersTestCase extends HttpMessageTestCase
         self::assertFalse($message->hasHeader($case1));
     }
 
-    /**
-     * @test
-     * @dataProvider caseInsensitiveSamples
-     */
+    /** @test @dataProvider caseInsensitiveSamples */
     public function returnHeaderValueAsArrayEvenIfOnlyOneWasAdded(string $case1, string $case2): void
     {
         $values = $this->message
@@ -86,10 +71,7 @@ abstract class HttpMessageHeadersTestCase extends HttpMessageTestCase
         self::assertEquals(['v1'], $values);
     }
 
-    /**
-     * @test
-     * @dataProvider caseInsensitiveSamples
-     */
+    /** @test @dataProvider caseInsensitiveSamples */
     public function returnHeaderValuesAsArrayAfterAddingThem(string $case1, string $case2): void
     {
         $values = $this->message
@@ -99,10 +81,7 @@ abstract class HttpMessageHeadersTestCase extends HttpMessageTestCase
         self::assertEquals(['v1', 'v2'], $values);
     }
 
-    /**
-     * @test
-     * @dataProvider caseInsensitiveSamples
-     */
+    /** @test @dataProvider caseInsensitiveSamples */
     public function returnHeaderValuesAsArrayAfterAddingAndAppendingThem(string $case1, string $case2): void
     {
         $values = $this->message
@@ -113,10 +92,7 @@ abstract class HttpMessageHeadersTestCase extends HttpMessageTestCase
         self::assertEquals(['v1', 'v2'], $values);
     }
 
-    /**
-     * @test
-     * @dataProvider caseInsensitiveSamples
-     */
+    /** @test @dataProvider caseInsensitiveSamples */
     public function doNotHaveValuesAfterHeaderRemoval(string $case1, string $case2): void
     {
         $values = $this->message
@@ -128,10 +104,7 @@ abstract class HttpMessageHeadersTestCase extends HttpMessageTestCase
         self::assertEmpty($values);
     }
 
-    /**
-     * @test
-     * @dataProvider caseInsensitiveSamples
-     */
+    /** @test @dataProvider caseInsensitiveSamples */
     public function returnHeaderLineAsStringAfterAddingOneValue(string $case1, string $case2): void
     {
         $line = $this->message
@@ -141,10 +114,7 @@ abstract class HttpMessageHeadersTestCase extends HttpMessageTestCase
         self::assertEquals('v1', $line);
     }
 
-    /**
-     * @test
-     * @dataProvider caseInsensitiveSamples
-     */
+    /** @test @dataProvider caseInsensitiveSamples */
     public function returnHeaderLineStringAfterAddingMultipleValues(string $case1, string $case2): void
     {
         $line = $this->message
@@ -154,10 +124,7 @@ abstract class HttpMessageHeadersTestCase extends HttpMessageTestCase
         $this->assertEquals('v1, v2', $line);
     }
 
-    /**
-     * @test
-     * @dataProvider caseInsensitiveSamples
-     */
+    /** @test @dataProvider caseInsensitiveSamples */
     public function returnHeaderLineAsStringAfterAddingAndAppendingMultipleValues(string $case1, string $case2): void
     {
         $line = $this->message
@@ -168,10 +135,7 @@ abstract class HttpMessageHeadersTestCase extends HttpMessageTestCase
         self::assertEquals('v1, v2, v1, v2', $line);
     }
 
-    /**
-     * @test
-     * @dataProvider caseInsensitiveSamples
-     */
+    /** @test @dataProvider caseInsensitiveSamples */
     public function haveEmptyLineAfterHeaderRemoval(string $case1, string $case2): void
     {
         $line = $this->message
@@ -183,10 +147,7 @@ abstract class HttpMessageHeadersTestCase extends HttpMessageTestCase
         self::assertEmpty($line);
     }
 
-    /**
-     * @test
-     * @dataProvider caseInsensitiveSamples
-     */
+    /** @test @dataProvider caseInsensitiveSamples */
     public function overwritePreviousHeaderValuesIfItAlreadyExists(string $case1, string $case2): void
     {
         $values = $this->message
@@ -199,10 +160,7 @@ abstract class HttpMessageHeadersTestCase extends HttpMessageTestCase
         self::assertEquals(['v4'], $values);
     }
 
-    /**
-     * @test
-     * @dataProvider caseInsensitiveSamples
-     */
+    /** @test @dataProvider caseInsensitiveSamples */
     public function preserveOriginalNameCaseUsedToAddOrHeaderAppendValues(string $case1, string $case2): void
     {
         $aHeaderCase1 = "A-$case1";

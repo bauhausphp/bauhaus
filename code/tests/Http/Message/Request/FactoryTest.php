@@ -41,10 +41,7 @@ final class FactoryTest extends TestCase
         $this->assertEmpty((string) $request->getBody());
     }
 
-    /**
-     * @test
-     * @dataProvider validMethods
-     */
+    /** @test @dataProvider validMethods */
     public function createRequestWithProvidedMethod(string $method): void
     {
         $request = $this->factory->createRequest($method, '/');

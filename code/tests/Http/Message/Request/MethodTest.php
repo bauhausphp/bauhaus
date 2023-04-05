@@ -8,10 +8,7 @@ class MethodTest extends HttpMessageTestCase
 {
     use MethodDataProvider;
 
-    /**
-     * @test
-     * @dataProvider validMethods
-     */
+    /** @test @dataProvider validMethods */
     public function mutateMethod(string $method): void
     {
         $request = $this->message->withMethod($method);

@@ -9,8 +9,10 @@ abstract class HttpMessageBodyTestCase extends HttpMessageTestCase
       /** @test */
     public function haveNewBodyAfterAddingIt(): void
     {
+        $newBody = StringBody::with('content');
+
         $message = $this->message->withBody(StringBody::with('content'));
 
-        self::assertEquals(StringBody::with('content'), $message->getBody());
+        self::assertEquals($newBody, $message->getBody());
     }
 }

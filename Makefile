@@ -41,25 +41,25 @@ publish:
 
 docker: files = $(addprefix -f,$(shell make -s docker/files))
 docker:
-	@TAG=${revision} PHP=${php} docker compose ${files} ${cmd}
+	TAG=${revision} PHP=${php} docker compose ${files} ${cmd}
 
 docker/files:
-	@echo docker-compose.yaml $(if ${CI},,docker-compose.local.yaml)
+	echo docker-compose.yaml $(if ${CI},,docker-compose.local.yaml)
 
 docker/run: options = --rm --no-deps $(if ${CI},-T)
 docker/run:
-	@make docker cmd='run ${options} bauhaus ${cmd}'
-	@make docker/down
+	make docker cmd='run ${options} bauhaus ${cmd}'
+	make docker/down
 
 docker/down:
 	@make docker cmd='down --remove-orphans'
 
 docker/cp:
-	@rm -rf ${to}
-	@make docker cmd='up -d'
-	@make docker cmd='exec bauhaus rm -rf ${from}/code/bauhaus'
-	@make docker cmd='cp bauhaus:${from} ${to}'
-	@make docker/down
+	rm -rf ${to}
+	make docker cmd='up -d'
+	make docker cmd='exec bauhaus rm -rf ${from}/code/bauhaus'
+	make docker cmd='cp bauhaus:${from} ${to}'
+	make docker/down
 
 docker/%:
-	@make docker cmd='${*}'
+	make docker cmd='${*}'

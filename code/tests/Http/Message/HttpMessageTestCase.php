@@ -5,18 +5,19 @@ namespace Bauhaus\Tests\Http\Message;
 use Bauhaus\Http\Message\RequestFactory;
 use Bauhaus\Http\Message\ResponseFactory;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\MessageInterface as PsrHttpMessage;
+use Psr\Http\Message\RequestInterface as PsrRequest;
+use Psr\Http\Message\ResponseInterface as PsrResponse;
 use ReflectionClass;
 
 abstract class HttpMessageTestCase extends TestCase
 {
-    protected readonly PsrHttpMessage $message;
-    private readonly PsrHttpMessage $clonedMessage;
+    protected readonly PsrRequest|PsrResponse $message;
+    private readonly PsrRequest|PsrResponse $clonedMessage;
 
     /** @before */
-    public function setUpImmutabilityAssert(): void
+    public function setUpImmutabilityAssertion(): void
     {
-        $this->message = $this->setUpMessage();
+        $this->message = $this->createHttpMessage();
         $this->clonedMessage = clone $this->message;
     }
 
@@ -26,7 +27,7 @@ abstract class HttpMessageTestCase extends TestCase
         self::assertEquals($this->clonedMessage, $this->message, 'Immutability broken');
     }
 
-    protected function setUpMessage(): PsrHttpMessage
+    protected function createHttpMessage(): PsrRequest|PsrResponse
     {
         $rClass = new ReflectionClass($this);
         $namespace = explode('\\', $rClass->getNamespaceName());

@@ -5,7 +5,7 @@ namespace Bauhaus\Tests\Http\Message;
 use Generator;
 use InvalidArgumentException;
 
-class HttpMessageProtocolTestCase extends HttpMessageTestCase
+abstract class HttpMessageProtocolTestCase extends HttpMessageTestCase
 {
     public function supportedVersions(): Generator
     {
@@ -13,10 +13,7 @@ class HttpMessageProtocolTestCase extends HttpMessageTestCase
         yield '1.1' => ['1.1'];
     }
 
-    /**
-     * @test
-     * @dataProvider supportedVersions
-     */
+    /** @test @dataProvider supportedVersions */
     public function createNewInstanceWithProvidedProtocol(string $version): void
     {
         $message = $this->message->withProtocolVersion($version);
@@ -30,10 +27,7 @@ class HttpMessageProtocolTestCase extends HttpMessageTestCase
         yield '0.9' => ['0.9'];
     }
 
-    /**
-     * @test
-     * @dataProvider unsupportedVersions
-     */
+    /** @test @dataProvider unsupportedVersions */
     public function throwExceptionIfProvidedProtocolIsInvalid(string $version): void
     {
         self::expectException(InvalidArgumentException::class);
