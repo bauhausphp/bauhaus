@@ -4,10 +4,10 @@ MAKEFLAGS += --silent --always-make
 #
 # Composer
 composer/%:
-	make composer/phars/${*} composer/code/${*}
+	make composer/phars/${*} composer/packages/${*}
 
-composer/code/%:
-	make composer cmd=${*} workDir=${CODE_DIR}
+composer/packages/%:
+	make composer cmd=${*} workDir=${PACKAGES_DIR}
 
 composer/phars/%:
 	make composer cmd=${*} workDir=${PHARS_DIR}

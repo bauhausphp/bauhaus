@@ -4,7 +4,7 @@ deptrac:
   paths:
     - ./packages
     - ./tests
-    - ../composer/code/psr
+    - ../composer/packages/psr
   exclude_files: ~
 
   ruleset:
@@ -35,7 +35,7 @@ deptrac:
 
     - name: PSR-11
       collectors:
-      - { type: directory, value: ../composer/code/psr/container/ }
+      - { type: directory, value: ../composer/packages/psr/container/ }
 
     - name: PhpUnit
       collectors:

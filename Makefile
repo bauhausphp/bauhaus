@@ -31,7 +31,7 @@ tests:
 tests/%:
 	make docker/run cmd=${@}
 
-code/tests/%:
+packages/tests/%:
 	make docker/run cmd=tests/${*}
 
 #

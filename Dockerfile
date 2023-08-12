@@ -4,7 +4,7 @@ FROM php:${PHP}-cli-alpine3.18
 
 ENV HOME_DIR /usr/local/bauhaus
 ENV CACHE_DIR $HOME_DIR/var/cache
-ENV CODE_DIR $HOME_DIR/code
+ENV PACKAGES_DIR $HOME_DIR/packages
 ENV PHARS_DIR $HOME_DIR/phars
 ENV REPORTS_DIR $HOME_DIR/var/reports
 
@@ -32,16 +32,16 @@ RUN apk add --no-cache \
     adduser bauhaus sudo -u 1000 -h $HOME_DIR -s /sbin/nologin -D && \
     mkdir -p \
         $CACHE_DIR \
-        $CODE_DIR \
+        $PACKAGES_DIR \
         $PHARS_DIR \
         $REPORTS_DIR && \
     chown -R bauhaus:bauhaus $HOME_DIR
 
-WORKDIR $CODE_DIR
+WORKDIR $PACKAGES_DIR
 USER bauhaus
 
 COPY --chown=bauhaus:bauhaus phars/ $PHARS_DIR/
-COPY --chown=bauhaus:bauhaus code/ $CODE_DIR/
+COPY --chown=bauhaus:bauhaus packages/ $PACKAGES_DIR/
 
 RUN make composer/install
 
