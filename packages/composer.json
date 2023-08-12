@@ -12,11 +12,10 @@
     },
 
     "repositories": [
-        { "type":"path", "url": "./packages/*/" }
+        { "type":"path", "url": "./src/*/" }
     ],
 
     "config": {
-        "sort-packages": false,
-        "vendor-dir": "/usr/local/bauhaus/composer/phars"
+        "sort-packages": false
     }
 }

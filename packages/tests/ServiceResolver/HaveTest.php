@@ -31,7 +31,7 @@ use Bauhaus\Tests\ServiceResolver\Doubles\NotDiscover\Unresolvable;
 
 class HaveTest extends ServiceResolverTestCase
 {
-    public function idsWithDefinition(): array
+    public static function idsWithDefinition(): array
     {
         return [
             'directly provided #1' => ['callable'],
@@ -77,7 +77,7 @@ class HaveTest extends ServiceResolverTestCase
         self::assertTrue($this->resolver->has($id));
     }
 
-    public function idsWithoutDefinition(): array
+    public static function idsWithoutDefinition(): array
     {
         return [
             'non existing id' => ['non-existing-id'],

@@ -1,14 +1,9 @@
 {
-    "_readme": [
-        "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
-        "This file is @generated automatically"
-    ],
-    "content-hash": "c6a127fe111bc1b441962173c221352c",
     "packages": [
         {
             "name": "bauhaus/service-resolver",
             "version": "dev-main",
+            "version_normalized": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/service-resolver",
@@ -19,6 +14,7 @@
                 "psr/container": "^2.0.2"
             },
             "type": "library",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Bauhaus\\": "public/",
@@ -38,11 +34,13 @@
             ],
             "transport-options": {
                 "relative": true
-            }
+            },
+            "install-path": "../bauhaus/service-resolver"
         },
         {
             "name": "bauhaus/type-uri",
             "version": "dev-main",
+            "version_normalized": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/type-uri",
@@ -52,6 +50,7 @@
                 "php": "^8.2"
             },
             "type": "library",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Bauhaus\\Types\\": "public/",
@@ -69,11 +68,13 @@
             ],
             "transport-options": {
                 "relative": true
-            }
+            },
+            "install-path": "../bauhaus/type-uri"
         },
         {
             "name": "psr/container",
             "version": "2.0.2",
+            "version_normalized": "2.0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/container.git",
@@ -88,12 +89,14 @@
             "require": {
                 "php": ">=7.4.0"
             },
+            "time": "2021-11-05T16:47:00+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.0.x-dev"
                 }
             },
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Psr\\Container\\": "src/"
@@ -122,19 +125,9 @@
                 "issues": "https://github.com/php-fig/container/issues",
                 "source": "https://github.com/php-fig/container/tree/2.0.2"
             },
-            "time": "2021-11-05T16:47:00+00:00"
+            "install-path": "../psr/container"
         }
     ],
-    "packages-dev": [],
-    "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": {
-        "bauhaus/service-resolver": 20,
-        "bauhaus/type-uri": 20
-    },
-    "prefer-stable": false,
-    "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "dev": true,
+    "dev-package-names": []
 }

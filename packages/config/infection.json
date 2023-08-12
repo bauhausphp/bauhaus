@@ -1,0 +1,17 @@
+{
+    "bootstrap": "./config/autoload.php",
+    "source": {
+        "directories": [ "./src" ]
+    },
+
+    "minMsi": 100,
+    "minCoveredMsi": 100,
+
+    "mutators": {
+        "@default": true
+    },
+
+    "phpUnit": {
+        "configDir": "./"
+    }
+}

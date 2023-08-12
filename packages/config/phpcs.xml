@@ -8,6 +8,6 @@
     </rule>
 
     <file>./autoload.php</file>
-    <file>./packages/</file>
-    <file>./tests/</file>
+    <file>./../src/</file>
+    <file>./../tests/</file>
 </ruleset>

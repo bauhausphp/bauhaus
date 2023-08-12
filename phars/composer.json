@@ -10,7 +10,6 @@
         "sort-packages": true,
         "allow-plugins": {
             "infection/extension-installer": false
-        },
-        "vendor-dir": "/usr/local/bauhaus/composer/code"
+        }
     }
 }
