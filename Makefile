@@ -71,6 +71,9 @@ docker/config:
 docker/build:
 	make docker cmd=build
 
+docker/push:
+	make docker cmd=push
+
 docker/up:
 	make docker cmd='up -d'
 
