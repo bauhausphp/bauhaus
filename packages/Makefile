@@ -24,14 +24,16 @@ tests/cs:
 	phpcs -ps \
 		--standard=./config/phpcs.xml
 		--cache=${CACHE_DIR}/phpcs.cache
-#	deptrac \
-#		--fail-on-uncovered \
-#		--report-uncovered \
-#		--cache-file=${CACHE_DIR}/deptrac.cache
-#	deptrac \
-#		--formatter=graphviz-image \
-#		--output=${REPORTS_DIR}/dep-graph.svg \
-#		--cache-file=${CACHE_DIR}/deptrac.cache
+	deptrac \
+		--config-file=./config/deptrac.yaml \
+		--formatter=graphviz-image \
+		--output=${REPORTS_DIR}/dep-graph.svg \
+		--cache-file=${CACHE_DIR}/deptrac.cache
+	deptrac \
+		--config-file=./config/deptrac.yaml \
+		--fail-on-uncovered \
+		--report-uncovered \
+		--cache-file=${CACHE_DIR}/deptrac.cache
 
 tests/unit:
 	phpunit \
