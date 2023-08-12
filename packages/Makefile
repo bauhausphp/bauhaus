@@ -44,7 +44,11 @@ tests/unit:
 		${options} ${path}
 
 tests/mutation:
-	infection run -s -j4
+	infection run \
+		--show-mutations \
+		--threads=3 \
+		--configuration=./config/infection.json \
+		--logger-html=${REPORTS_DIR}/infection.html
 
 tests/%:
 	make tests/unit path=${@} options=--testdox
