@@ -35,7 +35,7 @@ use Psr\Container\ContainerExceptionInterface as PsrContainerException;
 
 class GetTest extends ServiceResolverTestCase
 {
-    public function idsWithExpectedClasses(): array
+    public static function idsWithExpectedClasses(): array
     {
         return [
             'callable without dependency #1'
@@ -97,7 +97,7 @@ class GetTest extends ServiceResolverTestCase
         self::assertSame($firstInstance, $secondInstance);
     }
 
-    public function idsWithoutDefinition(): array
+    public static function idsWithoutDefinition(): array
     {
         return [
             'non existing id'
@@ -127,7 +127,7 @@ class GetTest extends ServiceResolverTestCase
         $this->resolver->get($id);
     }
 
-    public function idsWithCircularDependency(): array
+    public static function idsWithCircularDependency(): array
     {
         $d = CircularDependencyD::class;
         $c = CircularDependencyC::class;
@@ -194,7 +194,7 @@ class GetTest extends ServiceResolverTestCase
         $this->resolver->get($id);
     }
 
-    public function idsOfDiscoverableServicesWithScalarDependency(): array
+    public static function idsOfDiscoverableServicesWithScalarDependency(): array
     {
         return [
             'dependency without type' => [

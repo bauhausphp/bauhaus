@@ -8,7 +8,7 @@ use Bauhaus\Types\Uri;
 
 class UriTest extends TestCase
 {
-    public function validUris(): iterable
+    public static function validUris(): iterable
     {
         yield 'scheme://host'
             => new Uri(scheme: 'scheme', host: 'host');
@@ -99,9 +99,9 @@ class UriTest extends TestCase
             => new Uri(scheme: 'urn', path: 'oasis:names:specification:docbook:dtd:xml:4.1.2');
     }
 
-    public function validUrisDataProvider(): iterable
+    public static function validUrisDataProvider(): iterable
     {
-        foreach ($this->validUris() as $uri => $expected) {
+        foreach (self::validUris() as $uri => $expected) {
             yield $uri => [$uri, $expected];
         }
     }
@@ -117,7 +117,7 @@ class UriTest extends TestCase
         self::assertEquals($expected, $uri);
     }
 
-    public function invalidUris(): iterable
+    public static function invalidUris(): iterable
     {
         yield '1scheme://host';
         yield 'scheme~scheme://host';
@@ -126,9 +126,9 @@ class UriTest extends TestCase
         yield '1tel:+49666';
     }
 
-    public function invalidUrisDataProvider(): iterable
+    public static function invalidUrisDataProvider(): iterable
     {
-        foreach ($this->invalidUris() as $uri) {
+        foreach (self::invalidUris() as $uri) {
             yield $uri => [$uri];
         }
     }
