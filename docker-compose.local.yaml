@@ -4,6 +4,12 @@ services:
   bauhaus:
     command: ['tail', '-f', '/dev/null']
     volumes:
-    - ./code:/usr/local/bauhaus/code
-    - ./phars:/usr/local/bauhaus/phars
+    - ./code/composer.json:/usr/local/bauhaus/code/composer.json
+    - ./code/composer.lock:/usr/local/bauhaus/code/composer.lock
+    - ./code/Makefile:/usr/local/bauhaus/code/Makefile
+    - ./code/config:/usr/local/bauhaus/code/config
+    - ./code/packages:/usr/local/bauhaus/code/packages
+    - ./code/tests:/usr/local/bauhaus/code/tests
+    - ./phars/composer.json:/usr/local/bauhaus/phars/composer.json
+    - ./phars/composer.lock:/usr/local/bauhaus/phars/composer.lock
     - ./var:/usr/local/bauhaus/var

@@ -16,7 +16,6 @@
     ],
 
     "config": {
-        "sort-packages": false,
-        "vendor-dir": "/usr/local/bauhaus/composer/phars"
+        "sort-packages": false
     }
 }

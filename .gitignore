@@ -1,2 +1,4 @@
+code/vendor
+phars/vendor
 var/*
 !var/.gitkeep

@@ -1,16 +1,14 @@
 ARG PHP
 
-FROM php:${PHP}-cli-alpine3.16
+FROM php:${PHP}-cli-alpine3.18
 
 ENV HOME_DIR /usr/local/bauhaus
-ENV COMPOSER_CODE_DIR $HOME_DIR/composer/code
-ENV COMPOSER_PHARS_DIR $HOME_DIR/composer/phars
 ENV CACHE_DIR $HOME_DIR/var/cache
 ENV CODE_DIR $HOME_DIR/code
 ENV PHARS_DIR $HOME_DIR/phars
 ENV REPORTS_DIR $HOME_DIR/var/reports
 
-ENV PATH $PATH:$COMPOSER_PHARS_DIR/bin
+ENV PATH $PATH:$HOME_DIR/phars/vendor/bin
 
 RUN apk add --no-cache \
         $PHPIZE_DEPS \
@@ -33,8 +31,6 @@ RUN apk add --no-cache \
         pcov && \
     adduser bauhaus sudo -u 1000 -h $HOME_DIR -s /sbin/nologin -D && \
     mkdir -p \
-        $COMPOSER_CODE_DIR \
-        $COMPOSER_PHARS_DIR \
         $CACHE_DIR \
         $CODE_DIR \
         $PHARS_DIR \
@@ -49,4 +45,4 @@ COPY --chown=bauhaus:bauhaus code/ $CODE_DIR/
 
 RUN make composer/install
 
-ENTRYPOINT []
+ENTRYPOINT ["make"]
