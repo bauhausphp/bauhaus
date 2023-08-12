@@ -52,7 +52,7 @@ publish:
 	    git -C ${workdir} config user.email ${author-email}; \
 	    git -C ${workdir} add .; \
 	    git -C ${workdir} commit --message "${commit}"; \
-	    git -C ${workdir} push -u origin HEAD:${branch}; \
+	    #git -C ${workdir} push -u origin HEAD:${branch}; \
 	fi;
 
 #
