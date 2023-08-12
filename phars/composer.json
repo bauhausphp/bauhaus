@@ -11,6 +11,6 @@
         "allow-plugins": {
             "infection/extension-installer": false
         },
-        "vendor-dir": "/usr/local/bauhaus/composer/code"
+        "vendor-dir": "/usr/local/bauhaus/composer/phars"
     }
 }

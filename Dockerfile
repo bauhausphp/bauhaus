@@ -49,4 +49,5 @@ COPY --chown=bauhaus:bauhaus code/ $CODE_DIR/
 
 RUN make composer/install
 
+WORKDIR $DIR_PACKAGES
 ENTRYPOINT []

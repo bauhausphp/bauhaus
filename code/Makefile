@@ -10,24 +10,27 @@ tests/cs:
 	@phpcs -ps \
 		--cache=${CACHE_DIR}/phpcs.cache
 	@deptrac \
-		--fail-on-uncovered \
-		--report-uncovered \
-		--cache-file=${CACHE_DIR}/deptrac.cache
-	@deptrac \
 		--formatter=graphviz-image \
 		--output=${REPORTS_DIR}/dep-graph.svg \
+		--cache-file=${CACHE_DIR}/deptrac.cache
+	@deptrac \
+		--fail-on-uncovered \
+		--report-uncovered \
 		--cache-file=${CACHE_DIR}/deptrac.cache
 
 tests/unit:
 	@phpunit \
 		--cache-result-file ${CACHE_DIR}/phpunit.cache \
 		--coverage-clover ${REPORTS_DIR}/clover.xml \
-		--coverage-html ${REPORTS_DIR}/coverage
+		--coverage-html ${REPORTS_DIR}/coverage \
+		--testdox
 
 tests/mutation:
 	@infection run -s -j4
 
-composer/install: composer/phars/install composer/code/install
+composer/%:
+	@make composer/phars/${*}
+	@make composer/code/${*}
 
 composer/phars/%:
 	@make composer cmd=${*} workDir=${PHARS_DIR} vendorDir=${COMPOSER_PHARS_DIR}
