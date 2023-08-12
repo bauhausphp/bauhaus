@@ -2,7 +2,7 @@ deptrac:
   ignore_uncovered_internal_classes: true # ignore dependency to internal php classes
 
   paths:
-    - ./../packages
+    - ./../src
     - ./../tests
     - ./../vendor/psr
   exclude_files: ~
