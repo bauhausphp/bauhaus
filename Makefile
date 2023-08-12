@@ -62,17 +62,11 @@ docker: envvars = TAG=${revision} PHP=${php}
 docker:
 	 ${envvars} docker compose ${files} ${cmd}
 
+docker/%:
+	make docker cmd=${*}
+
 docker/files:
 	echo docker-compose.yaml $(if ${CI},,docker-compose.local.yaml)
-
-docker/config:
-	make docker cmd=config
-
-docker/build:
-	make docker cmd=build
-
-docker/push:
-	make docker cmd=push
 
 docker/up:
 	make docker cmd='up -d'
